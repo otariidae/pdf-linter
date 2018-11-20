@@ -1,7 +1,27 @@
 const pdfjs = require("pdfjs-dist")
 
-;(async () => {
-  const loadingTask = pdfjs.getDocument("https://raw.githubusercontent.com/mozilla/pdf.js/master/web/compressed.tracemonkey-pldi-09.pdf")
+const btn = document.getElementById("file-btn")
+
+function readAsArrayBuffer(file) {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader()
+    reader.addEventListener("load", () => resolve(reader.result))
+    reader.addEventListener("error", () => reject(reader.error))
+    reader.readAsArrayBuffer(file)
+  })
+}
+
+async function file2unit8(file) {
+  const arrayBuf = await readAsArrayBuffer(file)
+  console.log(arrayBuf)
+  const uint8arr = new Uint8Array(arrayBuf)
+  return uint8arr
+}
+
+btn.addEventListener("change", async e => {
+  const file = e.target.files[0]
+  const fileTypedArr = await file2unit8(file)
+  const loadingTask = pdfjs.getDocument(fileTypedArr)
   const pdfDocument = await loadingTask.promise
   console.log(await pdfDocument.getMetadata())
   // Request a first page
@@ -38,4 +58,4 @@ const pdfjs = require("pdfjs-dist")
     body: text
   })
   console.log(await result.json())
-})()
+})
