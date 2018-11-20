@@ -1,0 +1,28 @@
+{
+  "name": "pdf-linter",
+  "version": "0.0.1",
+  "main": "index.js",
+  "license": "Apache-2.0",
+  "private": true,
+  "scripts": {
+    "start": "node serve.js",
+    "lint": "prettier --no-semi --write \"**/*.js\"",
+    "build": "webpack"
+  },
+  "devDependencies": {
+    "pdfjs-dist": "^2.0.943",
+    "prettier": "^1.15.2",
+    "webpack": "^4.26.0",
+    "webpack-cli": "^3.1.2"
+  },
+  "dependencies": {
+    "koa": "^2.6.2",
+    "koa-bodyparser": "^4.2.1",
+    "koa-logger": "^3.2.0",
+    "koa-route": "^3.2.0",
+    "koa-static": "^5.0.0",
+    "textlint": "^11.0.1",
+    "textlint-rule-preset-ja-technical-writing": "^3.1.0",
+    "textlint-rule-preset-japanese": "^4.0.0"
+  }
+}
