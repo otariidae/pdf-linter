@@ -11,7 +11,7 @@ function readAsArrayBuffer(file) {
   })
 }
 
-async function file2unit8(file) {
+async function file2uint8(file) {
   const arrayBuf = await readAsArrayBuffer(file)
   console.log(arrayBuf)
   const uint8arr = new Uint8Array(arrayBuf)
@@ -20,7 +20,7 @@ async function file2unit8(file) {
 
 btn.addEventListener("change", async e => {
   const file = e.target.files[0]
-  const fileTypedArr = await file2unit8(file)
+  const fileTypedArr = await file2uint8(file)
   const loadingTask = pdfjs.getDocument(fileTypedArr)
   const pdfDocument = await loadingTask.promise
   console.log(await pdfDocument.getMetadata())
