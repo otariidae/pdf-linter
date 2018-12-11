@@ -19,25 +19,32 @@ async function file2uint8(file) {
   return uint8arr
 }
 
-async function lintPage(pdfPage) {
-  console.log(await pdfPage.getTextContent())
-  // Display page on the existing canvas with 100% scale.
+function* forEachTwo(iterable) {
+  let pre = iterable[Symbol.iterator]().next().value
+  for (const cur of iterable) {
+    yield [pre, cur]
+    pre = cur
+  }
+}
+
+async function getTextFromPage(pdfPage) {
   const texts = (await pdfPage.getTextContent()).items
-  console.log(await pdfPage.getTextContent())
   let text = ""
   if (texts.length !== 0) {
     text += texts[0].str
   }
-  for (let i = 0; i < texts.length - 1; i++) {
-    const pre = texts[i]
-    const cur = texts[i + 1]
+  for (const [pre, cur] of forEachTwo(texts)) {
     if (pre.transform[5] === cur.transform[5]) {
       text += cur.str
       continue
     }
     text += "\n" + cur.str
   }
-  console.log(text)
+  return text
+}
+
+async function lintPage(pdfPage) {
+  const text = await getTextFromPage(pdfPage)
   const result = await fetch("/lint", {
     method: "POST",
     body: text
@@ -52,17 +59,22 @@ async function lintPage(pdfPage) {
   }
 }
 
+async function* forEachPage(pdfDocument) {
+  for (let i = 1; i <= pdfDocument.numPages; i++) {
+    const page = await pdfDocument.getPage(i)
+    yield page
+  }
+}
+
 btn.addEventListener("change", async e => {
   const file = e.target.files[0]
   const fileTypedArr = await file2uint8(file)
-  const loadingTask = pdfjs.getDocument({
+  const pdfDocument = await pdfjs.getDocument({
     data: fileTypedArr,
     cMapUrl: "./cmaps/",
     cMapPacked: true
-  })
-  const pdfDocument = await loadingTask.promise
-  for (let i = 1; i <= pdfDocument.numPages; i++) {
-    const page = await pdfDocument.getPage(i)
+  }).promise
+  for await (const page of forEachPage(pdfDocument)) {
     lintPage(page)
     const viewport = page.getViewport(1.0)
     const canvas = document.createElement("canvas")
