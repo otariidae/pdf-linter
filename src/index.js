@@ -1,4 +1,5 @@
 const pdfjs = require("pdfjs-dist")
+pdfjs.GlobalWorkerOptions.workerSrc = "./worker.js"
 
 const btn = document.getElementById("file-btn")
 
@@ -21,7 +22,11 @@ async function file2uint8(file) {
 btn.addEventListener("change", async e => {
   const file = e.target.files[0]
   const fileTypedArr = await file2uint8(file)
-  const loadingTask = pdfjs.getDocument(fileTypedArr)
+  const loadingTask = pdfjs.getDocument({
+    data: fileTypedArr,
+    cMapUrl: "./cmaps/",
+    cMapPacked: true
+  })
   const pdfDocument = await loadingTask.promise
   console.log(await pdfDocument.getMetadata())
   // Request a first page
