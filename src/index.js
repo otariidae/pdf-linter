@@ -19,36 +19,16 @@ async function file2uint8(file) {
   return uint8arr
 }
 
-btn.addEventListener("change", async e => {
-  const file = e.target.files[0]
-  const fileTypedArr = await file2uint8(file)
-  const loadingTask = pdfjs.getDocument({
-    data: fileTypedArr,
-    cMapUrl: "./cmaps/",
-    cMapPacked: true
-  })
-  const pdfDocument = await loadingTask.promise
-  console.log(await pdfDocument.getMetadata())
-  // Request a first page
-  const pdfPage = await pdfDocument.getPage(1)
+async function lintPage(pdfPage) {
   console.log(await pdfPage.getTextContent())
   // Display page on the existing canvas with 100% scale.
-  const viewport = pdfPage.getViewport(1.0)
-  const canvas = document.getElementsByTagName("canvas")[0]
-  canvas.width = viewport.width
-  canvas.height = viewport.height
-  const ctx = canvas.getContext("2d")
-  const renderTask = pdfPage.render({
-    canvasContext: ctx,
-    viewport: viewport
-  })
   const texts = (await pdfPage.getTextContent()).items
-  console.log(pdfPage.getTextContent())
+  console.log(await pdfPage.getTextContent())
   let text = ""
   if (texts.length !== 0) {
     text += texts[0].str
   }
-  for (let i= 0; i < texts.length - 1; i++) {
+  for (let i = 0; i < texts.length - 1; i++) {
     const pre = texts[i]
     const cur = texts[i + 1]
     if (pre.transform[5] === cur.transform[5]) {
@@ -62,5 +42,38 @@ btn.addEventListener("change", async e => {
     method: "POST",
     body: text
   })
-  console.log(await result.json())
+  const res = await result.json()
+  for (const r of res) {
+    for (const message of r.messages) {
+      console.log(`
+      行: ${message.line} 列: ${message.column}: ${message.message}
+      `)
+    }
+  }
+}
+
+btn.addEventListener("change", async e => {
+  const file = e.target.files[0]
+  const fileTypedArr = await file2uint8(file)
+  const loadingTask = pdfjs.getDocument({
+    data: fileTypedArr,
+    cMapUrl: "./cmaps/",
+    cMapPacked: true
+  })
+  const pdfDocument = await loadingTask.promise
+  for (let i = 1; i <= pdfDocument.numPages; i++) {
+    const page = await pdfDocument.getPage(i)
+    lintPage(page)
+    const viewport = page.getViewport(1.0)
+    const canvas = document.createElement("canvas")
+    canvas.width = viewport.width
+    canvas.height = viewport.height
+    const ctx = canvas.getContext("2d")
+    const renderTask = page.render({
+      canvasContext: ctx,
+      viewport: viewport
+    })
+    document.body.appendChild(canvas)
+  }
+  console.log(await pdfDocument.getMetadata())
 })
