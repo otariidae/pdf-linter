@@ -38,12 +38,11 @@ export default class PDFViewer extends Component {
 class PDFPage extends PureComponent {
   constructor(...props) {
     super(...props)
-    this.canvas = React.createRef()
+    this.renderPDF = this.renderPDF.bind(this)
   }
-  componentDidMount() {
+  renderPDF(canvas) {
     const page = this.props.page
     const viewport = page.getViewport(1.0)
-    const canvas = this.canvas.current
     canvas.width = viewport.width
     canvas.height = viewport.height
     const ctx = canvas.getContext("2d")
@@ -53,6 +52,6 @@ class PDFPage extends PureComponent {
     })
   }
   render() {
-    return <canvas style={{ maxWidth: "100%" }} ref={this.canvas} />
+    return <canvas style={{ maxWidth: "100%" }} ref={this.renderPDF} />
   }
 }
