@@ -41,20 +41,23 @@ async function getTextFromPage(pdfPage) {
   return text
 }
 
-async function lintPage(pdfPage) {
+export async function lintPage(pdfPage) {
   const text = await getTextFromPage(pdfPage)
   const result = await fetch("/lint", {
     method: "POST",
     body: text
   })
   const res = await result.json()
+  const lintResult = []
   for (const r of res) {
     for (const message of r.messages) {
       console.log(`
       行: ${message.line} 列: ${message.column}: ${message.message}
       `)
+      lintResult.push(message)
     }
   }
+  return lintResult
 }
 
 export function* forEachPage(pdfDocument) {
