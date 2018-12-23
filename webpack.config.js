@@ -7,27 +7,22 @@ module.exports = {
     module: "empty"
   },
   entry: {
-    bundle: "./src/index.js",
-    worker: "pdfjs-dist/build/pdf.worker.entry.js"
+    bundle: "./src/index.tsx",
+    "bundle.worker": "pdfjs-dist/build/pdf.worker.entry.js"
   },
   mode: "development",
   devtool: "source-map",
   module: {
     rules: [
       {
-        test: /\.js$/,
-        exclude: /node_modules/,
-        use: {
-          loader: "babel-loader",
-          options: {
-            presets: [
-              ["@babel/preset-env", { targets: "last 1 Chrome version" }],
-              "@babel/preset-react"
-            ]
-          }
-        }
+        test: /\.tsx?$/,
+        use: "ts-loader",
+        exclude: /node_modules/
       }
     ]
+  },
+  resolve: {
+    extensions: [".tsx", ".ts", ".js"]
   },
   output: {
     path: path.join(__dirname, "dist"),

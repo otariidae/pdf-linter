@@ -1,23 +1,29 @@
-import pdfjs from "pdfjs-dist"
-pdfjs.GlobalWorkerOptions.workerSrc = "./worker.js"
+import pdfjs, {
+  PDFDocumentProxy,
+  PDFPageProxy,
+  PDFJSStatic,
+  PDFPromise
+} from "pdfjs-dist"
+import { TextlintMessage } from "@textlint/kernel"
+// const pdfjs: PDFJSStatic = require("pdfjs-dist")
 
-function readAsArrayBuffer(file) {
+function readAsArrayBuffer(file: File): Promise<ArrayBuffer> {
   return new Promise((resolve, reject) => {
     const reader = new FileReader()
-    reader.addEventListener("load", () => resolve(reader.result))
+    reader.addEventListener("load", () => resolve(reader.result as ArrayBuffer))
     reader.addEventListener("error", () => reject(reader.error))
     reader.readAsArrayBuffer(file)
   })
 }
 
-async function file2uint8(file) {
+async function file2uint8(file: File): Promise<Uint8Array> {
   const arrayBuf = await readAsArrayBuffer(file)
   console.log(arrayBuf)
   const uint8arr = new Uint8Array(arrayBuf)
   return uint8arr
 }
 
-function* forEachTwo(iterable) {
+function* forEachTwo<T>(iterable: Iterable<T>): Iterable<Array<T>> {
   let pre = iterable[Symbol.iterator]().next().value
   for (const cur of iterable) {
     yield [pre, cur]
@@ -25,7 +31,7 @@ function* forEachTwo(iterable) {
   }
 }
 
-async function getTextFromPage(pdfPage) {
+async function getTextFromPage(pdfPage: PDFPageProxy): Promise<string> {
   const texts = (await pdfPage.getTextContent()).items
   let text = ""
   if (texts.length !== 0) {
@@ -41,7 +47,9 @@ async function getTextFromPage(pdfPage) {
   return text
 }
 
-export async function lintPage(pdfPage) {
+export async function lintPage(
+  pdfPage: PDFPageProxy
+): Promise<TextlintMessage[]> {
   const text = await getTextFromPage(pdfPage)
   const result = await fetch("/lint", {
     method: "POST",
@@ -60,19 +68,25 @@ export async function lintPage(pdfPage) {
   return lintResult
 }
 
-export function* forEachPage(pdfDocument) {
+export function* forEachPage(
+  pdfDocument: PDFDocumentProxy
+): Iterable<PDFPromise<PDFPageProxy>> {
   for (let i = 1; i <= pdfDocument.numPages; i++) {
     const page = pdfDocument.getPage(i)
     yield page
   }
 }
 
-export default async function getPDFDoc(file) {
+interface PDFDocumentLoadingTask {
+  promise: PDFPromise<PDFDocumentProxy>
+}
+
+export default async function getPDFDoc(file: File): Promise<PDFDocumentProxy> {
   const fileTypedArr = await file2uint8(file)
-  const pdfDocument = await pdfjs.getDocument({
+  const pdfDocument = await (((pdfjs as any).getDocument({
     data: fileTypedArr,
     cMapUrl: "./cmaps/",
     cMapPacked: true
-  }).promise
+  }) as any) as PDFDocumentLoadingTask).promise
   return pdfDocument
 }

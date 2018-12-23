@@ -1,10 +1,21 @@
 import React, { Component, PureComponent } from "react"
 import styled from "styled-components"
-import getPDFDoc, { forEachPage } from "./pdf.js"
+import getPDFDoc, { forEachPage } from "./pdf"
+import { PDFPageProxy } from "pdfjs-dist"
 
-export default class PDFViewer extends Component {
-  constructor(...props) {
-    super(...props)
+interface PDFViewerProp {
+  file: File
+}
+interface PDFViewerState {
+  pages: PDFPageProxy[]
+}
+
+export default class PDFViewer extends Component<
+  PDFViewerProp,
+  PDFViewerState
+> {
+  constructor(props: PDFViewerProp) {
+    super(props)
     this.state = {
       pages: null
     }
@@ -13,7 +24,9 @@ export default class PDFViewer extends Component {
     if (!this.state.pages) {
       getPDFDoc(this.props.file)
         .then(doc => {
-          const promises = forEachPage(doc)
+          const promises = forEachPage(doc) as Iterable<
+            PromiseLike<PDFPageProxy>
+          >
           return Promise.all(promises)
         })
         .then(pages => {
@@ -36,12 +49,16 @@ export default class PDFViewer extends Component {
   }
 }
 
-class PDFPage extends PureComponent {
-  constructor(...props) {
-    super(...props)
+interface PDFPageProp {
+  page: PDFPageProxy
+}
+
+class PDFPage extends PureComponent<PDFPageProp> {
+  constructor(props: PDFPageProp) {
+    super(props)
     this.renderPDF = this.renderPDF.bind(this)
   }
-  renderPDF(canvas) {
+  renderPDF(canvas: HTMLCanvasElement) {
     const page = this.props.page
     const viewport = page.getViewport(1.0)
     canvas.width = viewport.width

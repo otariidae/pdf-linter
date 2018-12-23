@@ -1,6 +1,6 @@
 dist/*.js
 dist/cmaps/
-*.js.map
+*.map
 *.pdf
 
 # Logs
