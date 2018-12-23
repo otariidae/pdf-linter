@@ -1,4 +1,5 @@
 import React, { Component, PureComponent } from "react"
+import styled from "styled-components"
 import getPDFDoc, { forEachPage } from "./pdf.js"
 
 export default class PDFViewer extends Component {
@@ -24,13 +25,13 @@ export default class PDFViewer extends Component {
     }
     const pages = this.state.pages
     return (
-      <ul style={{ maxWidth: "256px" }}>
+      <PDFPageList>
         {pages.map((page, i) => (
           <li key={i}>
             <PDFPage page={page} />
           </li>
         ))}
-      </ul>
+      </PDFPageList>
     )
   }
 }
@@ -55,3 +56,8 @@ class PDFPage extends PureComponent {
     return <canvas style={{ maxWidth: "100%" }} ref={this.renderPDF} />
   }
 }
+
+const PDFPageList = styled.ul`
+  list-style-type: none;
+  padding-left: 0;
+`

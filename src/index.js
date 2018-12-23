@@ -1,7 +1,8 @@
-import React, { Component, Fragment, Suspense } from "react"
+import React, { Component, Fragment, memo } from "react"
 import { render } from "react-dom"
 import { createStore } from "redux"
 import { Provider, connect } from "react-redux"
+import styled from "styled-components"
 import getPDFDoc, { forEachPage, lintPage } from "./pdf.js"
 import PDFViewer from "./pdfviewer.js"
 
@@ -37,7 +38,7 @@ class MyApp extends Component {
     super(...props)
     this.onFileInput = this.onFileInput.bind(this)
   }
-  async onFileInput() {
+  async onFileInput(event) {
     const dispatch = this.props.dispatch
     const file = event.target.files[0]
     dispatch({
@@ -66,25 +67,46 @@ class MyApp extends Component {
           accept="application/pdf"
           onChange={this.onFileInput}
         />
-        {file !== null && (
-          <PDFViewer style={{ "max-width": "256px" }} file={file} />
-        )}
-        <LintResultViewer lintResults={lintResults} />
+        <PaneContainer>
+          <PDFViewerWrapper>
+            {file === null ? <div></div> : (
+              <PDFViewer file={file} />
+            )}
+          </PDFViewerWrapper>
+          <LintResultWrapper>
+            <LintResultViewer lintResults={lintResults} />
+          </LintResultWrapper>
+        </PaneContainer>
       </Fragment>
     )
   }
 }
 
-const LintResultViewer = ({ lintResults }) =>
+const LintResultViewer = memo(({ lintResults }) =>
   lintResults.map((result, i) => (
-    <ul key={i}>
-      {result.map((item, i) => (
-        <li key={i}>
-          行: {item.line} 列: {item.column}: {item.message}
-        </li>
-      ))}
-    </ul>
+    <Fragment key={i}>
+      <p>ページ {i + 1}</p>
+      <ul>
+        {result.map((item, i) => (
+          <li key={i}>
+            行: {item.line} 列: {item.column}: {item.message}
+          </li>
+        ))}
+      </ul>
+    </Fragment>
   ))
+)
+
+const PaneContainer = styled.div`
+  display: flex
+`
+
+const PDFViewerWrapper = styled.div`
+  flex-basis: 50%
+`
+const LintResultWrapper = styled.div`
+  flex-basis: 50%
+`
 
 const mapStateToProps = state => ({ state })
 const MyAppConnected = connect(mapStateToProps)(MyApp)
