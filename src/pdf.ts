@@ -1,11 +1,5 @@
-import pdfjs, {
-  PDFDocumentProxy,
-  PDFPageProxy,
-  PDFJSStatic,
-  PDFPromise
-} from "pdfjs-dist"
+import pdfjs, { PDFDocumentProxy, PDFPageProxy, PDFPromise } from "pdfjs-dist"
 import { TextlintMessage } from "@textlint/kernel"
-// const pdfjs: PDFJSStatic = require("pdfjs-dist")
 
 function readAsArrayBuffer(file: File): Promise<ArrayBuffer> {
   return new Promise((resolve, reject) => {

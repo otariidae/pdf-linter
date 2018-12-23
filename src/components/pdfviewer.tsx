@@ -1,6 +1,6 @@
 import React, { Component, PureComponent } from "react"
 import styled from "styled-components"
-import getPDFDoc, { forEachPage } from "./pdf"
+import getPDFDoc, { forEachPage } from "../pdf"
 import { PDFPageProxy } from "pdfjs-dist"
 
 interface PDFViewerProp {
