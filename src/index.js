@@ -69,9 +69,7 @@ class MyApp extends Component {
         />
         <PaneContainer>
           <PDFViewerWrapper>
-            {file === null ? <div></div> : (
-              <PDFViewer file={file} />
-            )}
+            {file === null ? <div /> : <PDFViewer file={file} />}
           </PDFViewerWrapper>
           <LintResultWrapper>
             <LintResultViewer lintResults={lintResults} />
@@ -98,14 +96,14 @@ const LintResultViewer = memo(({ lintResults }) =>
 )
 
 const PaneContainer = styled.div`
-  display: flex
+  display: flex;
 `
 
 const PDFViewerWrapper = styled.div`
-  flex-basis: 50%
+  flex-basis: 50%;
 `
 const LintResultWrapper = styled.div`
-  flex-basis: 50%
+  flex-basis: 50%;
 `
 
 const mapStateToProps = state => ({ state })
