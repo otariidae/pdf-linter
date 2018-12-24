@@ -1,5 +1,42 @@
+import { promises as fs } from "fs"
 import pdfjs, { PDFDocumentProxy, PDFPageProxy, PDFPromise } from "pdfjs-dist"
-import { TextlintMessage } from "@textlint/kernel"
+const { CMapCompressionType } = require("pdfjs-dist/lib/shared/util")
+import { LintResult } from "./type"
+
+class NodeCMapReaderFactory {
+  baseUrl: string | null
+  isCompressed: boolean
+  constructor({
+    baseUrl = null,
+    isCompressed = false
+  }: {
+    baseUrl?: string
+    isCompressed?: boolean
+  }) {
+    this.baseUrl = baseUrl
+    this.isCompressed = isCompressed
+  }
+  async fetch({ name }: { name?: string }) {
+    if (!name) {
+      throw new Error("CMap name must be specified.")
+    }
+    const url = this.baseUrl + name + (this.isCompressed ? ".bcmap" : "")
+    let data
+    try {
+      data = await fs.readFile(url)
+    } catch (e) {
+      throw new Error(
+        `Unable to load ${this.isCompressed ? "binary " : ""} CMap at: ${url}`
+      )
+    }
+    return {
+      cMapData: new Uint8Array(data),
+      compressionType: this.isCompressed
+        ? CMapCompressionType.BINARY
+        : CMapCompressionType.NONE
+    }
+  }
+}
 
 function readAsArrayBuffer(file: File): Promise<ArrayBuffer> {
   return new Promise((resolve, reject) => {
@@ -12,12 +49,11 @@ function readAsArrayBuffer(file: File): Promise<ArrayBuffer> {
 
 async function file2uint8(file: File): Promise<Uint8Array> {
   const arrayBuf = await readAsArrayBuffer(file)
-  console.log(arrayBuf)
   const uint8arr = new Uint8Array(arrayBuf)
   return uint8arr
 }
 
-function* forEachTwo<T>(iterable: Iterable<T>): Iterable<Array<T>> {
+function* forEachTwo<T>(iterable: Iterable<T>): Iterable<[T, T]> {
   let pre = iterable[Symbol.iterator]().next().value
   for (const cur of iterable) {
     yield [pre, cur]
@@ -25,7 +61,7 @@ function* forEachTwo<T>(iterable: Iterable<T>): Iterable<Array<T>> {
   }
 }
 
-async function getTextFromPage(pdfPage: PDFPageProxy): Promise<string> {
+export async function getTextFromPage(pdfPage: PDFPageProxy): Promise<string> {
   const texts = (await pdfPage.getTextContent()).items
   let text = ""
   if (texts.length !== 0) {
@@ -41,24 +77,14 @@ async function getTextFromPage(pdfPage: PDFPageProxy): Promise<string> {
   return text
 }
 
-export async function lintPage(
-  pdfPage: PDFPageProxy
-): Promise<TextlintMessage[]> {
-  const text = await getTextFromPage(pdfPage)
-  const result = await fetch("/lint", {
+export async function lintPDFFile(file: File): Promise<LintResult> {
+  const formData = new FormData()
+  formData.append("file", file)
+  const response = await fetch("/lint", {
     method: "POST",
-    body: text
+    body: formData
   })
-  const res = await result.json()
-  const lintResult = []
-  for (const r of res) {
-    for (const message of r.messages) {
-      console.log(`
-      行: ${message.line} 列: ${message.column}: ${message.message}
-      `)
-      lintResult.push(message)
-    }
-  }
+  const lintResult = await response.json()
   return lintResult
 }
 
@@ -69,6 +95,17 @@ export function* forEachPage(
     const page = pdfDocument.getPage(i)
     yield page
   }
+}
+
+export async function getPDFDocNodeJS(file: Buffer): Promise<PDFDocumentProxy> {
+  const uint8 = new Uint8Array(file)
+  const pdfDocument = await (((pdfjs as any).getDocument({
+    data: uint8,
+    CMapReaderFactory: NodeCMapReaderFactory,
+    cMapUrl: "./dist/cmaps/",
+    cMapPacked: true
+  }) as any) as PDFDocumentLoadingTask).promise
+  return pdfDocument
 }
 
 interface PDFDocumentLoadingTask {

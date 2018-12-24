@@ -2,6 +2,7 @@ dist/*.js
 dist/cmaps/
 *.map
 *.pdf
+serve.js
 
 # Logs
 logs

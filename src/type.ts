@@ -1,4 +1,4 @@
-import { TextlintMessage } from "@textlint/kernel"
+import { TextlintResult } from "@textlint/kernel"
 
-export type PageLintResult = TextlintMessage[]
-export type LintResult = PageLintResult[]
+export type LintResultPerPage = TextlintResult[]
+export type LintResult = LintResultPerPage[]

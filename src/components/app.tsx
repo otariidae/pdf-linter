@@ -2,9 +2,8 @@ import React, { ChangeEvent, Component, Fragment } from "react"
 import { Dispatch } from "redux"
 import { connect } from "react-redux"
 import styled from "styled-components"
-import getPDFDoc, { forEachPage, lintPage } from "../pdf"
+import { lintPDFFile } from "../pdf"
 import PDFViewer from "./pdfviewer"
-import { PDFPageProxy } from "pdfjs-dist"
 import LintResultViewer from "./lintresultviewer"
 import { onFileInput, onLintFinished } from "../actions"
 import { State } from "../reducers"
@@ -23,11 +22,7 @@ class App extends Component<MyAppProp> {
     const dispatch = this.props.dispatch
     const file = event.target.files[0]
     dispatch(onFileInput({ file: file }))
-    const pdfDoc = await getPDFDoc(file)
-    const pages = await Promise.all(forEachPage(pdfDoc) as Iterable<
-      PromiseLike<PDFPageProxy>
-    >)
-    const lintResults = await Promise.all(pages.map(page => lintPage(page)))
+    const lintResults = await lintPDFFile(file)
     dispatch(onLintFinished({ lintResults: lintResults }))
   }
   render() {

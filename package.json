@@ -5,12 +5,15 @@
   "license": "Apache-2.0",
   "private": true,
   "scripts": {
+    "prestart": "webpack --config webpack.config.server.js",
     "start": "node serve.js",
     "lint": "prettier --no-semi --write \"**/*.{js,ts,tsx}\"",
     "prebuild": "cp -r ./node_modules/pdfjs-dist/cmaps dist/",
     "build": "webpack"
   },
   "devDependencies": {
+    "@types/koa": "^2.0.47",
+    "@types/koa-multer": "^1.0.0",
     "@types/pdfjs-dist": "^0.1.2",
     "@types/react": "^16.7.18",
     "@types/react-dom": "^16.0.11",
@@ -27,12 +30,14 @@
     "typescript": "^3.2.2",
     "typescript-fsa": "^3.0.0-beta-2",
     "webpack": "^4.26.0",
-    "webpack-cli": "^3.1.2"
+    "webpack-cli": "^3.1.2",
+    "webpack-node-externals": "^1.7.2"
   },
   "dependencies": {
     "koa": "^2.6.2",
-    "koa-bodyparser": "^4.2.1",
+    "koa-compose": "^4.1.0",
     "koa-logger": "^3.2.0",
+    "koa-multer": "^1.0.2",
     "koa-route": "^3.2.0",
     "koa-static": "^5.0.0",
     "textlint": "^11.0.1",
