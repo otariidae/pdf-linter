@@ -5,8 +5,7 @@
   "license": "Apache-2.0",
   "private": true,
   "scripts": {
-    "prestart": "webpack --config webpack.config.server.js",
-    "start": "node serve.js",
+    "start": "ts-node serve.ts",
     "lint": "prettier --no-semi --write \"**/*.{js,ts,tsx}\"",
     "prebuild": "cp -r ./node_modules/pdfjs-dist/cmaps dist/",
     "build": "webpack"
@@ -42,6 +41,7 @@
     "koa-static": "^5.0.0",
     "textlint": "^11.0.1",
     "textlint-rule-preset-ja-technical-writing": "^3.1.0",
-    "textlint-rule-preset-japanese": "^4.0.0"
+    "textlint-rule-preset-japanese": "^4.0.0",
+    "ts-node": "^7.0.1"
   }
 }

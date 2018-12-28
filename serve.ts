@@ -6,7 +6,7 @@ const logger = require("koa-logger")
 const serve = require("koa-static")
 const compose = require("koa-compose")
 const { TextLintEngine } = require("textlint")
-import { forEachPage, getPDFDocNodeJS, getTextFromPage } from "./src/pdf.ts"
+import { forEachPage, getPDFDocNodeJS, getTextFromPage } from "./src/pdf"
 import { LintResult, LintResultPerPage } from "./src/type"
 
 const textlintOption = {
