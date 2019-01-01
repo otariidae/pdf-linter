@@ -1,12 +1,8 @@
 import { Action } from "redux"
 import { isType } from "typescript-fsa"
 import { onFileInput, onLintFinished } from "../actions"
-import { LintResult } from "../type"
+import { State } from "../type"
 
-export interface State {
-  file: File | null
-  lintResults: LintResult
-}
 export const initialState: State = {
   file: null,
   lintResults: []

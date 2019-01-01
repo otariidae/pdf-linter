@@ -6,7 +6,7 @@ import { lintPDFFile } from "../pdf"
 import PDFViewer from "./pdfviewer"
 import LintResultViewer from "./lintresultviewer"
 import { onFileInput, onLintFinished } from "../actions"
-import { State } from "../reducers"
+import { State } from "../type"
 
 interface MyAppProp {
   state: State
