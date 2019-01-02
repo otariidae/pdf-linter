@@ -8,13 +8,13 @@ import LintResultViewer from "./lintresultviewer"
 import { onFileInput, onLintFinished } from "../actions"
 import { State } from "../type"
 
-interface MyAppProp {
+type AppProp = {
   state: State
   dispatch: Dispatch
 }
 
-class App extends Component<MyAppProp> {
-  constructor(props: MyAppProp) {
+class App extends Component<AppProp> {
+  constructor(props: AppProp) {
     super(props)
     this.onFileInput = this.onFileInput.bind(this)
   }

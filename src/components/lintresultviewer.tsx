@@ -2,7 +2,7 @@ import React, { Fragment, memo, FunctionComponent } from "react"
 import { TextlintResult } from "@textlint/kernel"
 import { LintResult } from "../type"
 
-interface LintResultViewerProp {
+type LintResultViewerProp = {
   lintResults: LintResult
 }
 

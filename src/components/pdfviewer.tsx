@@ -3,7 +3,7 @@ import styled from "styled-components"
 import getPDFDoc, { forEachPage } from "../pdf"
 import { PDFPageProxy } from "pdfjs-dist"
 
-interface PDFViewerProp {
+type PDFViewerProp = {
   file: File
 }
 
@@ -35,6 +35,7 @@ const PDFViewer = (props: PDFViewerProp) => {
 
 export default PDFViewer
 
+type PDFPageProp = {
   page: PDFPageProxy
 }
 
