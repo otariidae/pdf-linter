@@ -1,5 +1,4 @@
-import React, { Component, Fragment } from "react"
-import { Dispatch } from "redux"
+import React, { Fragment, FunctionComponent } from "react";
 import { connect } from "react-redux"
 import styled from "styled-components"
 import PDFViewer from "./pdfviewer"
@@ -9,27 +8,24 @@ import { State } from "../type"
 
 type AppProp = {
   state: State
-  dispatch: Dispatch
 }
 
-class App extends Component<AppProp> {
-  render() {
-    const file = this.props.state.file
-    const lintResults = this.props.state.lintResults
-    return (
-      <Fragment>
-        <Form />
-        <PaneContainer>
-          <PDFViewerWrapper>
-            {file === null ? <Fragment /> : <PDFViewer file={file} />}
-          </PDFViewerWrapper>
-          <LintResultWrapper>
-            <LintResultViewer lintResults={lintResults} />
-          </LintResultWrapper>
-        </PaneContainer>
-      </Fragment>
-    )
-  }
+const App: FunctionComponent<AppProp> = (props) => {
+  const file = props.state.file
+  const lintResults = props.state.lintResults
+  return (
+    <Fragment>
+      <Form />
+      <PaneContainer>
+        <PDFViewerWrapper>
+          {file === null ? undefined : <PDFViewer file={file} />}
+        </PDFViewerWrapper>
+        <LintResultWrapper>
+          <LintResultViewer lintResults={lintResults} />
+        </LintResultWrapper>
+      </PaneContainer>
+    </Fragment>
+  )
 }
 
 const PaneContainer = styled.div`
