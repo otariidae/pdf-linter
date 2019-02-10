@@ -1,26 +1,17 @@
-import { Action } from "redux"
-import { isType } from "typescript-fsa"
-import { onFileInput, onLintFinished } from "../actions"
+import { combineReducers } from "redux"
 import { State } from "../type"
+import fileReducer from "./file"
+import lintResultsReducer from "./lintResults"
+import visibilityFilterReducer from "./visibilityFilter"
 
 export const initialState: State = {
   file: null,
-  lintResults: []
+  lintResults: [],
+  visibilityFilter: []
 }
 
-export default function reducer(
-  state: State = initialState,
-  action: Action
-): State {
-  if (isType(action, onFileInput)) {
-    return Object.assign({}, state, {
-      file: action.payload.file
-    })
-  }
-  if (isType(action, onLintFinished)) {
-    return Object.assign({}, state, {
-      lintResults: action.payload.lintResults
-    })
-  }
-  return state
-}
+export default combineReducers({
+  file: fileReducer,
+  lintResults: lintResultsReducer,
+  visibilityFilter: visibilityFilterReducer
+})

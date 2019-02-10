@@ -6,4 +6,5 @@ export type LintResult = LintResultPerPage[]
 export interface State {
   file: File | null
   lintResults: LintResult
+  visibilityFilter: string[]
 }

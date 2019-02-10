@@ -7,12 +7,10 @@ import Form from "./form"
 import { State } from "../type"
 
 type AppProp = {
-  state: State
+  file: State["file"]
 }
 
-const App: FunctionComponent<AppProp> = (props) => {
-  const file = props.state.file
-  const lintResults = props.state.lintResults
+const App: FunctionComponent<AppProp> = ({ file }) => {
   return (
     <Fragment>
       <Form />
@@ -21,7 +19,7 @@ const App: FunctionComponent<AppProp> = (props) => {
           {file === null ? undefined : <PDFViewer file={file} />}
         </PDFViewerWrapper>
         <LintResultWrapper>
-          <LintResultViewer lintResults={lintResults} />
+          <LintResultViewer />
         </LintResultWrapper>
       </PaneContainer>
     </Fragment>
@@ -39,5 +37,5 @@ const LintResultWrapper = styled.div`
   flex-basis: 50%;
 `
 
-const mapStateToProps = (state: State) => ({ state })
+const mapStateToProps = (state: State) => ({ file: state.file })
 export default connect(mapStateToProps)(App)

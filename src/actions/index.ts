@@ -6,3 +6,7 @@ export const onFileInput = actionCreator<{ file: File }>("ON_FILE_INPUT")
 export const onLintFinished = actionCreator<{ lintResults: LintResult }>(
   "ON_LINT_FINISHED"
 )
+
+export const toggleVisibilityFilter = actionCreator<string>(
+  "TOGGLE_VISIBILITY_FILTER"
+)
