@@ -1,7 +1,9 @@
-import { TextlintResult } from "@textlint/kernel"
+import { TextlintMessage } from "@textlint/kernel"
 
-export type LintResultPerPage = TextlintResult[]
-export type LintResult = LintResultPerPage[]
+export interface LintMessage extends TextlintMessage {
+  page: number
+}
+export type LintResult = LintMessage[]
 
 export interface State {
   file: File | null

@@ -90,9 +90,9 @@ export async function lintPDFFile(file: File): Promise<LintResult> {
 
 export function* forEachPage(
   pdfDocument: PDFDocumentProxy
-): Iterable<PDFPromise<PDFPageProxy>> {
+): Iterable<PromiseLike<PDFPageProxy>> {
   for (let i = 1; i <= pdfDocument.numPages; i++) {
-    const page = pdfDocument.getPage(i)
+    const page = pdfDocument.getPage(i) as PromiseLike<PDFPageProxy>
     yield page
   }
 }
