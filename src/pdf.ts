@@ -74,7 +74,7 @@ export async function getTextFromPage(pdfPage: PDFPageProxy): Promise<string> {
     }
     text += "\n" + cur.str
   }
-  return text
+  return text.replace(/\0/g, "")
 }
 
 export async function lintPDFFile(file: File): Promise<LintResult> {
