@@ -16,6 +16,15 @@ const textlintOption = {
     "textlint-rule-preset-japanese",
     "textlint-rule-preset-ja-technical-writing"
   ],
+  rules: ["prh"],
+  rulesConfig: {
+    prh: {
+      rulePaths: [
+        "./node_modules/prh/prh-rules/media/techbooster.yml",
+        "./node_modules/prh/prh-rules/media/WEB+DB_PRESS.yml"
+      ]
+    }
+  },
   formatterName: "pretty-error"
 }
 const engine = new TextLintEngine(textlintOption)
