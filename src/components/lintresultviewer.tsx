@@ -1,57 +1,34 @@
-import React, { Fragment, FunctionComponent } from "react"
-import { TextlintMessage } from "@textlint/kernel"
+import React, { FunctionComponent } from "react"
 import { LintResult, State } from "../type"
 import { connect } from "react-redux"
-import { toggleVisibilityFilter } from "../actions"
-import { Action } from "typescript-fsa"
-
-const removeDuplicateArray = (arr: any[]) => [...new Set(arr)]
-
-const getTextlintRuleId = (lintResults: LintResult) =>
-  removeDuplicateArray(
-    lintResults.map((message: TextlintMessage) => message.ruleId)
-  )
-
-const FilterForm: FunctionComponent<{
-  lintResults: LintResult
-  toggleVisibilityFilter: (ruleId: string) => Action<string>
-}> = ({ lintResults, toggleVisibilityFilter }) => (
-  <Fragment>
-    <p>除外する:</p>
-    {getTextlintRuleId(lintResults).map((ruleId, i) => (
-      <Fragment key={i}>
-        <input
-          type="checkbox"
-          value={ruleId}
-          id={ruleId}
-          name="select-filter-rule[]"
-          onClick={() => toggleVisibilityFilter(ruleId)}
-        />
-        <label htmlFor={ruleId}>{ruleId}</label>
-      </Fragment>
-    ))}
-  </Fragment>
-)
-
-const mapDispatchToProps = {
-  toggleVisibilityFilter: toggleVisibilityFilter
-}
-
-const ConnectedFilterForm = connect(
-  (state: State) => ({
-    lintResults: state.lintResults
-  }),
-  mapDispatchToProps
-)(FilterForm)
+import { css, cx } from "emotion"
 
 type LintResultViewerProp = {
   lintResults: LintResult
 }
 
+const colBase = css`
+  padding: 2px 4px;
+`
+const colNumber = css`
+  width: 1.5em;
+`
+const colNumberStyle = cx(colBase, colNumber)
+const tableStyle = css`
+  table-layuot: fixed;
+  width: 100%;
+`
+
 const LintResultViewer: FunctionComponent<LintResultViewerProp> = ({
   lintResults
 }) => (
-  <table style={{ listStyleType: "none" }}>
+  <table className={tableStyle}>
+    <colgroup>
+      <col className={colNumberStyle} />
+      <col className={colNumberStyle} />
+      <col className={colNumberStyle} />
+      <col className={colBase} />
+    </colgroup>
     <thead>
       <tr>
         <th>ページ</th>
@@ -78,13 +55,6 @@ const getFilteredLintResults = (state: State) =>
     message => !state.visibilityFilter.includes(message.ruleId)
   )
 
-const VisibleLintResult = connect((state: State) => ({
+export default connect((state: State) => ({
   lintResults: getFilteredLintResults(state)
 }))(LintResultViewer)
-
-export default () => (
-  <Fragment>
-    <ConnectedFilterForm />
-    <VisibleLintResult />
-  </Fragment>
-)

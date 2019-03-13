@@ -1,8 +1,54 @@
-import React, { ChangeEvent, Component } from "react"
-import { onFileInput, onLintFinished } from "../actions"
+import React, {
+  ChangeEvent,
+  Component,
+  Fragment,
+  FunctionComponent
+} from "react"
+import { onFileInput, onLintFinished, toggleVisibilityFilter } from "../actions"
 import { lintPDFFile } from "../pdf"
 import { connect } from "react-redux"
-import { LintResult } from "../type"
+import { TextlintMessage } from "@textlint/kernel"
+import { LintResult, State } from "../type"
+import { Action } from "typescript-fsa"
+
+const removeDuplicateArray = (arr: any[]) => [...new Set(arr)]
+
+const getTextlintRuleId = (lintResults: LintResult) =>
+  removeDuplicateArray(
+    lintResults.map((message: TextlintMessage) => message.ruleId)
+  )
+
+const FilterForm: FunctionComponent<{
+  lintResults: LintResult
+  toggleVisibilityFilter: (ruleId: string) => Action<string>
+}> = ({ lintResults, toggleVisibilityFilter }) => (
+  <Fragment>
+    <p>除外する:</p>
+    <ul>
+      {getTextlintRuleId(lintResults).map((ruleId, i) => (
+        <li key={i}>
+          <input
+            type="checkbox"
+            value={ruleId}
+            id={ruleId}
+            name="select-filter-rule[]"
+            onClick={() => toggleVisibilityFilter(ruleId)}
+          />
+          <label htmlFor={ruleId}>{ruleId}</label>
+        </li>
+      ))}
+    </ul>
+  </Fragment>
+)
+
+export const ConnectedFilterForm = connect(
+  (state: State) => ({
+    lintResults: state.lintResults
+  }),
+  {
+    toggleVisibilityFilter: toggleVisibilityFilter
+  }
+)(FilterForm)
 
 type FormProp = {
   onFileInput: (obj: { file: File }) => any
@@ -22,7 +68,14 @@ class Form extends Component<FormProp> {
   }
   render() {
     return (
-      <input type="file" accept="application/pdf" onChange={this.onFileInput} />
+      <div>
+        <input
+          type="file"
+          accept="application/pdf"
+          onChange={this.onFileInput}
+        />
+        <ConnectedFilterForm />
+      </div>
     )
   }
 }
