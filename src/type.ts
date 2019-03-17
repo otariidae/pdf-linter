@@ -9,4 +9,5 @@ export interface State {
   file: File | null
   lintResults: LintResult
   visibilityFilter: string[]
+  soloFilter: string[]
 }

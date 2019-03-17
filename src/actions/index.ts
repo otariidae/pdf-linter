@@ -10,3 +10,4 @@ export const onLintFinished = actionCreator<{ lintResults: LintResult }>(
 export const toggleVisibilityFilter = actionCreator<string>(
   "TOGGLE_VISIBILITY_FILTER"
 )
+export const toggleSoloFilter = actionCreator<string>("TOGGLE_SOLO_FILTER")

@@ -4,7 +4,12 @@ import React, {
   Fragment,
   FunctionComponent
 } from "react"
-import { onFileInput, onLintFinished, toggleVisibilityFilter } from "../actions"
+import {
+  onFileInput,
+  onLintFinished,
+  toggleSoloFilter,
+  toggleVisibilityFilter
+} from "../actions"
 import { lintPDFFile } from "../pdf"
 import { connect } from "react-redux"
 import { TextlintMessage } from "@textlint/kernel"
@@ -21,7 +26,8 @@ const getTextlintRuleId = (lintResults: LintResult) =>
 const FilterForm: FunctionComponent<{
   lintResults: LintResult
   toggleVisibilityFilter: (ruleId: string) => Action<string>
-}> = ({ lintResults, toggleVisibilityFilter }) => (
+  toggleSoloFilter: (ruleId: string) => Action<string>
+}> = ({ lintResults, toggleVisibilityFilter, toggleSoloFilter }) => (
   <Fragment>
     <p>除外する:</p>
     <ul>
@@ -30,11 +36,14 @@ const FilterForm: FunctionComponent<{
           <input
             type="checkbox"
             value={ruleId}
-            id={ruleId}
-            name="select-filter-rule[]"
             onClick={() => toggleVisibilityFilter(ruleId)}
           />
-          <label htmlFor={ruleId}>{ruleId}</label>
+          <input
+            type="checkbox"
+            value={ruleId}
+            onClick={() => toggleSoloFilter(ruleId)}
+          />
+          <span>{ruleId}</span>
         </li>
       ))}
     </ul>
@@ -46,7 +55,8 @@ export const ConnectedFilterForm = connect(
     lintResults: state.lintResults
   }),
   {
-    toggleVisibilityFilter: toggleVisibilityFilter
+    toggleVisibilityFilter: toggleVisibilityFilter,
+    toggleSoloFilter: toggleSoloFilter
   }
 )(FilterForm)
 

@@ -50,10 +50,17 @@ const LintResultViewer: FunctionComponent<LintResultViewerProp> = ({
   </table>
 )
 
-const getFilteredLintResults = (state: State) =>
-  state.lintResults.filter(
+const getFilteredLintResults = (state: State) => {
+  console.log(state)
+  if (state.soloFilter.length > 0) {
+    return state.lintResults.filter(message =>
+      state.soloFilter.includes(message.ruleId)
+    )
+  }
+  return state.lintResults.filter(
     message => !state.visibilityFilter.includes(message.ruleId)
   )
+}
 
 export default connect((state: State) => ({
   lintResults: getFilteredLintResults(state)
