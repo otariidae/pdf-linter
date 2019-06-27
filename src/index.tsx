@@ -1,4 +1,4 @@
-import React from "react"
+import React, { StrictMode } from "react"
 import ReactDOM, { render } from "react-dom"
 import { createStore } from "redux"
 import { Provider } from "react-redux"
@@ -12,8 +12,10 @@ if (process.env.NODE_ENV !== "production") {
   axe(React, ReactDOM, 1000)
 }
 render(
-  <Provider store={store}>
-    <App />
-  </Provider>,
+  <StrictMode>
+    <Provider store={store}>
+      <App />
+    </Provider>
+  </StrictMode>,
   document.getElementById("app")
 )
