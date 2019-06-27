@@ -82,6 +82,7 @@ class Form extends Component<FormProp> {
         <input
           type="file"
           accept="application/pdf"
+          aria-label="PDFファイルを選択"
           onChange={this.onFileInput}
         />
         <ConnectedFilterForm />
