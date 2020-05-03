@@ -2,13 +2,13 @@ import React, {
   ChangeEvent,
   Component,
   Fragment,
-  FunctionComponent
+  FunctionComponent,
 } from "react"
 import {
   onFileInput,
   onLintFinished,
   toggleSoloFilter,
-  toggleVisibilityFilter
+  toggleVisibilityFilter,
 } from "../actions"
 import { lintPDFFile } from "../pdf"
 import { connect } from "react-redux"
@@ -52,11 +52,11 @@ const FilterForm: FunctionComponent<{
 
 export const ConnectedFilterForm = connect(
   (state: State) => ({
-    lintResults: state.lintResults
+    lintResults: state.lintResults,
   }),
   {
     toggleVisibilityFilter: toggleVisibilityFilter,
-    toggleSoloFilter: toggleSoloFilter
+    toggleSoloFilter: toggleSoloFilter,
   }
 )(FilterForm)
 
@@ -93,10 +93,7 @@ class Form extends Component<FormProp> {
 
 const mapDispatchToProps = {
   onFileInput,
-  onLintFinished
+  onLintFinished,
 }
 
-export default connect(
-  null,
-  mapDispatchToProps
-)(Form)
+export default connect(null, mapDispatchToProps)(Form)

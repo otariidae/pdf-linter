@@ -20,9 +20,7 @@ const App: FunctionComponent<AppProp> = ({ file }) => {
         <div className={formStyle}>
           <Form />
         </div>
-        {file === null ? (
-          undefined
-        ) : (
+        {file === null ? undefined : (
           <div className={pdfStyle}>
             <PDFViewer file={file} />
           </div>

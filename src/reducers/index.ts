@@ -9,12 +9,12 @@ export const initialState: State = {
   file: null,
   lintResults: [],
   visibilityFilter: [],
-  soloFilter: []
+  soloFilter: [],
 }
 
 export default combineReducers({
   file: fileReducer,
   lintResults: lintResultsReducer,
   visibilityFilter: visibilityFilterReducer,
-  soloFilter: soloFilterReducer
+  soloFilter: soloFilterReducer,
 })

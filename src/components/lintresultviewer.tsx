@@ -20,7 +20,7 @@ const tableStyle = css`
 `
 
 const LintResultViewer: FunctionComponent<LintResultViewerProp> = ({
-  lintResults
+  lintResults,
 }) => (
   <table className={tableStyle}>
     <colgroup>
@@ -53,15 +53,15 @@ const LintResultViewer: FunctionComponent<LintResultViewerProp> = ({
 const getFilteredLintResults = (state: State) => {
   console.log(state)
   if (state.soloFilter.length > 0) {
-    return state.lintResults.filter(message =>
+    return state.lintResults.filter((message) =>
       state.soloFilter.includes(message.ruleId)
     )
   }
   return state.lintResults.filter(
-    message => !state.visibilityFilter.includes(message.ruleId)
+    (message) => !state.visibilityFilter.includes(message.ruleId)
   )
 }
 
 export default connect((state: State) => ({
-  lintResults: getFilteredLintResults(state)
+  lintResults: getFilteredLintResults(state),
 }))(LintResultViewer)

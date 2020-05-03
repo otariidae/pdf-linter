@@ -8,7 +8,7 @@ class NodeCMapReaderFactory {
   isCompressed: boolean
   constructor({
     baseUrl = null,
-    isCompressed = false
+    isCompressed = false,
   }: {
     baseUrl?: string
     isCompressed?: boolean
@@ -33,7 +33,7 @@ class NodeCMapReaderFactory {
       cMapData: new Uint8Array(data),
       compressionType: this.isCompressed
         ? CMapCompressionType.BINARY
-        : CMapCompressionType.NONE
+        : CMapCompressionType.NONE,
     }
   }
 }
@@ -82,7 +82,7 @@ export async function lintPDFFile(file: File): Promise<LintResult> {
   formData.append("file", file)
   const response = await fetch("/lint", {
     method: "POST",
-    body: formData
+    body: formData,
   })
   const lintResult = await response.json()
   return lintResult
@@ -103,7 +103,7 @@ export async function getPDFDocNodeJS(file: Buffer): Promise<PDFDocumentProxy> {
     data: uint8,
     CMapReaderFactory: NodeCMapReaderFactory,
     cMapUrl: "./dist/cmaps/",
-    cMapPacked: true
+    cMapPacked: true,
   }) as any) as PDFDocumentLoadingTask).promise
   return pdfDocument
 }
@@ -117,7 +117,7 @@ export default async function getPDFDoc(file: File): Promise<PDFDocumentProxy> {
   const pdfDocument = await (((pdfjs as any).getDocument({
     data: fileTypedArr,
     cMapUrl: "./cmaps/",
-    cMapPacked: true
+    cMapPacked: true,
   }) as any) as PDFDocumentLoadingTask).promise
   return pdfDocument
 }

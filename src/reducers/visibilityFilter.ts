@@ -14,7 +14,7 @@ const reducer: Reducer<State["visibilityFilter"]> = function reducer(
   if (isType(action, toggleVisibilityFilter)) {
     const value = action.payload
     if (state.includes(value)) {
-      return state.filter(ruleId => ruleId !== value)
+      return state.filter((ruleId) => ruleId !== value)
     }
     return state.concat(value)
   }

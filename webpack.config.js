@@ -4,11 +4,11 @@ module.exports = {
   context: __dirname,
   node: {
     fs: "empty",
-    module: "empty"
+    module: "empty",
   },
   entry: {
     bundle: "./src/index.tsx",
-    "bundle.worker": "pdfjs-dist/build/pdf.worker.entry.js"
+    "bundle.worker": "pdfjs-dist/build/pdf.worker.entry.js",
   },
   mode: "development",
   devtool: "source-map",
@@ -17,15 +17,15 @@ module.exports = {
       {
         test: /\.tsx?$/,
         use: "ts-loader",
-        exclude: /node_modules/
-      }
-    ]
+        exclude: /node_modules/,
+      },
+    ],
   },
   resolve: {
-    extensions: [".tsx", ".ts", ".js"]
+    extensions: [".tsx", ".ts", ".js"],
   },
   output: {
     path: path.join(__dirname, "dist"),
-    filename: "[name].js"
-  }
+    filename: "[name].js",
+  },
 }

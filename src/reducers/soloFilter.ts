@@ -11,7 +11,7 @@ const reducer: Reducer<State["soloFilter"]> = function reducer(state, action) {
   if (isType(action, toggleSoloFilter)) {
     const value = action.payload
     if (state.includes(value)) {
-      return state.filter(ruleId => ruleId !== value)
+      return state.filter((ruleId) => ruleId !== value)
     }
     return state.concat(value)
   }

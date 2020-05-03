@@ -14,18 +14,18 @@ import { LintMessage, LintResult } from "./src/type"
 const textlintOption = {
   presets: [
     "textlint-rule-preset-japanese",
-    "textlint-rule-preset-ja-technical-writing"
+    "textlint-rule-preset-ja-technical-writing",
   ],
   rules: ["prh"],
   rulesConfig: {
     prh: {
       rulePaths: [
         "./node_modules/prh/prh-rules/media/techbooster.yml",
-        "./node_modules/prh/prh-rules/media/WEB+DB_PRESS.yml"
-      ]
-    }
+        "./node_modules/prh/prh-rules/media/WEB+DB_PRESS.yml",
+      ],
+    },
   },
-  formatterName: "pretty-error"
+  formatterName: "pretty-error",
 }
 const engine = new TextLintEngine(textlintOption)
 
@@ -62,7 +62,7 @@ app.use(
           results = results.concat(lintMessages)
         }
         ctx.body = results
-      }
+      },
     ])
   )
 )
