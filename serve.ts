@@ -7,9 +7,9 @@ const serve = require("koa-static")
 const compose = require("koa-compose")
 const { TextLintEngine } = require("textlint")
 import { forEachPage, getPDFDocNodeJS, getTextFromPage } from "./src/pdf"
-import { TextlintResult } from "@textlint/kernel"
+import { TextlintResult, TextlintMessage } from "@textlint/kernel"
 import produce from "immer"
-import { LintResult } from "./src/type"
+import { LintMessage, LintResult } from "./src/type"
 
 const textlintOption = {
   presets: [
@@ -47,14 +47,18 @@ app.use(
         for (const [i, page] of pages.entries()) {
           const text = await getTextFromPage(page)
           const textlintResult = await engine.executeOnText(text)
-          const messages = textlintResult.flatMap(
+          const messages: TextlintMessage[] = textlintResult.flatMap(
             (result: TextlintResult) => result.messages
           )
-          const lintMessages = produce(messages, messages => {
-            for (let message of messages) {
-              message.page = i + 1
+          const lintMessages: LintMessage[] = produce(
+            messages,
+            (messages: LintMessage[]) => {
+              for (const message of messages) {
+                message.page = i + 1
+              }
+              return messages
             }
-          })
+          )
           results = results.concat(lintMessages)
         }
         ctx.body = results

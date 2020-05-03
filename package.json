@@ -19,7 +19,7 @@
     "@types/react-redux": "^7.0.1",
     "core-js": "^2.6.9",
     "emotion": "^10.0.9",
-    "pdfjs-dist": "^2.0.943",
+    "pdfjs-dist": "~2.0.943",
     "prettier": "^1.15.2",
     "react": "^16.8.0",
     "react-axe": "^3.1.0",
