@@ -4,7 +4,7 @@ import { css } from "emotion"
 import PDFViewer from "./pdfviewer"
 import LintResultViewer from "./lintresultviewer"
 import Form from "./form"
-import { State } from "../type"
+import { State } from "../../type"
 
 type AppProp = {
   file: State["file"]

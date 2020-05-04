@@ -78,11 +78,10 @@ export async function getTextFromPage(pdfPage: PDFPageProxy): Promise<string> {
 }
 
 export async function lintPDFFile(file: File): Promise<LintResult> {
-  const formData = new FormData()
-  formData.append("file", file)
-  const response = await fetch("/lint", {
+  const base64file = await readFileAsDataURLAsync(file)
+  const response = await fetch("/.netlify/functions/lint", {
     method: "POST",
-    body: formData,
+    body: base64file,
   })
   const lintResult = await response.json()
   return lintResult
@@ -121,3 +120,15 @@ export default async function getPDFDoc(file: File): Promise<PDFDocumentProxy> {
   }) as any) as PDFDocumentLoadingTask).promise
   return pdfDocument
 }
+
+const readFileAsDataURLAsync = (file: File): Promise<string> =>
+  new Promise((resolve, reject) => {
+    const fileReader = new FileReader()
+    fileReader.addEventListener("load", () => {
+      resolve(fileReader.result as string)
+    })
+    fileReader.addEventListener("error", () => {
+      reject(fileReader.error)
+    })
+    fileReader.readAsDataURL(file)
+  })

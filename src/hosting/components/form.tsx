@@ -10,10 +10,10 @@ import {
   toggleSoloFilter,
   toggleVisibilityFilter,
 } from "../actions"
-import { lintPDFFile } from "../pdf"
+import { lintPDFFile } from "../../pdf"
 import { connect } from "react-redux"
 import { TextlintMessage } from "@textlint/kernel"
-import { LintResult, State } from "../type"
+import { LintResult, State } from "../../type"
 import { Action } from "typescript-fsa"
 
 const removeDuplicateArray = (arr: any[]) => [...new Set(arr)]

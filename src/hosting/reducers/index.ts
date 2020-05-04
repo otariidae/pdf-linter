@@ -1,5 +1,5 @@
 import { combineReducers } from "redux"
-import { State } from "../type"
+import { State } from "../../type"
 import fileReducer from "./file"
 import lintResultsReducer from "./lintResults"
 import visibilityFilterReducer from "./visibilityFilter"

@@ -1,8 +1,6 @@
-dist/*.js
-dist/cmaps/
+dist
 *.map
 *.pdf
-serve.js
 
 # Logs
 logs
