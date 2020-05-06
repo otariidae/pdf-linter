@@ -1,4 +1,6 @@
 const path = require("path")
+const HtmlWebpackPlugin = require("html-webpack-plugin")
+const TsConfigWebpackPlugin = require("ts-config-webpack-plugin")
 
 module.exports = {
   context: __dirname,
@@ -7,25 +9,22 @@ module.exports = {
     module: "empty",
   },
   entry: {
-    bundle: "./src/index.tsx",
+    bundle: "./src/hosting/index.tsx",
     "bundle.worker": "pdfjs-dist/build/pdf.worker.entry.js",
   },
   mode: "development",
   devtool: "source-map",
-  module: {
-    rules: [
-      {
-        test: /\.tsx?$/,
-        use: "ts-loader",
-        exclude: /node_modules/,
-      },
-    ],
-  },
+  plugins: [
+    new HtmlWebpackPlugin({
+      template: "src/hosting/index.html",
+    }),
+    new TsConfigWebpackPlugin(),
+  ],
   resolve: {
     extensions: [".tsx", ".ts", ".js"],
   },
   output: {
-    path: path.join(__dirname, "dist"),
+    path: path.join(__dirname, "dist/hosting"),
     filename: "[name].js",
   },
 }

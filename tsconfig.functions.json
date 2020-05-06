@@ -1,17 +1,16 @@
 {
   "compilerOptions": {
-    "outDir": "./dist/hosting",
+    "outDir": "dist/functions",
     "noImplicitAny": true,
-    "module": "esnext",
+    "module": "commonjs",
     "target": "esnext",
     "sourceMap": true,
     "allowJs": true,
-    "jsx": "react",
     "moduleResolution": "node",
     "esModuleInterop": true
   },
   "include": [
-    "src/hosting"
+    "src/functions/*.ts"
   ],
   "exclude": [
     "node_modules"

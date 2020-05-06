@@ -1,7 +1,7 @@
 import { Reducer } from "redux"
 import { isType } from "typescript-fsa"
 import { toggleVisibilityFilter } from "../actions"
-import { State } from "../type"
+import { State } from "../../type"
 import { initialState } from "./index"
 
 const reducer: Reducer<State["visibilityFilter"]> = function reducer(

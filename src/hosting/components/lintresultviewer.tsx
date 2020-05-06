@@ -1,5 +1,5 @@
 import React, { FunctionComponent } from "react"
-import { LintResult, State } from "../type"
+import { LintResult, State } from "../../type"
 import { connect } from "react-redux"
 import { css, cx } from "emotion"
 
