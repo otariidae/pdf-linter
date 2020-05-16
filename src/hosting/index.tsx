@@ -1,11 +1,7 @@
 import React, { StrictMode } from "react"
 import ReactDOM, { render } from "react-dom"
-import { createStore } from "redux"
-import { Provider } from "react-redux"
-import reducer, { initialState } from "./reducers"
+import { RecoilRoot } from "recoil"
 import App from "./components/app"
-
-const store = createStore(reducer, initialState)
 
 if (process.env.NODE_ENV !== "production") {
   const axe = require("react-axe")
@@ -13,9 +9,9 @@ if (process.env.NODE_ENV !== "production") {
 }
 render(
   <StrictMode>
-    <Provider store={store}>
+    <RecoilRoot>
       <App />
-    </Provider>
+    </RecoilRoot>
   </StrictMode>,
   document.getElementById("app")
 )

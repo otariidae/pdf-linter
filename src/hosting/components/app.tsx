@@ -1,13 +1,13 @@
 import React, { FunctionComponent, StrictMode } from "react"
-import { useSelector } from "react-redux"
+import { useRecoilValue } from "recoil"
 import { css } from "emotion"
 import PDFViewer from "./pdfviewer"
 import LintResultViewer from "./lintresultviewer"
 import Form from "./form"
-import { State } from "../../type"
+import { fileState } from "../states"
 
 const App: FunctionComponent<{}> = () => {
-  const file = useSelector((state: State) => state.file)
+  const file = useRecoilValue(fileState)
   return (
     <StrictMode>
       <div className={appStyle}>
