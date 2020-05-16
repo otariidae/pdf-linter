@@ -11,7 +11,7 @@
     "esModuleInterop": true
   },
   "include": [
-    "src/hosting"
+    "src"
   ],
   "exclude": [
     "node_modules"

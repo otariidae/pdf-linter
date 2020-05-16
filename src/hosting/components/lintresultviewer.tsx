@@ -1,7 +1,7 @@
 import React, { FunctionComponent } from "react"
-import { State } from "../../type"
-import { useSelector } from "react-redux"
 import { css, cx } from "emotion"
+import { filteredLintResultState } from "../states"
+import { useRecoilValue } from "recoil"
 
 const colBase = css`
   padding: 2px 4px;
@@ -16,7 +16,7 @@ const tableStyle = css`
 `
 
 const LintResultViewer: FunctionComponent<{}> = () => {
-  const lintResults = useSelector(selectFilteredLintResults)
+  const lintResult = useRecoilValue(filteredLintResultState)
   return (
     <table className={tableStyle}>
       <colgroup>
@@ -34,7 +34,7 @@ const LintResultViewer: FunctionComponent<{}> = () => {
         </tr>
       </thead>
       <tbody>
-        {lintResults.map((message, i) => (
+        {lintResult.map((message, i) => (
           <tr key={i}>
             <td>{message.page}</td>
             <td>{message.line}</td>
@@ -44,18 +44,6 @@ const LintResultViewer: FunctionComponent<{}> = () => {
         ))}
       </tbody>
     </table>
-  )
-}
-
-const selectFilteredLintResults = (state: State) => {
-  console.log(state)
-  if (state.soloFilter.length > 0) {
-    return state.lintResults.filter((message) =>
-      state.soloFilter.includes(message.ruleId)
-    )
-  }
-  return state.lintResults.filter(
-    (message) => !state.visibilityFilter.includes(message.ruleId)
   )
 }
 
