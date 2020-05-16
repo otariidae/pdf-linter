@@ -5,3 +5,4 @@
 
 [dev]
   functions = "dist/functions/functions"
+  publish = "dist/hosting"
