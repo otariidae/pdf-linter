@@ -1,16 +1,13 @@
-import React, { FunctionComponent, Fragment, StrictMode } from "react"
-import { connect } from "react-redux"
+import React, { FunctionComponent, StrictMode } from "react"
+import { useSelector } from "react-redux"
 import { css } from "emotion"
 import PDFViewer from "./pdfviewer"
 import LintResultViewer from "./lintresultviewer"
 import Form from "./form"
 import { State } from "../../type"
 
-type AppProp = {
-  file: State["file"]
-}
-
-const App: FunctionComponent<AppProp> = ({ file }) => {
+const App: FunctionComponent<{}> = () => {
+  const file = useSelector((state: State) => state.file)
   return (
     <StrictMode>
       <div className={appStyle}>
@@ -66,5 +63,4 @@ const lintStyle = css`
   overflow: auto;
 `
 
-const mapStateToProps = (state: State) => ({ file: state.file })
-export default connect(mapStateToProps)(App)
+export default App
