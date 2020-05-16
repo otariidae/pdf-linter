@@ -14,7 +14,11 @@ import presetJapanese from "textlint-rule-preset-japanese"
 console.log(presetJaTechWriting)
 console.log(presetJapanese)
 
-const NODE_MODULES_PATH = process.env.NODE_ENV === "development" ? "./node_modules" : "/var/task/src/node_modules"
+console.log("NODE_ENV:", process.env.NODE_ENV)
+const NODE_MODULES_PATH =
+  process.env.NODE_ENV === "development"
+    ? "./node_modules"
+    : "/var/task/src/node_modules"
 
 const textlintOption = {
   presets: [
@@ -26,7 +30,7 @@ const textlintOption = {
     prh: {
       rulePaths: [
         `${NODE_MODULES_PATH}/prh/prh-rules/media/techbooster.yml`,
-        `${NODE_MODULES_PATH}/prh/prh-rules/media/WEB+DB_PRESS.yml`
+        `${NODE_MODULES_PATH}/prh/prh-rules/media/WEB+DB_PRESS.yml`,
       ],
     },
   },
