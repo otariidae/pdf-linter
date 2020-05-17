@@ -10,7 +10,9 @@ import {
 } from "../states"
 import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil"
 
-const removeDuplicateArray = (arr: any[]) => [...new Set(arr)]
+function removeDuplicateArray<T>(arr: T[]): T[] {
+  return [...new Set(arr)]
+}
 
 const getTextlintRuleId = (lintResults: LintResult) =>
   removeDuplicateArray(
@@ -24,22 +26,14 @@ const FilterForm: FunctionComponent<{}> = () => {
   )
   const [soloFilter, setSoloFilter] = useRecoilState(soloFilterState)
   const toggleVisibilityFilter = (ruleId: string) => {
-    if (visibilityFilter.includes(ruleId)) {
-      setVisibilityFilter(
-        visibilityFilter.filter((existingRuleId) => existingRuleId !== ruleId)
-      )
-      return
-    }
-    setVisibilityFilter(visibilityFilter.concat(ruleId))
+    const newVisibilityFilter = new Set(visibilityFilter)
+    toggleSet(newVisibilityFilter, ruleId)
+    setVisibilityFilter(newVisibilityFilter)
   }
   const toggleSoloFilter = (ruleId: string) => {
-    if (soloFilter.includes(ruleId)) {
-      setSoloFilter(
-        soloFilter.filter((existingRuleId) => existingRuleId !== ruleId)
-      )
-      return
-    }
-    setSoloFilter(soloFilter.concat(ruleId))
+    const newSoloFilter = new Set(soloFilter)
+    toggleSet(newSoloFilter, ruleId)
+    setSoloFilter(newSoloFilter)
   }
   return (
     <Fragment>
@@ -89,3 +83,12 @@ const Form = () => {
 }
 
 export default Form
+
+function toggleSet<T>(set: Set<T>, item: T) {
+  if (set.has(item)) {
+    set.delete(item)
+  } else {
+    set.add(item)
+  }
+  return set
+}

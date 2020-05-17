@@ -11,14 +11,14 @@ export const lintResultState = atom<LintResult>({
   default: [],
 })
 
-export const soloFilterState = atom<string[]>({
+export const soloFilterState = atom<Set<string>>({
   key: "soloFilter",
-  default: [],
+  default: new Set(),
 })
 
-export const visibilityFilterState = atom<string[]>({
+export const visibilityFilterState = atom<Set<string>>({
   key: "visibilityFilter",
-  default: [],
+  default: new Set(),
 })
 
 export const filteredLintResultState = selector({
@@ -27,13 +27,11 @@ export const filteredLintResultState = selector({
     const lintResults = get(lintResultState)
     const soloFilter = get(soloFilterState)
     const visibilityFilter = get(visibilityFilterState)
-    if (soloFilter.length > 0) {
-      return lintResults.filter((message) =>
-        soloFilter.includes(message.ruleId)
-      )
+    if (soloFilter.size > 0) {
+      return lintResults.filter((message) => soloFilter.has(message.ruleId))
     }
     return lintResults.filter(
-      (message) => !visibilityFilter.includes(message.ruleId)
+      (message) => !visibilityFilter.has(message.ruleId)
     )
   },
 })
