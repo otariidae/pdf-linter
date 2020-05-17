@@ -56,9 +56,7 @@ export const handler: APIGatewayProxyHandler = async function handler(
     )
     const doc = await getPDFDocNodeJS(body)
     const pages = await Promise.all(forEachPage(doc))
-    const promises = Array.from(pages.entries()).map(([i, page]) =>
-      lintPage(page, i)
-    )
+    const promises = pages.map((page) => lintPage(page))
     const results = (await Promise.all(promises)).reduce(
       (a, b) => a.concat(b),
       []
@@ -78,10 +76,7 @@ const cors = (result: APIGatewayProxyResult): APIGatewayProxyResult => {
   return result
 }
 
-const lintPage = async (
-  page: PDFPageProxy,
-  pageNumber: number
-): Promise<LintResult> => {
+const lintPage = async (page: PDFPageProxy): Promise<LintResult> => {
   const text = await getTextFromPage(page)
   const textlintResult = await engine.executeOnText(text)
   const messages: TextlintMessage[] = textlintResult.flatMap(
@@ -91,7 +86,7 @@ const lintPage = async (
     messages,
     (messages: LintMessage[]) => {
       for (const message of messages) {
-        message.page = pageNumber + 1
+        message.page = page.pageNumber
       }
       return messages
     }
