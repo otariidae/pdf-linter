@@ -1,5 +1,5 @@
 import { promises as fs } from "fs"
-import pdfjs, { PDFDocumentProxy, PDFPageProxy, PDFPromise } from "pdfjs-dist"
+import pdfjs, { PDFDocumentProxy, PDFPageProxy } from "pdfjs-dist"
 const { CMapCompressionType } = require("pdfjs-dist/lib/shared/util")
 import { LintResult } from "./type"
 
@@ -36,21 +36,6 @@ class NodeCMapReaderFactory {
         : CMapCompressionType.NONE,
     }
   }
-}
-
-function readAsArrayBuffer(file: File): Promise<ArrayBuffer> {
-  return new Promise((resolve, reject) => {
-    const reader = new FileReader()
-    reader.addEventListener("load", () => resolve(reader.result as ArrayBuffer))
-    reader.addEventListener("error", () => reject(reader.error))
-    reader.readAsArrayBuffer(file)
-  })
-}
-
-async function file2uint8(file: File): Promise<Uint8Array> {
-  const arrayBuf = await readAsArrayBuffer(file)
-  const uint8arr = new Uint8Array(arrayBuf)
-  return uint8arr
 }
 
 function* forEachTwo<T>(iterable: Iterable<T>): Iterable<[T, T]> {
@@ -98,26 +83,12 @@ export function* forEachPage(
 
 export async function getPDFDocNodeJS(file: Buffer): Promise<PDFDocumentProxy> {
   const uint8 = new Uint8Array(file)
-  const pdfDocument = await (((pdfjs as any).getDocument({
+  const pdfDocument = await pdfjs.getDocument({
     data: uint8,
     CMapReaderFactory: NodeCMapReaderFactory,
     cMapUrl: "./dist/cmaps/",
     cMapPacked: true,
-  }) as any) as PDFDocumentLoadingTask).promise
-  return pdfDocument
-}
-
-interface PDFDocumentLoadingTask {
-  promise: PDFPromise<PDFDocumentProxy>
-}
-
-export default async function getPDFDoc(file: File): Promise<PDFDocumentProxy> {
-  const fileTypedArr = await file2uint8(file)
-  const pdfDocument = await (((pdfjs as any).getDocument({
-    data: fileTypedArr,
-    cMapUrl: "./cmaps/",
-    cMapPacked: true,
-  }) as any) as PDFDocumentLoadingTask).promise
+  }).promise
   return pdfDocument
 }
 
