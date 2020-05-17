@@ -44,11 +44,13 @@ const FilterForm: FunctionComponent<{}> = () => {
             <input
               type="checkbox"
               value={ruleId}
+              checked={visibilityFilter.has(ruleId)}
               onClick={() => toggleVisibilityFilter(ruleId)}
             />
             <input
               type="checkbox"
               value={ruleId}
+              checked={soloFilter.has(ruleId)}
               onClick={() => toggleSoloFilter(ruleId)}
             />
             <span>{ruleId}</span>
