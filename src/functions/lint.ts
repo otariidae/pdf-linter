@@ -10,6 +10,7 @@ import { APIGatewayProxyHandler, APIGatewayProxyResult } from "aws-lambda"
 import presetJaTechWriting from "textlint-rule-preset-ja-technical-writing"
 // @ts-ignore
 import presetJapanese from "textlint-rule-preset-japanese"
+import { PDFPageProxy } from "pdfjs-dist"
 // dummy console.log to avoid dead code elimination
 console.log(presetJaTechWriting)
 console.log(presetJapanese)
@@ -36,6 +37,8 @@ const textlintOption = {
   },
   formatterName: "pretty-error",
 }
+const engine = new TextLintEngine(textlintOption)
+
 export const handler: APIGatewayProxyHandler = async function handler(
   event,
   context
@@ -47,31 +50,19 @@ export const handler: APIGatewayProxyHandler = async function handler(
     })
   }
   try {
-    const engine = new TextLintEngine(textlintOption)
     const body = Buffer.from(
       event.body.replace(/^data:application\/pdf;base64,/, ""),
       "base64"
     )
     const doc = await getPDFDocNodeJS(body)
     const pages = await Promise.all(forEachPage(doc))
-    let results: LintResult = []
-    for (const [i, page] of pages.entries()) {
-      const text = await getTextFromPage(page)
-      const textlintResult = await engine.executeOnText(text)
-      const messages: TextlintMessage[] = textlintResult.flatMap(
-        (result: TextlintResult) => result.messages
-      )
-      const lintMessages: LintMessage[] = produce(
-        messages,
-        (messages: LintMessage[]) => {
-          for (const message of messages) {
-            message.page = i + 1
-          }
-          return messages
-        }
-      )
-      results = results.concat(lintMessages)
-    }
+    const promises = Array.from(pages.entries()).map(([i, page]) =>
+      lintPage(page, i)
+    )
+    const results = (await Promise.all(promises)).reduce(
+      (a, b) => a.concat(b),
+      []
+    )
     return cors({
       statusCode: 200,
       body: JSON.stringify(results),
@@ -85,4 +76,25 @@ const cors = (result: APIGatewayProxyResult): APIGatewayProxyResult => {
   result.headers = result.headers || {}
   result.headers["Access-Control-Allow-Origin"] = "*"
   return result
+}
+
+const lintPage = async (
+  page: PDFPageProxy,
+  pageNumber: number
+): Promise<LintResult> => {
+  const text = await getTextFromPage(page)
+  const textlintResult = await engine.executeOnText(text)
+  const messages: TextlintMessage[] = textlintResult.flatMap(
+    (result: TextlintResult) => result.messages
+  )
+  const lintMessages: LintMessage[] = produce(
+    messages,
+    (messages: LintMessage[]) => {
+      for (const message of messages) {
+        message.page = pageNumber + 1
+      }
+      return messages
+    }
+  )
+  return lintMessages
 }
