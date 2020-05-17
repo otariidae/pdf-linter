@@ -10,6 +10,7 @@ import { APIGatewayProxyHandler, APIGatewayProxyResult } from "aws-lambda"
 import presetJaTechWriting from "textlint-rule-preset-ja-technical-writing"
 // @ts-ignore
 import presetJapanese from "textlint-rule-preset-japanese"
+import "web-streams-polyfill/ponyfill"
 import { PDFPageProxy } from "pdfjs-dist"
 // dummy console.log to avoid dead code elimination
 console.log(presetJaTechWriting)
