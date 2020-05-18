@@ -61,8 +61,6 @@ const FilterForm: FunctionComponent<{}> = () => {
   )
 }
 
-export const ConnectedFilterForm = FilterForm
-
 const Form = () => {
   const setFile = useSetRecoilState(fileState)
   const setLintResult = useSetRecoilState(lintResultState)
@@ -79,7 +77,7 @@ const Form = () => {
           setLintResult(lintResult)
         }}
       />
-      <ConnectedFilterForm />
+      <FilterForm />
     </div>
   )
 }
