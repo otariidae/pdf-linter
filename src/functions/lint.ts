@@ -39,10 +39,10 @@ const engine = new TextLintEngine(textlintOption)
 
 export const handler: APIGatewayProxyHandler = async function handler(event) {
   if (event.httpMethod !== "POST") {
-    return cors({
+    return {
       statusCode: 405,
       body: "",
-    })
+    }
   }
   try {
     const textList: string[] = JSON.parse(event.body)
@@ -54,19 +54,13 @@ export const handler: APIGatewayProxyHandler = async function handler(event) {
         textlintMessages.map(textlintMessage2lintMessageCreator(i + 1))
       )
       .reduce((a, b) => a.concat(b), [] as LintMessage[])
-    return cors({
+    return {
       statusCode: 200,
       body: JSON.stringify(lintResult),
-    })
+    }
   } catch (err) {
-    return cors({ statusCode: 500, body: err.toString() })
+    return { statusCode: 500, body: err.toString() }
   }
-}
-
-const cors = (result: APIGatewayProxyResult): APIGatewayProxyResult => {
-  result.headers = result.headers || {}
-  result.headers["Access-Control-Allow-Origin"] = "*"
-  return result
 }
 
 const lintPageText = async (text: string): Promise<TextlintMessage[]> => {
