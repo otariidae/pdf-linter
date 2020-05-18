@@ -37,26 +37,38 @@ const FilterForm: FunctionComponent<{}> = () => {
   }
   return (
     <Fragment>
-      <p>除外する:</p>
-      <ul>
-        {getTextlintRuleId(lintResult).map((ruleId, i) => (
-          <li key={i}>
-            <input
-              type="checkbox"
-              value={ruleId}
-              checked={visibilityFilter.has(ruleId)}
-              onClick={() => toggleVisibilityFilter(ruleId)}
-            />
-            <input
-              type="checkbox"
-              value={ruleId}
-              checked={soloFilter.has(ruleId)}
-              onClick={() => toggleSoloFilter(ruleId)}
-            />
-            <span>{ruleId}</span>
-          </li>
-        ))}
-      </ul>
+      <p>Rules</p>
+      <table>
+        <thead>
+          <th>Mute</th>
+          <th>Solo</th>
+          <th>Rule Name</th>
+        </thead>
+        <tbody>
+          {getTextlintRuleId(lintResult).map((ruleId, i) => (
+            <tr key={i}>
+              <td>
+                <input
+                  type="checkbox"
+                  title="Mute this rule"
+                  disabled={soloFilter.size > 0}
+                  checked={visibilityFilter.has(ruleId)}
+                  onClick={() => toggleVisibilityFilter(ruleId)}
+                />
+              </td>
+              <td>
+                <input
+                  type="checkbox"
+                  title="Solo this rule"
+                  checked={soloFilter.has(ruleId)}
+                  onClick={() => toggleSoloFilter(ruleId)}
+                />
+              </td>
+              <td>{ruleId}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
     </Fragment>
   )
 }

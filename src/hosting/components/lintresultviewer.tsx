@@ -27,10 +27,10 @@ const LintResultViewer: FunctionComponent<{}> = () => {
       </colgroup>
       <thead>
         <tr>
-          <th>ページ</th>
-          <th>行</th>
-          <th>列</th>
-          <th>事項</th>
+          <th>page</th>
+          <th>line</th>
+          <th>column</th>
+          <th>message</th>
         </tr>
       </thead>
       <tbody>
