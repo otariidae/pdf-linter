@@ -37,10 +37,7 @@ const textlintOption = {
 }
 const engine = new TextLintEngine(textlintOption)
 
-export const handler: APIGatewayProxyHandler = async function handler(
-  event,
-  context
-) {
+export const handler: APIGatewayProxyHandler = async function handler(event) {
   if (event.httpMethod !== "POST") {
     return cors({
       statusCode: 405,
