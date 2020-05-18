@@ -1,7 +1,5 @@
 import { TextLintEngine } from "textlint"
-import { forEachPage, getPDFDocNodeJS, getTextFromPage } from "../pdf"
-import { TextlintResult, TextlintMessage } from "@textlint/kernel"
-import produce from "immer"
+import { TextlintMessage, TextlintResult } from "@textlint/kernel"
 import { LintMessage, LintResult } from "../type"
 import { APIGatewayProxyHandler, APIGatewayProxyResult } from "aws-lambda"
 
@@ -11,7 +9,6 @@ import presetJaTechWriting from "textlint-rule-preset-ja-technical-writing"
 // @ts-ignore
 import presetJapanese from "textlint-rule-preset-japanese"
 import "web-streams-polyfill/ponyfill"
-import { PDFPageProxy } from "pdfjs-dist"
 // dummy console.log to avoid dead code elimination
 console.log(presetJaTechWriting)
 console.log(presetJapanese)
@@ -51,20 +48,18 @@ export const handler: APIGatewayProxyHandler = async function handler(
     })
   }
   try {
-    const body = Buffer.from(
-      event.body.replace(/^data:application\/pdf;base64,/, ""),
-      "base64"
+    const textList: string[] = JSON.parse(event.body)
+    const textlintResults = await Promise.all(
+      textList.map((text) => lintPageText(text))
     )
-    const doc = await getPDFDocNodeJS(body)
-    const pages = await Promise.all(forEachPage(doc))
-    const promises = pages.map((page) => lintPage(page))
-    const results = (await Promise.all(promises)).reduce(
-      (a, b) => a.concat(b),
-      []
-    )
+    const lintResult: LintResult = textlintResults
+      .map((textlintMessages, i) =>
+        textlintMessages.map(textlintMessage2lintMessageCreator(i + 1))
+      )
+      .reduce((a, b) => a.concat(b), [] as LintMessage[])
     return cors({
       statusCode: 200,
-      body: JSON.stringify(results),
+      body: JSON.stringify(lintResult),
     })
   } catch (err) {
     return cors({ statusCode: 500, body: err.toString() })
@@ -77,20 +72,17 @@ const cors = (result: APIGatewayProxyResult): APIGatewayProxyResult => {
   return result
 }
 
-const lintPage = async (page: PDFPageProxy): Promise<LintResult> => {
-  const text = await getTextFromPage(page)
+const lintPageText = async (text: string): Promise<TextlintMessage[]> => {
   const textlintResult = await engine.executeOnText(text)
-  const messages: TextlintMessage[] = textlintResult.flatMap(
+  const messages = textlintResult.flatMap(
     (result: TextlintResult) => result.messages
   )
-  const lintMessages: LintMessage[] = produce(
-    messages,
-    (messages: LintMessage[]) => {
-      for (const message of messages) {
-        message.page = page.pageNumber
-      }
-      return messages
-    }
-  )
-  return lintMessages
+  return messages
 }
+
+const textlintMessage2lintMessageCreator = (pageNumber: number) => (
+  textlintMessage: TextlintMessage
+): LintMessage => ({
+  ...textlintMessage,
+  page: pageNumber,
+})
