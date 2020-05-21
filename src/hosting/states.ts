@@ -1,14 +1,22 @@
 import { atom, selector } from "recoil"
 import { LintResult } from "../type"
+import { lintPDFFile } from "../pdf"
 
 export const fileState = atom<File | null>({
   key: "file",
   default: null,
 })
 
-export const lintResultState = atom<LintResult>({
+export const lintResultState = selector({
   key: "lintResult",
-  default: [],
+  get: async ({ get }) => {
+    const file = get(fileState)
+    if (file === null) {
+      return []
+    }
+    const lintResult = await lintPDFFile(file)
+    return lintResult
+  },
 })
 
 export const soloFilterState = atom<Set<string>>({

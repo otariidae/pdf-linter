@@ -1,4 +1,4 @@
-import React, { FunctionComponent, StrictMode } from "react"
+import React, { FunctionComponent, StrictMode, Suspense } from "react"
 import { useRecoilValue } from "recoil"
 import { css } from "emotion"
 import PDFViewer from "./pdfviewer"
@@ -23,7 +23,9 @@ const App: FunctionComponent<{}> = () => {
           </div>
         )}
         <div className={lintStyle}>
-          <LintResultViewer />
+          <Suspense fallback={<p>loading</p>}>
+            <LintResultViewer />
+          </Suspense>
         </div>
       </div>
     </StrictMode>

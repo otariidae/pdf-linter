@@ -1,5 +1,9 @@
-import React, { ChangeEvent, Fragment, FunctionComponent } from "react"
-import { lintPDFFile } from "../../pdf"
+import React, {
+  ChangeEvent,
+  Fragment,
+  FunctionComponent,
+  Suspense,
+} from "react"
 import { TextlintMessage } from "@textlint/kernel"
 import { LintResult } from "../../type"
 import {
@@ -75,7 +79,6 @@ const FilterForm: FunctionComponent<{}> = () => {
 
 const Form = () => {
   const setFile = useSetRecoilState(fileState)
-  const setLintResult = useSetRecoilState(lintResultState)
   return (
     <div>
       <input
@@ -88,11 +91,11 @@ const Form = () => {
           }
           const file = event.target.files[0]
           setFile(file)
-          const lintResult = await lintPDFFile(file)
-          setLintResult(lintResult)
         }}
       />
-      <FilterForm />
+      <Suspense fallback={<p>loading</p>}>
+        <FilterForm />
+      </Suspense>
     </div>
   )
 }
