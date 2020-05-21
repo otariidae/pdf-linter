@@ -83,6 +83,9 @@ const Form = () => {
         accept="application/pdf"
         aria-label="PDFファイルを選択"
         onChange={async (event: ChangeEvent<HTMLInputElement>) => {
+          if (event.target.files === null) {
+            return
+          }
           const file = event.target.files[0]
           setFile(file)
           const lintResult = await lintPDFFile(file)

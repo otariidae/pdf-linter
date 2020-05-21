@@ -1,7 +1,7 @@
 import { atom, selector } from "recoil"
 import { LintResult } from "../type"
 
-export const fileState = atom<File>({
+export const fileState = atom<File | null>({
   key: "file",
   default: null,
 })

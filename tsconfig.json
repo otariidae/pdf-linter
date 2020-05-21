@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
     "outDir": "./dist/hosting",
-    "noImplicitAny": true,
+    "strict": true,
     "module": "esnext",
     "target": "esnext",
     "sourceMap": true,
@@ -14,6 +14,7 @@
     "src"
   ],
   "exclude": [
+    "src/functions",
     "node_modules"
   ]
 }
