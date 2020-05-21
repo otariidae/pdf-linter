@@ -53,7 +53,7 @@ const FilterForm: FunctionComponent<{}> = () => {
                   title="Mute this rule"
                   disabled={soloFilter.size > 0}
                   checked={visibilityFilter.has(ruleId)}
-                  onClick={() => toggleVisibilityFilter(ruleId)}
+                  onChange={() => toggleVisibilityFilter(ruleId)}
                 />
               </td>
               <td>
@@ -61,7 +61,7 @@ const FilterForm: FunctionComponent<{}> = () => {
                   type="checkbox"
                   title="Solo this rule"
                   checked={soloFilter.has(ruleId)}
-                  onClick={() => toggleSoloFilter(ruleId)}
+                  onChange={() => toggleSoloFilter(ruleId)}
                 />
               </td>
               <td>{ruleId}</td>
