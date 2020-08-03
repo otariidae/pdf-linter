@@ -5,23 +5,19 @@
   "license": "Apache-2.0",
   "private": true,
   "scripts": {
-    "dev:functions": "tsc -p tsconfig.functions.json --watch",
-    "predev:hosting": "rm -rf dist/hosting",
-    "dev:hosting": "webpack --watch",
-    "dev:netlify": "cross-env NODE_ENV=development netlify dev",
-    "dev": "run-p dev:*",
+    "clean": "rm -rf dist",
+    "predev": "npm run clean",
+    "dev:textlint": "textlint-script-compiler --metadataName dev --metadataNamespace example.com --mode development --output-dir dist",
+    "dev": "webpack-dev-server",
     "lint": "prettier --no-semi --write \"**/*.{js,ts,tsx}\"",
-    "prebuild": "rm -rf dist",
+    "prebuild": "npm run clean",
     "build": "run-p build:*",
-    "prebuild:hosting": "make-dir dist/hosting",
-    "build:hosting": "run-p build:hosting:*",
-    "build:hosting:cmaps": "cp -r ./node_modules/pdfjs-dist/cmaps dist/hosting/",
-    "build:hosting:webpack": "webpack --mode production",
-    "build:functions": "tsc -p tsconfig.functions.json"
+    "build:cmaps": "cp -r ./node_modules/pdfjs-dist/cmaps dist/cmaps",
+    "build:webpack": "webpack --mode production",
+    "build:textlint": "textlint-script-compiler --metadataName dev --metadataNamespace example.com --mode production --output-dir dist"
   },
   "devDependencies": {
-    "@types/aws-lambda": "^8.10.51",
-    "@types/node": "^13.13.4",
+    "@textlint/script-compiler": "^0.7.0",
     "@types/pdfjs-dist": "^2.1.4",
     "@types/react": "^16.8.2",
     "@types/react-dom": "^16.8.0",
@@ -31,8 +27,6 @@
     "cross-env": "^7.0.2",
     "emotion": "^10.0.9",
     "html-webpack-plugin": "^4.3.0",
-    "make-dir-cli": "^2.0.0",
-    "netlify-cli": "^2.48.0",
     "npm-run-all": "^4.1.5",
     "pdfjs-dist": "~2.3.200",
     "prettier": "^2.0.5",
@@ -40,17 +34,16 @@
     "react-axe": "^3.1.0",
     "react-dom": "^16.8.0",
     "recoil": "^0.0.7",
+    "textlint-rule-preset-ja-technical-writing": "^4.0.1",
+    "textlint-rule-preset-japanese": "^5.0.0",
     "ts-config-webpack-plugin": "^2.0.0",
     "ts-loader": "^7.0.2",
     "typescript": "^3.5.2",
     "web-streams-polyfill": "^2.1.1",
     "webpack": "^4.26.0",
     "webpack-cli": "^3.1.2",
+    "webpack-dev-server": "^3.11.0",
     "webpack-node-externals": "^1.7.2"
   },
-  "dependencies": {
-    "textlint": "^11.0.1",
-    "textlint-rule-preset-ja-technical-writing": "^4.0.0-1",
-    "textlint-rule-preset-japanese": "^4.0.0"
-  }
+  "dependencies": {}
 }

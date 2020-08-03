@@ -9,14 +9,17 @@ module.exports = {
     module: "empty",
   },
   entry: {
-    bundle: "./src/hosting/index.tsx",
+    bundle: "./src/index.tsx",
     "bundle.worker": "pdfjs-dist/build/pdf.worker.entry.js",
   },
   mode: "development",
   devtool: "source-map",
+  devServer: {
+    contentBase: "./dist",
+  },
   plugins: [
     new HtmlWebpackPlugin({
-      template: "src/hosting/index.html",
+      template: "src/index.html",
     }),
     new TsConfigWebpackPlugin(),
   ],
@@ -24,7 +27,7 @@ module.exports = {
     extensions: [".tsx", ".ts", ".js"],
   },
   output: {
-    path: path.join(__dirname, "dist/hosting"),
+    path: path.join(__dirname, "dist"),
     filename: "[name].js",
   },
 }
