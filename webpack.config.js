@@ -1,6 +1,5 @@
 const path = require("path")
 const HtmlWebpackPlugin = require("html-webpack-plugin")
-const TsConfigWebpackPlugin = require("ts-config-webpack-plugin")
 
 module.exports = {
   context: __dirname,
@@ -21,8 +20,15 @@ module.exports = {
     new HtmlWebpackPlugin({
       template: "src/index.html",
     }),
-    new TsConfigWebpackPlugin(),
   ],
+  module: {
+    rules: [
+      {
+        test: /\.tsx?$/,
+        loader: "ts-loader",
+      },
+    ],
+  },
   resolve: {
     extensions: [".tsx", ".ts", ".js"],
   },
