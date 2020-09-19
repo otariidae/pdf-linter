@@ -6,15 +6,20 @@
   "private": true,
   "scripts": {
     "clean": "rm -rf dist",
-    "predev": "npm run clean",
-    "dev:textlint": "textlint-script-compiler --metadataName dev --metadataNamespace example.com --mode development --output-dir dist",
-    "dev": "webpack-dev-server",
+    "copy-cmaps": "cp -r ./node_modules/pdfjs-dist/cmaps dist/cmaps",
+    "compile-textlint": "textlint-script-compiler --metadataName dev --metadataNamespace example.com --mode development --output-dir dist",
+    "prepare-dir": "mkdir dist",
     "lint": "prettier --no-semi --write \"**/*.{js,ts,tsx}\"",
-    "prebuild": "npm run clean",
+    "predev": "run-s clean prepare-dir",
+    "dev": "run-p dev:*",
+    "dev:cmaps": "npm run copy-cmaps",
+    "dev:textlint": "npm run compile-textlint",
+    "dev:webpack": "webpack-dev-server",
+    "prebuild": "run-s clean prepare-dir",
     "build": "run-p build:*",
-    "build:cmaps": "cp -r ./node_modules/pdfjs-dist/cmaps dist/cmaps",
-    "build:webpack": "webpack --mode production",
-    "build:textlint": "textlint-script-compiler --metadataName dev --metadataNamespace example.com --mode production --output-dir dist"
+    "build:cmaps": "npm run copy-cmaps",
+    "build:textlint": "npm run compile-textlint",
+    "build:webpack": "webpack --mode production"
   },
   "devDependencies": {
     "@textlint/script-compiler": "^0.7.0",
