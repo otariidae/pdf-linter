@@ -5,7 +5,7 @@ import React, {
   Suspense,
 } from "react"
 import { TextlintMessage } from "@textlint/kernel"
-import { LintResult } from "../../type"
+import { LintResult } from "../type"
 import {
   fileState,
   lintResultState,

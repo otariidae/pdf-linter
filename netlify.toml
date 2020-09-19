@@ -1,8 +1,7 @@
 [build]
-  command = "npm run build"
-  publish = "dist/hosting"
-  functions = "dist/functions/functions"
-
-[dev]
-  functions = "dist/functions/functions"
-  publish = "dist/hosting"
+  publish = "dist/"
+  command = "yarn run build"
+[build.environment]
+  NODE_VERSION = "12"
+  YARN_VERSION = "1.22.5"
+  YARN_FLAGS = "--pure-lockfile"

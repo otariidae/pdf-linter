@@ -1,13 +1,23 @@
 import pdfjs, { PDFDocumentProxy, PDFPageProxy } from "pdfjs-dist"
 import { LintResult } from "./type"
+import { createTextlint } from "./textlint-worker-init"
 
 export async function lintPDFFile(file: File): Promise<LintResult> {
-  const textList = await getTextListFromPDFFile(file)
-  const response = await fetch("/.netlify/functions/lint", {
-    method: "POST",
-    body: JSON.stringify(textList),
-  })
-  const lintResult = await response.json()
+  const textPerPage = await getTextListFromPDFFile(file)
+  const textlint = await createTextlint()
+  const responses = await Promise.all(
+    textPerPage.map((text) => textlint.lintText(text))
+  )
+  textlint.exit()
+  const lintResult = responses
+    .map((response) => response.result.messages)
+    .map((messages, index) =>
+      messages.map((message) => ({
+        ...message,
+        page: index + 1,
+      }))
+    )
+    .flat()
   return lintResult
 }
 

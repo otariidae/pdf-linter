@@ -1,0 +1,7 @@
+{
+  "rules": {
+    "textlint-rule-preset-japanese": true,
+    "textlint-rule-preset-ja-technical-writing": true
+  },
+  "formatterName": "pretty-error"
+}

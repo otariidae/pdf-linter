@@ -1,6 +1,5 @@
 import { atom, selector } from "recoil"
-import { LintResult } from "../type"
-import { lintPDFFile } from "../pdf"
+import { lintPDFFile } from "./pdf"
 
 export const fileState = atom<File | null>({
   key: "file",
