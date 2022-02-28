@@ -2,6 +2,6 @@
   publish = "dist/"
   command = "yarn run build"
 [build.environment]
-  NODE_VERSION = "12"
+  NODE_VERSION = "16"
   YARN_VERSION = "1.22.5"
   YARN_FLAGS = "--pure-lockfile"
