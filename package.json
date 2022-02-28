@@ -5,7 +5,7 @@
   "license": "Apache-2.0",
   "private": true,
   "scripts": {
-    "compile-textlint": "textlint-script-compiler --metadataName dev --metadataNamespace example.com --mode development --output-dir dist",
+    "compile-textlint": "textlint-script-compiler --metadataName dev --metadataNamespace \"https://example.com\" --metadataHomepage \"https://example.com\" --mode development --output-dir dist",
     "lint": "prettier --no-semi --write \"**/*.{js,ts,tsx}\"",
     "dev": "run-p dev:*",
     "dev:textlint": "npm run compile-textlint",
@@ -15,7 +15,7 @@
     "build:webpack": "webpack --mode production"
   },
   "devDependencies": {
-    "@textlint/script-compiler": "^0.7.0",
+    "@textlint/script-compiler": "^0.12.1",
     "@types/pdfjs-dist": "^2.1.4",
     "@types/react": "^16.8.2",
     "@types/react-dom": "^16.8.0",
@@ -32,8 +32,8 @@
     "react-axe": "^3.1.0",
     "react-dom": "^16.8.0",
     "recoil": "^0.0.13",
-    "textlint-rule-preset-ja-technical-writing": "^4.0.1",
-    "textlint-rule-preset-japanese": "^5.0.0",
+    "textlint-rule-preset-ja-technical-writing": "^7.0.0",
+    "textlint-rule-preset-japanese": "^7.0.0",
     "ts-loader": "^9.2.6",
     "typescript": "^3.5.2",
     "webpack": "^5.69.1",
