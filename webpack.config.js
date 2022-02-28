@@ -1,12 +1,11 @@
 const path = require("path")
 const HtmlWebpackPlugin = require("html-webpack-plugin")
+const CopyPlugin = require("copy-webpack-plugin")
+
+const outpath = path.join(__dirname, "dist")
 
 module.exports = {
   context: __dirname,
-  node: {
-    fs: "empty",
-    module: "empty",
-  },
   entry: {
     bundle: "./src/index.tsx",
     "bundle.worker": "pdfjs-dist/build/pdf.worker.entry.js",
@@ -14,12 +13,17 @@ module.exports = {
   mode: "development",
   devtool: "source-map",
   devServer: {
-    contentBase: "./dist",
+    static: {
+      directory: outpath
+    }
   },
   plugins: [
     new HtmlWebpackPlugin({
-      template: "src/index.html",
+      template: "src/index.html"
     }),
+    new CopyPlugin({
+      patterns: [{ from: "node_modules/pdfjs-dist/cmaps", to: "cmaps" }]
+    })
   ],
   module: {
     rules: [
@@ -33,7 +37,8 @@ module.exports = {
     extensions: [".tsx", ".ts", ".js"],
   },
   output: {
-    path: path.join(__dirname, "dist"),
+    path: outpath,
     filename: "[name].js",
+    clean: true
   },
 }
