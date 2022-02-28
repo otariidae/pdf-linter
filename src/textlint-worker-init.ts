@@ -27,7 +27,7 @@ const waitForTextlintWorkerInitialized = (worker: Worker): Promise<void> => {
 }
 
 export const createTextlint = async () => {
-  const worker = new Worker("textlint.js")
+  const worker = new Worker("textlint-worker.js")
 
   await waitForTextlintWorkerInitialized(worker)
 
