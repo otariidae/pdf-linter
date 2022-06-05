@@ -1,4 +1,4 @@
-import React from "react"
+import React, { VFC } from "react"
 import { css } from "emotion"
 
 type PDFViewerProp = {
@@ -10,7 +10,9 @@ const className = css`
   height: 100%;
 `
 
-export default ({ file }: PDFViewerProp) => {
+const PDFViewer: VFC<PDFViewerProp> = ({ file }) => {
   const url = URL.createObjectURL(file)
   return <embed src={url} className={className} />
 }
+
+export default PDFViewer

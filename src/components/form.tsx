@@ -1,9 +1,4 @@
-import React, {
-  ChangeEvent,
-  Fragment,
-  FunctionComponent,
-  Suspense,
-} from "react"
+import React, { ChangeEvent, Fragment, Suspense, VFC } from "react"
 import { TextlintMessage } from "@textlint/kernel"
 import { LintResult } from "../type"
 import {
@@ -23,7 +18,7 @@ const getTextlintRuleId = (lintResults: LintResult) =>
     lintResults.map((message: TextlintMessage) => message.ruleId)
   )
 
-const FilterForm: FunctionComponent<{}> = () => {
+const FilterForm: VFC = () => {
   const lintResult = useRecoilValue(lintResultState)
   const [visibilityFilter, setVisibilityFilter] = useRecoilState(
     visibilityFilterState
@@ -77,7 +72,7 @@ const FilterForm: FunctionComponent<{}> = () => {
   )
 }
 
-const Form = () => {
+const Form: VFC = () => {
   const setFile = useSetRecoilState(fileState)
   return (
     <div>

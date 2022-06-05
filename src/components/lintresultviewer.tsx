@@ -1,4 +1,4 @@
-import React, { FunctionComponent } from "react"
+import React, { VFC } from "react"
 import { css, cx } from "emotion"
 import { filteredLintResultState } from "../states"
 import { useRecoilValue } from "recoil"
@@ -15,7 +15,7 @@ const tableStyle = css`
   width: 100%;
 `
 
-const LintResultViewer: FunctionComponent<{}> = () => {
+const LintResultViewer: VFC = () => {
   const lintResult = useRecoilValue(filteredLintResultState)
   return (
     <table className={tableStyle}>
