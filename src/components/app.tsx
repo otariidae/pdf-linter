@@ -1,4 +1,4 @@
-import React, { FunctionComponent, Suspense } from "react"
+import React, { Suspense, VFC } from "react"
 import { useRecoilValue } from "recoil"
 import { css } from "emotion"
 import PDFViewer from "./pdfviewer"
@@ -6,7 +6,7 @@ import LintResultViewer from "./lintresultviewer"
 import Form from "./form"
 import { fileState } from "../states"
 
-const App: FunctionComponent<{}> = () => {
+const App: VFC = () => {
   const file = useRecoilValue(fileState)
   return (
     <div className={appStyle}>
