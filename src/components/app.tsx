@@ -1,4 +1,4 @@
-import React, { FunctionComponent, StrictMode, Suspense } from "react"
+import React, { FunctionComponent, Suspense } from "react"
 import { useRecoilValue } from "recoil"
 import { css } from "emotion"
 import PDFViewer from "./pdfviewer"
@@ -9,26 +9,24 @@ import { fileState } from "../states"
 const App: FunctionComponent<{}> = () => {
   const file = useRecoilValue(fileState)
   return (
-    <StrictMode>
-      <div className={appStyle}>
-        <header className={headerStyle}>
-          <h1 className={headingStyle}>PDF Linter</h1>
-        </header>
-        <div className={formStyle}>
-          <Form />
-        </div>
-        {file === null ? undefined : (
-          <div className={pdfStyle}>
-            <PDFViewer file={file} />
-          </div>
-        )}
-        <div className={lintStyle}>
-          <Suspense fallback={<p>loading</p>}>
-            <LintResultViewer />
-          </Suspense>
-        </div>
+    <div className={appStyle}>
+      <header className={headerStyle}>
+        <h1 className={headingStyle}>PDF Linter</h1>
+      </header>
+      <div className={formStyle}>
+        <Form />
       </div>
-    </StrictMode>
+      {file === null ? undefined : (
+        <div className={pdfStyle}>
+          <PDFViewer file={file} />
+        </div>
+      )}
+      <div className={lintStyle}>
+        <Suspense fallback={<p>loading</p>}>
+          <LintResultViewer />
+        </Suspense>
+      </div>
+    </div>
   )
 }
 
