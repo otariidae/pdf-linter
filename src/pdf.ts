@@ -1,6 +1,7 @@
-import pdfjs, { PDFDocumentProxy, PDFPageProxy } from "pdfjs-dist"
+import * as pdfjs from "pdfjs-dist"
 import { LintResult } from "./type"
 import { createTextlint } from "./textlint-worker-init"
+import { TextItem } from "pdfjs-dist/types/src/display/api"
 
 export async function lintPDFFile(file: File): Promise<LintResult> {
   const textPerPage = await getTextListFromPDFFile(file)
@@ -25,10 +26,11 @@ async function getTextListFromPDFFile(file: File): Promise<string[]> {
   const doc = await getPDFDoc(file)
   const pages = await Promise.all(forEachPage(doc))
   const textList = await Promise.all(pages.map((page) => getTextFromPage(page)))
+  console.log(textList)
   return textList
 }
 
-async function getPDFDoc(file: File): Promise<PDFDocumentProxy> {
+async function getPDFDoc(file: File): Promise<pdfjs.PDFDocumentProxy> {
   const uint8 = await file2uint8(file)
   const pdfDocument = await pdfjs.getDocument({
     data: uint8,
@@ -39,16 +41,19 @@ async function getPDFDoc(file: File): Promise<PDFDocumentProxy> {
 }
 
 function* forEachPage(
-  pdfDocument: PDFDocumentProxy
-): Iterable<PromiseLike<PDFPageProxy>> {
+  pdfDocument: pdfjs.PDFDocumentProxy
+): Iterable<PromiseLike<pdfjs.PDFPageProxy>> {
   for (let i = 1; i <= pdfDocument.numPages; i++) {
-    const page = pdfDocument.getPage(i) as PromiseLike<PDFPageProxy>
+    const page = pdfDocument.getPage(i) as PromiseLike<pdfjs.PDFPageProxy>
     yield page
   }
 }
 
-async function getTextFromPage(pdfPage: PDFPageProxy): Promise<string> {
-  const texts = (await pdfPage.getTextContent()).items
+async function getTextFromPage(pdfPage: pdfjs.PDFPageProxy): Promise<string> {
+  const textContent = await pdfPage.getTextContent()
+  const texts = textContent.items.filter(
+    (item): item is TextItem => "str" in item
+  )
   let text = ""
   if (texts.length !== 0) {
     text += texts[0].str
