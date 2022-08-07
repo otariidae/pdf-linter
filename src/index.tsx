@@ -4,7 +4,7 @@ import { RecoilRoot } from "recoil"
 import App from "./components/app"
 
 if (process.env.NODE_ENV !== "production") {
-  const axe = require("react-axe")
+  const axe = require("@axe-core/react")
   axe(React, ReactDOM, 1000)
 }
 render(
