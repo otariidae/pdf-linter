@@ -39,9 +39,11 @@ const FilterForm: VFC = () => {
       <p>Rules</p>
       <table>
         <thead>
-          <th>Mute</th>
-          <th>Solo</th>
-          <th>Rule Name</th>
+          <tr>
+            <th>Mute</th>
+            <th>Solo</th>
+            <th>Rule Name</th>
+          </tr>
         </thead>
         <tbody>
           {getTextlintRuleId(lintResult).map((ruleId, i) => (
