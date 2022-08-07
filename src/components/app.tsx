@@ -1,4 +1,4 @@
-import React, { Suspense, VFC } from "react"
+import { Suspense, VFC } from "react"
 import { useRecoilValue } from "recoil"
 import { css } from "emotion"
 import PDFViewer from "./pdfviewer"

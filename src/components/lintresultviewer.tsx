@@ -1,4 +1,4 @@
-import React, { VFC } from "react"
+import { VFC } from "react"
 import { css, cx } from "emotion"
 import { filteredLintResultState } from "../states"
 import { useRecoilValue } from "recoil"

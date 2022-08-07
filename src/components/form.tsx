@@ -1,4 +1,4 @@
-import React, { ChangeEvent, Fragment, Suspense, VFC } from "react"
+import { ChangeEvent, Fragment, Suspense, VFC } from "react"
 import { TextlintMessage } from "@textlint/kernel"
 import { LintResult } from "../type"
 import {
