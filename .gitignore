@@ -1,4 +1,5 @@
 dist
+public/textlint-worker.js
 *.map
 *.pdf
 
