@@ -13,19 +13,21 @@
     "build": "tsc && vite build",
     "preview": "vite preview"
   },
-  "devDependencies": {
+  "dependencies": {
     "@axe-core/react": "^4.4.3",
+    "emotion": "^10.0.9",
+    "pdfjs-dist": "~2.12.313",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2",
+    "recoil": "^0.7.4"
+  },
+  "devDependencies": {
     "@textlint/script-compiler": "^0.12.1",
     "@types/pdfjs-dist": "^2.1.4",
     "@types/react": "^17.0.48",
     "@types/react-dom": "^17.0.11",
     "@vitejs/plugin-react": "^2.0.0",
-    "emotion": "^10.0.9",
-    "pdfjs-dist": "~2.12.313",
     "prettier": "^2.0.5",
-    "react": "^17.0.2",
-    "react-dom": "^17.0.2",
-    "recoil": "^0.7.4",
     "textlint-rule-preset-ja-technical-writing": "^7.0.0",
     "textlint-rule-preset-japanese": "^7.0.0",
     "typescript": "^4.4.4",
