@@ -1,6 +1,6 @@
-import { ChangeEvent, Fragment, Suspense, VFC } from "react"
-import { TextlintMessage } from "@textlint/kernel"
-import { LintResult } from "../type"
+import { type ChangeEvent, Fragment, Suspense, type VFC } from "react"
+import { type TextlintMessage } from "@textlint/kernel"
+import { type LintResult } from "../type"
 import {
   fileState,
   lintResultState,
@@ -82,7 +82,7 @@ const Form: VFC = () => {
         type="file"
         accept="application/pdf"
         aria-label="PDFファイルを選択"
-        onChange={async (event: ChangeEvent<HTMLInputElement>) => {
+        onChange={(event: ChangeEvent<HTMLInputElement>) => {
           if (event.target.files === null) {
             return
           }

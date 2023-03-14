@@ -12,7 +12,9 @@
     "esModuleInterop": true
   },
   "include": [
-    "src"
+    "src",
+    ".eslintrc.js",
+    "vite.config.ts"
   ],
   "exclude": [
     "node_modules"

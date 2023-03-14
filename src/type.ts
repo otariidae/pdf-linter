@@ -1,4 +1,4 @@
-import { TextlintMessage } from "@textlint/kernel"
+import { type TextlintMessage } from "@textlint/kernel"
 
 export interface LintMessage extends TextlintMessage {
   page: number

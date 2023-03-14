@@ -1,7 +1,7 @@
-import { VFC } from "react"
+import { type VFC } from "react"
 import { css } from "emotion"
 
-type PDFViewerProp = {
+interface PDFViewerProp {
   file: File
 }
 
