@@ -1,0 +1,3 @@
+dist/
+public/textlint-worker.js
+vite.config.ts

@@ -1,7 +1,7 @@
 import * as pdfjs from "pdfjs-dist"
-import { LintResult } from "./type"
+import { type LintResult } from "./type"
 import { createTextlint } from "./textlint-worker-init"
-import { TextItem } from "pdfjs-dist/types/src/display/api"
+import { type TextItem } from "pdfjs-dist/types/src/display/api"
 
 export async function lintPDFFile(file: File): Promise<LintResult> {
   const textPerPage = await getTextListFromPDFFile(file)
@@ -58,7 +58,7 @@ async function getTextFromPage(pdfPage: pdfjs.PDFPageProxy): Promise<string> {
   if (texts.length !== 0) {
     text += texts[0].str
   }
-  for (const [pre, cur] of forEachTwo(texts)) {
+  for (const [pre, cur] of slidingWindows2(texts)) {
     if (pre.transform[5] === cur.transform[5]) {
       text += cur.str
       continue
@@ -68,11 +68,13 @@ async function getTextFromPage(pdfPage: pdfjs.PDFPageProxy): Promise<string> {
   return text.replace(/\0/g, "")
 }
 
-function* forEachTwo<T>(iterable: Iterable<T>): Iterable<[T, T]> {
-  let pre = iterable[Symbol.iterator]().next().value
-  for (const cur of iterable) {
-    yield [pre, cur]
-    pre = cur
+/**
+ * inspired by Deno collections slidingWindows
+ * https://deno.land/std@0.107.0/collections/mod.ts?s=slidingWindows
+ */
+function* slidingWindows2<T>(array: readonly T[]): Iterable<[T, T]> {
+  for (let i = 0; i < array.length - 1; i++) {
+    yield [array[i], array[i + 1]]
   }
 }
 

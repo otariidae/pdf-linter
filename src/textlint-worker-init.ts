@@ -11,8 +11,8 @@ const waitForTextlintWorkerInitialized = (worker: Worker): Promise<void> => {
   let _resolve: PromiseResolver<void> | null = null
   worker.addEventListener(
     "message",
-    (event) => {
-      const data: TextlintWorkerCommandResponse = event.data
+    (event: MessageEvent<TextlintWorkerCommandResponse>) => {
+      const data = event.data
       if (data.command === "init" && _resolve !== null) {
         _resolve()
       }
@@ -35,8 +35,8 @@ export const createTextlint = async () => {
     new Promise((resolve) => {
       worker.addEventListener(
         "message",
-        (event) => {
-          const data: TextlintWorkerCommandResponse = event.data
+        (event: MessageEvent<TextlintWorkerCommandResponse>) => {
+          const data = event.data
           if (data.command !== "lint:result") {
             return
           }
