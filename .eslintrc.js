@@ -4,7 +4,7 @@ module.exports = {
     "plugin:@typescript-eslint/recommended",
     "plugin:@typescript-eslint/recommended-requiring-type-checking",
     "plugin:@typescript-eslint/strict",
-    "prettier"
+    "prettier",
   ],
   parser: "@typescript-eslint/parser",
   parserOptions: {
@@ -12,9 +12,12 @@ module.exports = {
   },
   plugins: ["@typescript-eslint"],
   rules: {
-    "@typescript-eslint/consistent-type-imports": ["error", {
-      fixStyle: "inline-type-imports"
-    }],
+    "@typescript-eslint/consistent-type-imports": [
+      "error",
+      {
+        fixStyle: "inline-type-imports",
+      },
+    ],
   },
   env: {
     node: true,
