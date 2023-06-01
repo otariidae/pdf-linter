@@ -7,6 +7,7 @@
   "scripts": {
     "compile-textlint": "textlint-script-compiler --metadataName dev --metadataNamespace \"https://example.com\" --metadataHomepage \"https://example.com\" --mode development --output-dir public",
     "lint": "eslint --fix .",
+    "lintcheck": "eslint .",
     "fmt": "prettier --no-semi --write \"**/*.{js,ts,tsx}\"",
     "predev": "npm run compile-textlint",
     "dev": "vite",
