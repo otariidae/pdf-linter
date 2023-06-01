@@ -9,6 +9,7 @@
     "lint": "eslint --fix .",
     "lintcheck": "eslint .",
     "fmt": "prettier --no-semi --write \"**/*.{js,ts,tsx}\"",
+    "fmtcheck": "prettier --no-semi --check \"**/*.{js,ts,tsx}\"",
     "predev": "npm run compile-textlint",
     "dev": "vite",
     "prebuild": "npm run compile-textlint",

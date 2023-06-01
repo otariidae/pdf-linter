@@ -36,6 +36,7 @@ jobs:
         run: |
           npm ci
           npm run lintcheck
+          npm run fmtcheck
           npm run build
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v1
