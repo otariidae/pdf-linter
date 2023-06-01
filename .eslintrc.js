@@ -18,6 +18,7 @@ module.exports = {
         fixStyle: "inline-type-imports",
       },
     ],
+    "@typescript-eslint/strict-boolean-expressions": "error",
   },
   env: {
     node: true,
