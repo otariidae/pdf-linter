@@ -31,9 +31,9 @@ async function getTextListFromPDFFile(file: File): Promise<string[]> {
 }
 
 async function getPDFDoc(file: File): Promise<pdfjs.PDFDocumentProxy> {
-  const uint8 = await file2uint8(file)
+  const arrayBuffer = await file.arrayBuffer()
   const pdfDocument = await pdfjs.getDocument({
-    data: uint8,
+    data: arrayBuffer,
     cMapUrl: "./cmaps/",
     cMapPacked: true,
   }).promise
@@ -76,19 +76,4 @@ function* slidingWindows2<T>(array: readonly T[]): Iterable<[T, T]> {
   for (let i = 0; i < array.length - 1; i++) {
     yield [array[i], array[i + 1]]
   }
-}
-
-async function file2uint8(file: File): Promise<Uint8Array> {
-  const arrayBuf = await readAsArrayBuffer(file)
-  const uint8arr = new Uint8Array(arrayBuf)
-  return uint8arr
-}
-
-function readAsArrayBuffer(file: File): Promise<ArrayBuffer> {
-  return new Promise((resolve, reject) => {
-    const reader = new FileReader()
-    reader.addEventListener("load", () => resolve(reader.result as ArrayBuffer))
-    reader.addEventListener("error", () => reject(reader.error))
-    reader.readAsArrayBuffer(file)
-  })
 }
