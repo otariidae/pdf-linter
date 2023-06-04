@@ -6,9 +6,12 @@ import { type TextItem } from "pdfjs-dist/types/src/display/api"
 export async function lintPDFFile(file: File): Promise<LintResult> {
   const textPerPage = await extractTextFromPDFFile(file)
   const textlint = await createTextlint()
-  const responses = await Promise.all(
-    textPerPage.map((text) => textlint.lintText(text))
-  )
+  const responses = []
+  for (const text of texts) {
+    // lintText seems to have to be called serially to avoid race condition
+    const response = await textlint.lintText(text)
+    responses.push(response)
+  }
   textlint.exit()
   const lintResult = responses
     .map((response) => response.result.messages)
