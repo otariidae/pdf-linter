@@ -1,19 +1,31 @@
 import { atom, selector } from "recoil"
-import { lintPDFFile } from "./pdf"
+import { extractTextFromPDFFile, lintPDFTexts } from "./pdf"
 
 export const fileState = atom<File | null>({
   key: "file",
   default: null,
 })
 
-export const lintResultState = selector({
-  key: "lintResult",
+export const fileTextContentsState = selector({
+  key: "fileTextContents",
   get: async ({ get }) => {
     const file = get(fileState)
     if (file === null) {
+      return null
+    }
+    const fileTextContents = await extractTextFromPDFFile(file)
+    return fileTextContents
+  },
+})
+
+export const lintResultState = selector({
+  key: "lintResult",
+  get: async ({ get }) => {
+    const fileTextContents = get(fileTextContentsState)
+    if (fileTextContents === null) {
       return []
     }
-    const lintResult = await lintPDFFile(file)
+    const lintResult = await lintPDFTexts(fileTextContents)
     return lintResult
   },
 })

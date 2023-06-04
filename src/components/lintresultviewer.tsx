@@ -37,7 +37,9 @@ const LintResultViewer: VFC = () => {
         {lintResult.map((message, i) => (
           <tr key={i}>
             <td>{message.page}</td>
-            <td>{message.line}</td>
+            <td>
+              <a href={`#p${message.page}-l${message.line}`}>{message.line}</a>
+            </td>
             <td>{message.column}</td>
             <td>{message.message}</td>
           </tr>

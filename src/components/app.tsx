@@ -1,34 +1,29 @@
 import { Suspense, type VFC } from "react"
-import { useRecoilValue } from "recoil"
 import { css } from "emotion"
-import PDFViewer from "./pdfviewer"
+import PDFTextViewer from "./pdftextviewer"
 import LintResultViewer from "./lintresultviewer"
 import Form from "./form"
-import { fileState } from "../states"
 
-const App: VFC = () => {
-  const file = useRecoilValue(fileState)
-  return (
-    <div className={appStyle}>
-      <header className={headerStyle}>
-        <h1 className={headingStyle}>PDF Linter</h1>
-      </header>
-      <div className={formStyle}>
-        <Form />
-      </div>
-      {file === null ? undefined : (
-        <div className={pdfStyle}>
-          <PDFViewer file={file} />
-        </div>
-      )}
-      <div className={lintStyle}>
-        <Suspense fallback={<p>loading</p>}>
-          <LintResultViewer />
-        </Suspense>
-      </div>
+const App: VFC = () => (
+  <div className={appStyle}>
+    <header className={headerStyle}>
+      <h1 className={headingStyle}>PDF Linter</h1>
+    </header>
+    <div className={formStyle}>
+      <Form />
     </div>
-  )
-}
+    <div className={pdfStyle}>
+      <Suspense fallback={<p>loading</p>}>
+        <PDFTextViewer />
+      </Suspense>
+    </div>
+    <div className={lintStyle}>
+      <Suspense fallback={<p>loading</p>}>
+        <LintResultViewer />
+      </Suspense>
+    </div>
+  </div>
+)
 
 const appStyle = css`
   height: 100vh;
@@ -57,6 +52,7 @@ const headingStyle = css`
 
 const pdfStyle = css`
   grid-area: pdf;
+  overflow: auto;
 `
 const lintStyle = css`
   grid-area: lint;

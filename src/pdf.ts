@@ -3,8 +3,7 @@ import { type LintResult } from "./type"
 import { createTextlint } from "./textlint-worker-init"
 import { type TextItem } from "pdfjs-dist/types/src/display/api"
 
-export async function lintPDFFile(file: File): Promise<LintResult> {
-  const textPerPage = await extractTextFromPDFFile(file)
+export async function lintPDFTexts(texts: string[]): Promise<LintResult> {
   const textlint = await createTextlint()
   const responses = []
   for (const text of texts) {
@@ -15,13 +14,12 @@ export async function lintPDFFile(file: File): Promise<LintResult> {
   textlint.exit()
   const lintResult = responses
     .map((response) => response.result.messages)
-    .map((messages, index) =>
+    .flatMap((messages, index) =>
       messages.map((message) => ({
         ...message,
         page: index + 1,
       }))
     )
-    .flat()
   return lintResult
 }
 
@@ -31,7 +29,6 @@ export async function extractTextFromPDFFile(file: File): Promise<string[]> {
   const textList = await Promise.all(
     pages.map((page) => extractTextFromPage(page))
   )
-  console.log(textList)
   return textList
 }
 
