@@ -1,7 +1,11 @@
 {
   "rules": {
     "textlint-rule-preset-japanese": true,
-    "textlint-rule-preset-ja-technical-writing": true
+    "textlint-rule-preset-ja-technical-writing": {
+      "ja-no-mixed-period": {
+        "severity": "info"
+      }
+    }
   },
   "formatterName": "pretty-error"
 }
