@@ -9,7 +9,7 @@ import {
   visibilityFilterState,
 } from "../states"
 import {
-  TextlintRuleSeverityLevel,
+  type TextlintRuleSeverityLevel,
   type TextlintMessage,
 } from "@textlint/kernel"
 import { type LintResult } from "../type"

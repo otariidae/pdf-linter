@@ -1,5 +1,5 @@
-import { Fragment, VFC } from "react"
-import { TextlintRuleSeverityLevel } from "@textlint/types"
+import { type VFC } from "react"
+import { type TextlintRuleSeverityLevel } from "@textlint/types"
 
 const severityTextMap: Record<TextlintRuleSeverityLevel, string> = {
   0: "info",
@@ -7,16 +7,15 @@ const severityTextMap: Record<TextlintRuleSeverityLevel, string> = {
   2: "error",
 }
 
-type LintStatsProps = {
+interface LintStatsProps {
   lintStats: Record<TextlintRuleSeverityLevel, number>
 }
 const LintStats: VFC<LintStatsProps> = ({ lintStats }) => (
   <ul>
     {Object.entries(lintStats).map(([severity, count]) => (
       <li key={severity}>
-        {count +
-          " " +
-          severityTextMap[severity as unknown as TextlintRuleSeverityLevel]}
+        {count}{" "}
+        {severityTextMap[severity as unknown as TextlintRuleSeverityLevel]}
       </li>
     ))}
   </ul>
