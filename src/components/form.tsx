@@ -1,109 +1,55 @@
-import { type ChangeEvent, Fragment, Suspense, type VFC } from "react"
-import { type TextlintMessage } from "@textlint/kernel"
-import { type LintResult } from "../type"
-import {
-  fileState,
-  lintResultState,
-  soloFilterState,
-  visibilityFilterState,
-} from "../states"
-import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil"
+import { Fragment, type VFC } from "react"
 
-function removeDuplicateArray<T>(arr: T[]): T[] {
-  return [...new Set(arr)]
+interface FilterFormProps {
+  ruleIds: string[]
+  muteIds: Set<string>
+  soloIds: Set<string>
+  toggleMute: (ruleId: string) => void
+  toggleSolo: (ruleId: string) => void
 }
-
-const getTextlintRuleId = (lintResults: LintResult) =>
-  removeDuplicateArray(
-    lintResults.map((message: TextlintMessage) => message.ruleId)
-  )
-
-const FilterForm: VFC = () => {
-  const lintResult = useRecoilValue(lintResultState)
-  const [visibilityFilter, setVisibilityFilter] = useRecoilState(
-    visibilityFilterState
-  )
-  const [soloFilter, setSoloFilter] = useRecoilState(soloFilterState)
-  const toggleVisibilityFilter = (ruleId: string) => {
-    const newVisibilityFilter = new Set(visibilityFilter)
-    toggleSet(newVisibilityFilter, ruleId)
-    setVisibilityFilter(newVisibilityFilter)
-  }
-  const toggleSoloFilter = (ruleId: string) => {
-    const newSoloFilter = new Set(soloFilter)
-    toggleSet(newSoloFilter, ruleId)
-    setSoloFilter(newSoloFilter)
-  }
-  return (
-    <Fragment>
-      <p>Rules</p>
-      <table>
-        <thead>
-          <tr>
-            <th>Mute</th>
-            <th>Solo</th>
-            <th>Rule Name</th>
+const FilterForm: VFC<FilterFormProps> = ({
+  ruleIds,
+  muteIds,
+  soloIds,
+  toggleMute,
+  toggleSolo,
+}) => (
+  <Fragment>
+    <p>Rules</p>
+    <table>
+      <thead>
+        <tr>
+          <th>Mute</th>
+          <th>Solo</th>
+          <th>Rule Name</th>
+        </tr>
+      </thead>
+      <tbody>
+        {ruleIds.map((ruleId, i) => (
+          <tr key={i}>
+            <td>
+              <input
+                type="checkbox"
+                title="Mute this rule"
+                disabled={soloIds.size > 0}
+                checked={muteIds.has(ruleId)}
+                onChange={() => toggleMute(ruleId)}
+              />
+            </td>
+            <td>
+              <input
+                type="checkbox"
+                title="Solo this rule"
+                checked={soloIds.has(ruleId)}
+                onChange={() => toggleSolo(ruleId)}
+              />
+            </td>
+            <td>{ruleId}</td>
           </tr>
-        </thead>
-        <tbody>
-          {getTextlintRuleId(lintResult).map((ruleId, i) => (
-            <tr key={i}>
-              <td>
-                <input
-                  type="checkbox"
-                  title="Mute this rule"
-                  disabled={soloFilter.size > 0}
-                  checked={visibilityFilter.has(ruleId)}
-                  onChange={() => toggleVisibilityFilter(ruleId)}
-                />
-              </td>
-              <td>
-                <input
-                  type="checkbox"
-                  title="Solo this rule"
-                  checked={soloFilter.has(ruleId)}
-                  onChange={() => toggleSoloFilter(ruleId)}
-                />
-              </td>
-              <td>{ruleId}</td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-    </Fragment>
-  )
-}
+        ))}
+      </tbody>
+    </table>
+  </Fragment>
+)
 
-const Form: VFC = () => {
-  const setFile = useSetRecoilState(fileState)
-  return (
-    <div>
-      <input
-        type="file"
-        accept="application/pdf"
-        aria-label="PDFファイルを選択"
-        onChange={(event: ChangeEvent<HTMLInputElement>) => {
-          if (event.target.files === null) {
-            return
-          }
-          const file = event.target.files[0]
-          setFile(file)
-        }}
-      />
-      <Suspense fallback={<p>loading</p>}>
-        <FilterForm />
-      </Suspense>
-    </div>
-  )
-}
-
-export default Form
-
-function toggleSet<T>(set: Set<T>, item: T) {
-  if (set.has(item)) {
-    set.delete(item)
-  } else {
-    set.add(item)
-  }
-  return set
-}
+export default FilterForm
