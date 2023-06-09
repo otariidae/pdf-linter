@@ -29,13 +29,19 @@ const textViewerClassName = css`
     suffix: "";
   }
 
-  list-style: dotless-item;
+  list-style-type: dotless-item;
+  list-style-position: outside;
+  padding-inline-start: 3ex;
 
   li {
-    margin-left: 0.5em;
+    padding-left: 0.5em;
 
     &:target {
       background-color: moccasin;
+    }
+    &::marker {
+      font-family: monospace;
+      color: rgba(0, 0, 0, 0.5);
     }
   }
 `
