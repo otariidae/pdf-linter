@@ -11,7 +11,7 @@ import {
 import { type TextlintMessage } from "@textlint/kernel"
 import { type LintResult } from "../type"
 import FilterForm from "./form"
-import { LayoutContainer, LayoutItem } from "./layout"
+import { LayoutContainer, LayoutItem, Block } from "./layout"
 import LintResultViewer from "./lintresultviewer"
 import PDFTextViewer from "./pdftextviewer"
 
@@ -48,10 +48,41 @@ const AppLayout: VFC<AppLayoutProps> = ({
   </LayoutContainer>
 )
 
+const TitleLine = () => (
+  <div style={{ display: "inline-flex", alignItems: "end" }}>
+    <h1 style={{ margin: 0, fontSize: "1.25rem" }}>PDF Linter</h1>
+    <p
+      style={{
+        marginTop: 0,
+        marginLeft: "0.5em",
+        marginBottom: 0,
+        verticalAlign: "bottom",
+      }}
+    >
+      Find problems with text in your PDF file
+    </p>
+  </div>
+)
+
+interface HeaderLayoutProps {
+  titleline: ReactElement
+}
+const HeaderLayout: VFC<HeaderLayoutProps> = ({ titleline }) => (
+  <LayoutContainer
+    style={{
+      gridTemplateAreas: '"titleline"',
+      gridTemplateColumns: "1fr",
+      alignContent: "center",
+    }}
+  >
+    <LayoutItem area="titleline">{titleline}</LayoutItem>
+  </LayoutContainer>
+)
+
 const Header = () => (
-  <header>
-    <h1>PDF Linter</h1>
-  </header>
+  <Block as="header">
+    <HeaderLayout titleline={<TitleLine />} />
+  </Block>
 )
 
 function removeDuplicateArray<T>(arr: T[]): T[] {
