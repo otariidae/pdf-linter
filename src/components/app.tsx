@@ -8,18 +8,23 @@ import {
   soloFilterState,
   visibilityFilterState,
 } from "../states"
-import { type TextlintMessage } from "@textlint/kernel"
+import {
+  TextlintRuleSeverityLevel,
+  type TextlintMessage,
+} from "@textlint/kernel"
 import { type LintResult } from "../type"
 import FilterForm from "./form"
 import { LayoutContainer, LayoutItem, Block } from "./layout"
 import LintResultViewer from "./lintresultviewer"
 import PDFTextViewer from "./pdftextviewer"
+import LintStats from "./lintstats"
 
 interface AppLayoutProps {
   header: ReactElement
   form: ReactElement
   pdfTextViewer: ReactElement
   lintResultViewer: ReactElement
+  lintStats: ReactElement
 }
 
 const AppLayout: VFC<AppLayoutProps> = ({
@@ -27,13 +32,14 @@ const AppLayout: VFC<AppLayoutProps> = ({
   form,
   pdfTextViewer,
   lintResultViewer,
+  lintStats,
 }) => (
   <LayoutContainer
     style={{
       gridTemplateAreas: `
-        "header header header"
-        "form pdf lint"`,
-      gridTemplateColumns: "300px 1fr 1fr",
+        "header header header header"
+        "form pdf lint stats"`,
+      gridTemplateColumns: "2fr 4fr 3fr 1fr",
       gridTemplateRows: "3rem 1fr",
     }}
   >
@@ -44,6 +50,9 @@ const AppLayout: VFC<AppLayoutProps> = ({
     </LayoutItem>
     <LayoutItem area="lint" scrollable>
       {lintResultViewer}
+    </LayoutItem>
+    <LayoutItem area="stats" scrollable>
+      {lintStats}
     </LayoutItem>
   </LayoutContainer>
 )
@@ -161,6 +170,19 @@ const LintResultViewerLogicContainer = () => {
   return <LintResultViewer lintResult={lintResult} />
 }
 
+const LintStatsLogicContainer = () => {
+  const lintResult = useRecoilValue(filteredLintResultState)
+  const stats: Record<TextlintRuleSeverityLevel, number> = {
+    0: 0,
+    1: 0,
+    2: 0,
+  }
+  for (const message of lintResult) {
+    stats[message.severity]++
+  }
+  return <LintStats lintStats={stats} />
+}
+
 const App = () => (
   <AppLayout
     header={<Header />}
@@ -177,6 +199,11 @@ const App = () => (
     lintResultViewer={
       <Suspense fallback={<p>loading</p>}>
         <LintResultViewerLogicContainer />
+      </Suspense>
+    }
+    lintStats={
+      <Suspense fallback={<p>loading</p>}>
+        <LintStatsLogicContainer />
       </Suspense>
     }
   />
