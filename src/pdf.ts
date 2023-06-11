@@ -1,7 +1,15 @@
-import * as pdfjs from "pdfjs-dist"
+import {
+  getDocument,
+  GlobalWorkerOptions,
+  type PDFDocumentProxy,
+  type PDFPageProxy,
+} from "pdfjs-dist"
+import PdfjsWorker from "pdfjs-dist/build/pdf.worker?worker"
 import { type LintResult } from "./type"
 import { createTextlint } from "./textlint-worker-init"
 import { type TextItem } from "pdfjs-dist/types/src/display/api"
+
+GlobalWorkerOptions.workerPort = new PdfjsWorker()
 
 export async function lintPDFTexts(texts: string[]): Promise<LintResult> {
   const textlint = await createTextlint()
@@ -32,9 +40,7 @@ export async function extractTextFromPDFFile(file: File): Promise<string[]> {
   return textList
 }
 
-async function extractTextFromPage(
-  pdfPage: pdfjs.PDFPageProxy
-): Promise<string> {
+async function extractTextFromPage(pdfPage: PDFPageProxy): Promise<string> {
   let text = ""
   for await (const line of extractLinesFromPage(pdfPage)) {
     text += line + "\n"
@@ -42,7 +48,7 @@ async function extractTextFromPage(
   return text.replace(/\0/g, "")
 }
 
-async function* extractLinesFromPage(pdfPage: pdfjs.PDFPageProxy) {
+async function* extractLinesFromPage(pdfPage: PDFPageProxy) {
   const textContent = await pdfPage.getTextContent()
   const texts = textContent.items.filter(
     (item): item is TextItem => "str" in item
@@ -57,9 +63,9 @@ async function* extractLinesFromPage(pdfPage: pdfjs.PDFPageProxy) {
   }
 }
 
-async function getPDFDoc(file: File): Promise<pdfjs.PDFDocumentProxy> {
+async function getPDFDoc(file: File): Promise<PDFDocumentProxy> {
   const arrayBuffer = await file.arrayBuffer()
-  const pdfDocument = await pdfjs.getDocument({
+  const pdfDocument = await getDocument({
     data: arrayBuffer,
     cMapUrl: "./cmaps/",
     cMapPacked: true,
@@ -68,8 +74,8 @@ async function getPDFDoc(file: File): Promise<pdfjs.PDFDocumentProxy> {
 }
 
 function* forEachPage(
-  pdfDocument: pdfjs.PDFDocumentProxy
-): Iterable<PromiseLike<pdfjs.PDFPageProxy>> {
+  pdfDocument: PDFDocumentProxy
+): Iterable<PromiseLike<PDFPageProxy>> {
   for (let i = 1; i <= pdfDocument.numPages; i++) {
     const page = pdfDocument.getPage(i)
     yield page
