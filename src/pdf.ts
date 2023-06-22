@@ -6,20 +6,14 @@ import {
 } from "pdfjs-dist"
 import PdfjsWorker from "pdfjs-dist/build/pdf.worker?worker"
 import { type LintResult } from "./type"
-import { createTextlint } from "./textlint-worker-init"
+import { TextlintWorkerWrapper } from "./textlint-worker-wrapper"
 import { type TextItem } from "pdfjs-dist/types/src/display/api"
 
 GlobalWorkerOptions.workerPort = new PdfjsWorker()
+const textlint = new TextlintWorkerWrapper(new Worker("./textlint-worker.js"))
 
 export async function lintPDFTexts(texts: string[]): Promise<LintResult> {
-  const textlint = await createTextlint()
-  const responses = []
-  for (const text of texts) {
-    // lintText seems to have to be called serially to avoid race condition
-    const response = await textlint.lintText(text)
-    responses.push(response)
-  }
-  textlint.exit()
+  const responses = await Promise.all(texts.map((text) => textlint.lint(text)))
   const lintResult = responses
     .map((response) => response.result.messages)
     .flatMap((messages, index) =>
