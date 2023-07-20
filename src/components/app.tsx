@@ -100,7 +100,7 @@ function removeDuplicateArray<T>(arr: T[]): T[] {
 
 const getTextlintRuleId = (lintResults: LintResult) =>
   removeDuplicateArray(
-    lintResults.map((message: TextlintMessage) => message.ruleId)
+    lintResults.map((message: TextlintMessage) => message.ruleId),
   )
 
 function toggleSet<T>(set: Set<T>, item: T) {
@@ -117,7 +117,7 @@ const FilterFormLogicContainer: VFC = () => {
   const lintResult = useRecoilValue(lintResultState)
   const ruleIds = getTextlintRuleId(lintResult)
   const [visibilityFilter, setVisibilityFilter] = useRecoilState(
-    visibilityFilterState
+    visibilityFilterState,
   )
   const [soloFilter, setSoloFilter] = useRecoilState(soloFilterState)
   const toggleVisibilityFilter = (ruleId: string) => {

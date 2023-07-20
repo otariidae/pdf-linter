@@ -50,7 +50,7 @@ export const filteredLintResultState = selector({
       return lintResults.filter((message) => soloFilter.has(message.ruleId))
     }
     return lintResults.filter(
-      (message) => !visibilityFilter.has(message.ruleId)
+      (message) => !visibilityFilter.has(message.ruleId),
     )
   },
 })

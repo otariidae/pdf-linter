@@ -23,7 +23,7 @@ export class TextlintWorkerWrapper {
             resolve(event.data)
           }
         },
-        { signal: initAbortController.signal }
+        { signal: initAbortController.signal },
       )
     })
     this.#initDataPromise.finally(() => {
@@ -52,7 +52,7 @@ export class TextlintWorkerWrapper {
             resolve(event.data)
           }
         },
-        { signal: controller.signal }
+        { signal: controller.signal },
       )
       this.worker.postMessage(lintCommand)
     }).finally(() => {

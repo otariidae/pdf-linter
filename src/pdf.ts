@@ -20,7 +20,7 @@ export async function lintPDFTexts(texts: string[]): Promise<LintResult> {
       messages.map((message) => ({
         ...message,
         page: index + 1,
-      }))
+      })),
     )
   return lintResult
 }
@@ -29,7 +29,7 @@ export async function extractTextFromPDFFile(file: File): Promise<string[]> {
   const doc = await getPDFDoc(file)
   const pages = await Promise.all(forEachPage(doc))
   const textList = await Promise.all(
-    pages.map((page) => extractTextFromPage(page))
+    pages.map((page) => extractTextFromPage(page)),
   )
   return textList
 }
@@ -45,7 +45,7 @@ async function extractTextFromPage(pdfPage: PDFPageProxy): Promise<string> {
 async function* extractLinesFromPage(pdfPage: PDFPageProxy) {
   const textContent = await pdfPage.getTextContent()
   const texts = textContent.items.filter(
-    (item): item is TextItem => "str" in item
+    (item): item is TextItem => "str" in item,
   )
   let line = ""
   for (const text of texts) {
@@ -68,7 +68,7 @@ async function getPDFDoc(file: File): Promise<PDFDocumentProxy> {
 }
 
 function* forEachPage(
-  pdfDocument: PDFDocumentProxy
+  pdfDocument: PDFDocumentProxy,
 ): Iterable<PromiseLike<PDFPageProxy>> {
   for (let i = 1; i <= pdfDocument.numPages; i++) {
     const page = pdfDocument.getPage(i)

@@ -27,5 +27,5 @@ render(
       <App />
     </RecoilRoot>
   </StrictMode>,
-  document.getElementById("app")
+  document.getElementById("app"),
 )
