@@ -33,7 +33,9 @@ const FilterForm: VFC<FilterFormProps> = ({
                 title="Mute this rule"
                 disabled={soloIds.size > 0}
                 checked={muteIds.has(ruleId)}
-                onChange={() => toggleMute(ruleId)}
+                onChange={() => {
+                  toggleMute(ruleId)
+                }}
               />
             </td>
             <td>
@@ -41,7 +43,9 @@ const FilterForm: VFC<FilterFormProps> = ({
                 type="checkbox"
                 title="Solo this rule"
                 checked={soloIds.has(ruleId)}
-                onChange={() => toggleSolo(ruleId)}
+                onChange={() => {
+                  toggleSolo(ruleId)
+                }}
               />
             </td>
             <td>{ruleId}</td>

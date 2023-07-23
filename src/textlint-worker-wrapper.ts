@@ -26,6 +26,7 @@ export class TextlintWorkerWrapper {
         { signal: initAbortController.signal },
       )
     })
+    /* eslint-disable-next-line @typescript-eslint/no-floating-promises */
     this.#initDataPromise.finally(() => {
       initAbortController.abort()
     })
@@ -44,7 +45,7 @@ export class TextlintWorkerWrapper {
       text,
       ext: ".txt",
     }
-    return new Promise<TextlintWorkerCommandResponseLint>((resolve, _) => {
+    return new Promise<TextlintWorkerCommandResponseLint>((resolve) => {
       this.worker.addEventListener(
         "message",
         (event: MessageEvent<TextlintWorkerCommandResponse>) => {
