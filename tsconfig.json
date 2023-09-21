@@ -8,7 +8,7 @@
     "allowJs": true,
     "noEmit": true,
     "jsx": "react-jsx",
-    "moduleResolution": "node",
+    "moduleResolution": "NodeNext",
     "esModuleInterop": true
   },
   "include": [
