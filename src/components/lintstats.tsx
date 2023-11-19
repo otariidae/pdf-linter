@@ -1,5 +1,5 @@
-import { type VFC } from "react"
-import { type TextlintRuleSeverityLevel } from "@textlint/types"
+import type { TextlintRuleSeverityLevel } from "@textlint/types"
+import type { VFC } from "react"
 
 const severityTextMap: Record<TextlintRuleSeverityLevel, string> = {
   0: "info",

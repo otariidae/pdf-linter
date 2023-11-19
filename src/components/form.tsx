@@ -25,8 +25,8 @@ const FilterForm: VFC<FilterFormProps> = ({
         </tr>
       </thead>
       <tbody>
-        {ruleIds.map((ruleId, i) => (
-          <tr key={i}>
+        {ruleIds.map((ruleId) => (
+          <tr key={ruleId}>
             <td>
               <input
                 type="checkbox"

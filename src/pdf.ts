@@ -1,13 +1,13 @@
 import {
-  getDocument,
   GlobalWorkerOptions,
   type PDFDocumentProxy,
   type PDFPageProxy,
+  getDocument,
 } from "pdfjs-dist"
 import PdfjsWorker from "pdfjs-dist/build/pdf.worker?worker"
-import { type LintResult } from "./type"
+import type { TextItem } from "pdfjs-dist/types/src/display/api"
 import { TextlintWorkerWrapper } from "./textlint-worker-wrapper"
-import { type TextItem } from "pdfjs-dist/types/src/display/api"
+import type { LintResult } from "./type"
 
 GlobalWorkerOptions.workerPort = new PdfjsWorker()
 const textlint = new TextlintWorkerWrapper(new Worker("./textlint-worker.js"))
@@ -37,7 +37,7 @@ export async function extractTextFromPDFFile(file: File): Promise<string[]> {
 async function extractTextFromPage(pdfPage: PDFPageProxy): Promise<string> {
   let text = ""
   for await (const line of extractLinesFromPage(pdfPage)) {
-    text += line + "\n"
+    text += `${line}\n`
   }
   return text.replace(/\0/g, "")
 }
