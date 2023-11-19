@@ -1,5 +1,5 @@
-import { Fragment, type VFC } from "react"
 import { css } from "@emotion/css"
+import { Fragment, type VFC } from "react"
 
 interface PDFTextViewerProps {
   pageTexts: string[]

@@ -1,7 +1,7 @@
+import { Global } from "@emotion/react"
 import React, { StrictMode } from "react"
 import ReactDOM, { render } from "react-dom"
 import { RecoilRoot } from "recoil"
-import { Global } from "@emotion/react"
 import App from "./components/app"
 
 if (process.env.NODE_ENV !== "production") {

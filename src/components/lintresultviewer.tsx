@@ -1,6 +1,6 @@
-import { type VFC } from "react"
 import { css } from "@emotion/css"
-import { type LintMessage } from "../type"
+import type { VFC } from "react"
+import type { LintMessage } from "../type"
 
 const tableStyle = css`
   table-layuot: fixed;

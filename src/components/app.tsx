@@ -1,3 +1,7 @@
+import type {
+  TextlintMessage,
+  TextlintRuleSeverityLevel,
+} from "@textlint/kernel"
 import { type ChangeEvent, type ReactElement, Suspense, type VFC } from "react"
 import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil"
 import {
@@ -8,16 +12,12 @@ import {
   soloFilterState,
   visibilityFilterState,
 } from "../states"
-import {
-  type TextlintRuleSeverityLevel,
-  type TextlintMessage,
-} from "@textlint/kernel"
-import { type LintResult } from "../type"
+import type { LintResult } from "../type"
 import FilterForm from "./form"
-import { LayoutContainer, LayoutItem, Block } from "./layout"
+import { Block, LayoutContainer, LayoutItem } from "./layout"
 import LintResultViewer from "./lintresultviewer"
-import PDFTextViewer from "./pdftextviewer"
 import LintStats from "./lintstats"
+import PDFTextViewer from "./pdftextviewer"
 
 interface AppLayoutProps {
   header: ReactElement
