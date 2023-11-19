@@ -1,7 +1,6 @@
 {
   "name": "pdf-linter",
   "version": "0.0.1",
-  "main": "index.js",
   "license": "Apache-2.0",
   "private": true,
   "scripts": {
@@ -32,10 +31,10 @@
     "@types/react": "^17.0.48",
     "@types/react-dom": "^17.0.11",
     "@typescript-eslint/eslint-plugin": "^6.1.0",
-    "@vitejs/plugin-react": "^4.0.0",
+    "@vitejs/plugin-react": "^4.2.0",
     "textlint-rule-preset-ja-technical-writing": "^7.0.0",
     "textlint-rule-preset-japanese": "^7.0.0",
     "typescript": "^5.1.6",
-    "vite": "^4.3.9"
+    "vite": "^5.0.0"
   }
 }
