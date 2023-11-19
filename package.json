@@ -20,7 +20,7 @@
     "@emotion/css": "^11.11.0",
     "@emotion/react": "^11.11.1",
     "@emotion/styled": "^11.11.0",
-    "pdfjs-dist": "~3.7.107",
+    "pdfjs-dist": "~4.0.189",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "recoil": "^0.7.4"
