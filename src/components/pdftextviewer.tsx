@@ -58,8 +58,9 @@ const LineNumberedTextViewer: VFC<LineNumberedTextViewerProps> = ({
   return (
     <ol className={textViewerClassName}>
       {lines.map((line, i) => {
+        const id = `p${pageNumber}-l${i + 1}`
         return (
-          <li key={i} id={`p${pageNumber}-l${i + 1}`}>
+          <li key={id} id={id}>
             {line}
           </li>
         )

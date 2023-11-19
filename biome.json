@@ -10,6 +10,9 @@
     "enabled": true,
     "rules": {
       "recommended": true,
+      "suspicious": {
+        "noArrayIndexKey": "warn"
+      },
       "nursery": {
         "useGroupedTypeImport": "error"
       }
