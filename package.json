@@ -35,6 +35,6 @@
     "textlint-rule-preset-ja-technical-writing": "^7.0.0",
     "textlint-rule-preset-japanese": "^7.0.0",
     "typescript": "^5.1.6",
-    "vite": "^5.0.5"
+    "vite": "^5.0.12"
   }
 }
