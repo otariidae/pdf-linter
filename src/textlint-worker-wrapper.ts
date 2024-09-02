@@ -26,7 +26,6 @@ export class TextlintWorkerWrapper {
         { signal: initAbortController.signal },
       )
     })
-    /* eslint-disable-next-line @typescript-eslint/no-floating-promises */
     this.#initDataPromise.finally(() => {
       initAbortController.abort()
     })
