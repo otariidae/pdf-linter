@@ -2,7 +2,7 @@
   "compilerOptions": {
     "outDir": "./dist",
     "strict": true,
-    "module": "esnext",
+    "module": "NodeNext",
     "target": "esnext",
     "sourceMap": true,
     "allowJs": true,
