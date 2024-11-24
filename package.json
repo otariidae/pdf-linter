@@ -33,7 +33,7 @@
     "@vitejs/plugin-react": "^4.2.0",
     "textlint-rule-preset-ja-technical-writing": "^7.0.0",
     "textlint-rule-preset-japanese": "^7.0.0",
-    "typescript": "^5.4.4",
+    "typescript": "^5.5.4",
     "vite": "^5.4.6"
   }
 }
