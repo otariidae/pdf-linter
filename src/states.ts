@@ -1,10 +1,9 @@
 import { atom } from "jotai"
-import { atomWithDefault } from "jotai/utils"
 import { extractTextFromPDFFile, lintPDFTexts } from "./pdf"
 
 export const fileState = atom<File | null>(null)
 
-export const fileTextContentsState = atomWithDefault(async (get) => {
+export const fileTextContentsState = atom(async (get) => {
   const file = get(fileState)
   if (file === null) {
     return null
@@ -13,7 +12,7 @@ export const fileTextContentsState = atomWithDefault(async (get) => {
   return fileTextContents
 })
 
-export const lintResultState = atomWithDefault(async (get) => {
+export const lintResultState = atom(async (get) => {
   const fileTextContents = await get(fileTextContentsState)
   if (fileTextContents === null) {
     return []
