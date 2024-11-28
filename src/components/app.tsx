@@ -2,8 +2,8 @@ import type {
   TextlintMessage,
   TextlintRuleSeverityLevel,
 } from "@textlint/kernel"
+import { useAtom, useAtomValue, useSetAtom } from "jotai"
 import { type ChangeEvent, type ReactElement, Suspense, type VFC } from "react"
-import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil"
 import {
   fileState,
   fileTextContentsState,
@@ -113,13 +113,11 @@ function toggleSet<T>(set: Set<T>, item: T) {
 }
 
 const FilterFormLogicContainer: VFC = () => {
-  const setFile = useSetRecoilState(fileState)
-  const lintResult = useRecoilValue(lintResultState)
+  const setFile = useSetAtom(fileState)
+  const lintResult = useAtomValue(lintResultState)
   const ruleIds = getTextlintRuleId(lintResult)
-  const [visibilityFilter, setVisibilityFilter] = useRecoilState(
-    visibilityFilterState,
-  )
-  const [soloFilter, setSoloFilter] = useRecoilState(soloFilterState)
+  const [visibilityFilter, setVisibilityFilter] = useAtom(visibilityFilterState)
+  const [soloFilter, setSoloFilter] = useAtom(soloFilterState)
   const toggleVisibilityFilter = (ruleId: string) => {
     const newVisibilityFilter = new Set(visibilityFilter)
     toggleSet(newVisibilityFilter, ruleId)
@@ -158,7 +156,7 @@ const FilterFormLogicContainer: VFC = () => {
 }
 
 const PDFTextViewerLogicContainer = () => {
-  const pdfText = useRecoilValue(fileTextContentsState)
+  const pdfText = useAtomValue(fileTextContentsState)
   if (pdfText === null) {
     return null
   }
@@ -166,12 +164,12 @@ const PDFTextViewerLogicContainer = () => {
 }
 
 const LintResultViewerLogicContainer = () => {
-  const lintResult = useRecoilValue(filteredLintResultState)
+  const lintResult = useAtomValue(filteredLintResultState)
   return <LintResultViewer lintResult={lintResult} />
 }
 
 const LintStatsLogicContainer = () => {
-  const lintResult = useRecoilValue(filteredLintResultState)
+  const lintResult = useAtomValue(filteredLintResultState)
   const stats: Record<TextlintRuleSeverityLevel, number> = {
     0: 0,
     1: 0,
