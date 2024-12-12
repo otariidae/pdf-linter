@@ -13,8 +13,8 @@
       "suspicious": {
         "noArrayIndexKey": "warn"
       },
-      "nursery": {
-        "useGroupedTypeImport": "error"
+      "style": {
+        "useImportType": "error"
       }
     }
   },
