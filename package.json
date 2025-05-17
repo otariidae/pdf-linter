@@ -21,7 +21,7 @@
     "@emotion/react": "^11.14.0",
     "@emotion/styled": "^11.14.0",
     "jotai": "^2.11.3",
-    "pdfjs-dist": "~4.2.67",
+    "pdfjs-dist": "~5.2.133",
     "react": "^19.1.0",
     "react-dom": "^19.1.0"
   },
@@ -33,7 +33,7 @@
     "@vitejs/plugin-react": "^4.3.4",
     "textlint-rule-preset-ja-technical-writing": "^10.0.1",
     "textlint-rule-preset-japanese": "^10.0.3",
-    "typescript": "^5.5.4",
+    "typescript": "^5.8.3",
     "vite": "^6.3.4"
   }
 }
