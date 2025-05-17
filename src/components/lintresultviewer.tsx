@@ -1,5 +1,5 @@
 import { css } from "@emotion/css"
-import type { VFC } from "react"
+import type { FC } from "react"
 import type { LintMessage } from "../type"
 
 const tableStyle = css`
@@ -19,7 +19,8 @@ const tableStyle = css`
 interface LintResultViewerProps {
   lintResult: LintMessage[]
 }
-const LintResultViewer: VFC<LintResultViewerProps> = ({ lintResult }) => (
+
+const LintResultViewer: FC<LintResultViewerProps> = ({ lintResult }) => (
   <table className={tableStyle}>
     <thead>
       <tr>

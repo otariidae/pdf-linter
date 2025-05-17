@@ -1,4 +1,4 @@
-import { Fragment, type VFC } from "react"
+import { Fragment, type FC } from "react"
 
 interface FilterFormProps {
   ruleIds: string[]
@@ -7,7 +7,7 @@ interface FilterFormProps {
   toggleMute: (ruleId: string) => void
   toggleSolo: (ruleId: string) => void
 }
-const FilterForm: VFC<FilterFormProps> = ({
+const FilterForm: FC<FilterFormProps> = ({
   ruleIds,
   muteIds,
   soloIds,
