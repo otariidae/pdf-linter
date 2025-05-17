@@ -1,4 +1,4 @@
-import type { TextlintRuleSeverityLevel } from "@textlint/kernel"
+import type { TextlintRuleSeverityLevel } from "@textlint/types"
 import type { FC } from "react"
 
 const severityTextMap: Record<TextlintRuleSeverityLevel, string> = {
