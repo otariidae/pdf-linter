@@ -1,5 +1,5 @@
-import type { TextlintRuleSeverityLevel } from "@textlint/types"
-import type { VFC } from "react"
+import type { TextlintRuleSeverityLevel } from "@textlint/kernel"
+import type { FC } from "react"
 
 const severityTextMap: Record<TextlintRuleSeverityLevel, string> = {
   0: "info",
@@ -10,7 +10,8 @@ const severityTextMap: Record<TextlintRuleSeverityLevel, string> = {
 interface LintStatsProps {
   lintStats: Record<TextlintRuleSeverityLevel, number>
 }
-const LintStats: VFC<LintStatsProps> = ({ lintStats }) => (
+
+const LintStats: FC<LintStatsProps> = ({ lintStats }) => (
   <ul>
     {Object.entries(lintStats).map(([severity, count]) => (
       <li key={severity}>
