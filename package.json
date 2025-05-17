@@ -21,7 +21,7 @@
     "@emotion/react": "^11.14.0",
     "@emotion/styled": "^11.14.0",
     "jotai": "^2.11.3",
-    "pdfjs-dist": "~4.2.67",
+    "pdfjs-dist": "~5.2.133",
     "react": "^19.1.0",
     "react-dom": "^19.1.0"
   },
