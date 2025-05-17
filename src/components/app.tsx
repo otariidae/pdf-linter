@@ -3,7 +3,7 @@ import type {
   TextlintRuleSeverityLevel,
 } from "@textlint/kernel"
 import { useAtom, useAtomValue, useSetAtom } from "jotai"
-import { type ChangeEvent, type ReactElement, Suspense, type VFC } from "react"
+import { type ChangeEvent, type ReactElement, Suspense, type FC } from "react"
 import {
   fileState,
   fileTextContentsState,
@@ -27,7 +27,7 @@ interface AppLayoutProps {
   lintStats: ReactElement
 }
 
-const AppLayout: VFC<AppLayoutProps> = ({
+const AppLayout: FC<AppLayoutProps> = ({
   header,
   form,
   pdfTextViewer,
@@ -76,7 +76,7 @@ const TitleLine = () => (
 interface HeaderLayoutProps {
   titleline: ReactElement
 }
-const HeaderLayout: VFC<HeaderLayoutProps> = ({ titleline }) => (
+const HeaderLayout: FC<HeaderLayoutProps> = ({ titleline }) => (
   <LayoutContainer
     style={{
       gridTemplateAreas: '"titleline"',
@@ -112,7 +112,7 @@ function toggleSet<T>(set: Set<T>, item: T) {
   return set
 }
 
-const FilterFormLogicContainer: VFC = () => {
+const FilterFormLogicContainer: FC = () => {
   const setFile = useSetAtom(fileState)
   const lintResult = useAtomValue(lintResultState)
   const ruleIds = getTextlintRuleId(lintResult)

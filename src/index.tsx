@@ -1,6 +1,7 @@
 import { Global } from "@emotion/react"
 import React, { StrictMode } from "react"
-import ReactDOM, { render } from "react-dom"
+import { createRoot } from "react-dom/client"
+import * as ReactDOM from "react-dom"
 import App from "./components/app"
 
 if (process.env.NODE_ENV !== "production") {
@@ -10,7 +11,13 @@ if (process.env.NODE_ENV !== "production") {
       console.error(e)
     })
 }
-render(
+
+const container = document.getElementById("app")
+if (!container) {
+  throw new Error("Failed to find the root element")
+}
+const root = createRoot(container)
+root.render(
   <StrictMode>
     <Global
       styles={{
@@ -26,5 +33,4 @@ render(
     />
     <App />
   </StrictMode>,
-  document.getElementById("app"),
 )

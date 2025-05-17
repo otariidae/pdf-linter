@@ -1,10 +1,11 @@
 import { css } from "@emotion/css"
-import { Fragment, type VFC } from "react"
+import { Fragment, type FC } from "react"
 
 interface PDFTextViewerProps {
   pageTexts: string[]
 }
-const PDFTextViewer: VFC<PDFTextViewerProps> = ({ pageTexts }) => (
+
+const PDFTextViewer: FC<PDFTextViewerProps> = ({ pageTexts }) => (
   <div
     className={css`
       white-space: pre-wrap;
@@ -50,7 +51,7 @@ interface LineNumberedTextViewerProps {
   pageNumber: number
   text: string
 }
-const LineNumberedTextViewer: VFC<LineNumberedTextViewerProps> = ({
+const LineNumberedTextViewer: FC<LineNumberedTextViewerProps> = ({
   pageNumber,
   text,
 }) => {
