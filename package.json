@@ -30,7 +30,7 @@
     "@textlint/script-compiler": "^0.17.1",
     "@types/react": "^19.1.6",
     "@types/react-dom": "^19.1.5",
-    "@vitejs/plugin-react": "^4.3.4",
+    "@vitejs/plugin-react": "^4.6.0",
     "textlint-rule-preset-ja-technical-writing": "^10.0.1",
     "textlint-rule-preset-japanese": "^10.0.3",
     "typescript": "^5.8.3",
