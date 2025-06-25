@@ -1,7 +1,7 @@
 import { Global } from "@emotion/react"
 import React, { StrictMode } from "react"
-import { createRoot } from "react-dom/client"
 import * as ReactDOM from "react-dom"
+import { createRoot } from "react-dom/client"
 import App from "./components/app"
 
 if (process.env.NODE_ENV !== "production") {

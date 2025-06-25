@@ -5,7 +5,7 @@
   "private": true,
   "scripts": {
     "compile-textlint": "textlint-script-compiler --metadataName dev --metadataNamespace \"https://example.com\" --metadataHomepage \"https://example.com\" --mode development --output-dir public",
-    "lint": "biome check --apply-unsafe .",
+    "lint": "biome check --fix --unsafe .",
     "lintcheck": "biome lint .",
     "fmt": "biome format --write .",
     "fmtcheck": "biome format .",
@@ -26,7 +26,7 @@
     "react-dom": "^19.1.0"
   },
   "devDependencies": {
-    "@biomejs/biome": "^1.9.4",
+    "@biomejs/biome": "^2.0.5",
     "@textlint/script-compiler": "^0.17.1",
     "@types/react": "^19.1.6",
     "@types/react-dom": "^19.1.5",

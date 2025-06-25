@@ -1,8 +1,8 @@
 import {
   GlobalWorkerOptions,
+  getDocument,
   type PDFDocumentProxy,
   type PDFPageProxy,
-  getDocument,
 } from "pdfjs-dist"
 import PdfjsWorker from "pdfjs-dist/build/pdf.worker?worker"
 import type { TextItem } from "pdfjs-dist/types/src/display/api"

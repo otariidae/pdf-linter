@@ -1,4 +1,4 @@
-import { Fragment, type FC } from "react"
+import { type FC, Fragment } from "react"
 
 interface FilterFormProps {
   ruleIds: string[]
