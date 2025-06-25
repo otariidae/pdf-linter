@@ -3,7 +3,7 @@ import type {
   TextlintRuleSeverityLevel,
 } from "@textlint/kernel"
 import { useAtom, useAtomValue, useSetAtom } from "jotai"
-import { type ChangeEvent, type ReactElement, Suspense, type FC } from "react"
+import { type ChangeEvent, type FC, type ReactElement, Suspense } from "react"
 import {
   fileState,
   fileTextContentsState,

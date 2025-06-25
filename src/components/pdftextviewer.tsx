@@ -1,5 +1,5 @@
 import { css } from "@emotion/css"
-import { Fragment, type FC } from "react"
+import { type FC, Fragment } from "react"
 
 interface PDFTextViewerProps {
   pageTexts: string[]
