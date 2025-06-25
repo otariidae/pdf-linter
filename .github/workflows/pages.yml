@@ -34,12 +34,9 @@ jobs:
         with:
           node-version: 22
           cache: 'npm'
-      - name: Build pages
-        run: |
-          npm ci
-          npm run lintcheck
-          npm run fmtcheck
-          npm run build
+      - run: npm ci
+      - run: npx biome ci
+      - run: npm run build
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
