@@ -28,8 +28,8 @@
   "devDependencies": {
     "@biomejs/biome": "^2.0.5",
     "@textlint/script-compiler": "^0.17.1",
-    "@types/react": "^19.1.6",
-    "@types/react-dom": "^19.1.5",
+    "@types/react": "^19.1.8",
+    "@types/react-dom": "^19.1.6",
     "@vitejs/plugin-react": "^4.6.0",
     "rolldown-vite": "^6.3.21",
     "textlint-rule-preset-ja-technical-writing": "^12.0.2",
