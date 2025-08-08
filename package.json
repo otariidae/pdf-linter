@@ -9,9 +9,9 @@
     "lintcheck": "biome lint .",
     "fmt": "biome format --write .",
     "fmtcheck": "biome format .",
-    "predev": "npm run compile-textlint",
+    "predev": "node --run compile-textlint",
     "dev": "vite",
-    "prebuild": "npm run compile-textlint",
+    "prebuild": "node --run compile-textlint",
     "build": "tsc && vite build",
     "preview": "vite preview"
   },
