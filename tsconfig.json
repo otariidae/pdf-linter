@@ -12,5 +12,8 @@
     "esModuleInterop": true
   },
   "include": ["src"],
-  "exclude": ["node_modules"]
+  "exclude": [
+    "node_modules",
+    "**/*.spec.tsx" // workaround for type inconsistencies in @playwright/experimental-ct-react
+  ]
 }
