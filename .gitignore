@@ -1,7 +1,6 @@
 dist
 public/textlint-worker.js
 *.map
-*.pdf
 
 # Logs
 logs
@@ -79,3 +78,9 @@ typings/
 
 # FuseBox cache
 .fusebox/
+
+# Playwright
+/test-results/
+/playwright-report/
+/blob-report/
+/playwright/.cache/
