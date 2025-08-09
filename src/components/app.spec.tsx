@@ -1,6 +1,6 @@
-import { test, expect } from "@playwright/experimental-ct-react"
+import fs from "node:fs/promises"
+import { expect, test } from "@playwright/experimental-ct-react"
 import App from "./app"
-import fs from "fs/promises"
 
 test("should have title", async ({ mount }) => {
   const component = await mount(<App />)
