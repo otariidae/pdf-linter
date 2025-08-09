@@ -13,7 +13,8 @@
     "dev": "vite",
     "prebuild": "node --run compile-textlint",
     "build": "tsc && vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "test-ct": "playwright test -c playwright-ct.config.ts"
   },
   "dependencies": {
     "@axe-core/react": "^4.4.3",
@@ -27,7 +28,9 @@
   },
   "devDependencies": {
     "@biomejs/biome": "^2.0.5",
+    "@playwright/experimental-ct-react": "^1.54.2",
     "@textlint/script-compiler": "^0.17.1",
+    "@types/node": "^24.2.1",
     "@types/react": "^19.1.9",
     "@types/react-dom": "^19.1.7",
     "@vitejs/plugin-react": "^4.6.0",

@@ -1,7 +1,15 @@
 {
   "$schema": "https://biomejs.dev/schemas/2.0.5/schema.json",
   "files": {
-    "includes": ["**", "!**/dist", "!**/public"]
+    "includes": [
+      "**",
+      "!**/dist",
+      "!**/public",
+      "!**/test-results",
+      "!**/playwright-report",
+      "!**/blob-report",
+      "!**/playwright/.cache"
+    ]
   },
   "linter": {
     "enabled": true,
