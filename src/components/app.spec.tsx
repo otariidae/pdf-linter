@@ -28,6 +28,7 @@ test("should show PDF text content, lint errors, and lint rules", async ({
   const pageIndicator = component.getByText("page 1 of 1:")
   await pageIndicator.waitFor({ state: "visible" })
   expect(component.getByText("メロスは激怒した。")).toBeVisible()
+  expect(component.getByText("低声で、わずか答えた。")).toBeVisible()
 
   // should show lint errors
   const errorCount = component.getByText("6 error")

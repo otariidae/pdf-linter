@@ -55,6 +55,10 @@ async function* extractLinesFromPage(pdfPage: PDFPageProxy) {
       line = ""
     }
   }
+  // yield any remaining lines after loop
+  if (line.length > 0) {
+    yield line
+  }
 }
 
 async function getPDFDoc(file: File): Promise<PDFDocumentProxy> {
