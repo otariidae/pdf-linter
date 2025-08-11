@@ -19,7 +19,7 @@ test("should show PDF text content, lint errors, and lint rules", async ({
 
   const pdfFile = await fs.readFile("src/__tests__/example.pdf")
   await fileInput.setInputFiles({
-    name: "loremipsum.pdf",
+    name: "example.pdf",
     mimeType: "application/pdf",
     buffer: pdfFile,
   })
@@ -27,17 +27,33 @@ test("should show PDF text content, lint errors, and lint rules", async ({
   // should show text in PDF
   const pageIndicator = component.getByText("page 1 of 1:")
   await pageIndicator.waitFor({ state: "visible" })
-  expect(component.getByText("メロスは激怒した。")).toBeVisible()
-  expect(component.getByText("低声で、わずか答えた。")).toBeVisible()
+  expect(component.getByText("そういう可能性もなくもない.")).toBeVisible()
+  expect(
+    component.getByText("最近のＡＩは⾰命的で、魔法のように動作する。"),
+  ).toBeVisible()
 
   // should show lint errors
-  const errorCount = component.getByText("6 error")
+  const errorCount = component.getByText("7 error")
   await errorCount.waitFor({ state: "visible" })
-  expect(component.getByText('文末が"。"で終わっていません。')).toHaveCount(20)
+  expect(component.getByText("二重否定: 〜なくもない")).toBeVisible()
+  expect(component.getByText("Found kangxi radical: ⾰")).toBeVisible()
+  expect(
+    component.getByText(
+      "「魔法のように」という比喩的表現は現実味に欠ける可能性があります。具体的な仕組みを説明することを検討してください。",
+    ),
+  ).toBeVisible()
 
   // should show lint rules
-  const ruleName = component.getByText(
-    "ja-technical-writing/ja-no-mixed-period",
+  const noDoubleNegativeRule = component.getByText(
+    "ja-technical-writing/no-double-negative-ja",
   )
-  await expect(ruleName).toBeVisible()
+  await expect(noDoubleNegativeRule).toBeVisible()
+  const noKangxiRadicalsRule = component.getByText(
+    "japanese/no-kangxi-radicals",
+  )
+  await expect(noKangxiRadicalsRule).toBeVisible()
+  const noHypeExpressionRule = component.getByText(
+    "@textlint-ja/ai-writing/no-ai-hype-expressions",
+  )
+  await expect(noHypeExpressionRule).toBeVisible()
 })
