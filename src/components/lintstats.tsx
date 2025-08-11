@@ -1,10 +1,25 @@
 import type { TextlintRuleSeverityLevel } from "@textlint/types"
 import type { FC } from "react"
 
-const severityTextMap: Record<TextlintRuleSeverityLevel, string> = {
-  0: "info",
-  1: "warning",
-  2: "error",
+const severityTextMap: Record<
+  TextlintRuleSeverityLevel,
+  [singular: string, plural: string]
+> = {
+  0: ["info", "infos"],
+  1: ["warning", "warnings"],
+  2: ["error", "errors"],
+}
+
+const pluralRules = new Intl.PluralRules("en")
+
+function pluralize(count: number, singular: string, plural: string) {
+  const pluralCategory = pluralRules.select(count)
+  switch (pluralCategory) {
+    case "one":
+      return singular
+    default:
+      return plural
+  }
 }
 
 interface LintStatsProps {
@@ -16,7 +31,10 @@ const LintStats: FC<LintStatsProps> = ({ lintStats }) => (
     {Object.entries(lintStats).map(([severity, count]) => (
       <li key={severity}>
         {count}{" "}
-        {severityTextMap[severity as unknown as TextlintRuleSeverityLevel]}
+        {pluralize(
+          count,
+          ...severityTextMap[severity as unknown as TextlintRuleSeverityLevel],
+        )}
       </li>
     ))}
   </ul>

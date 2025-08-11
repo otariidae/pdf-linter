@@ -33,7 +33,7 @@ test("should show PDF text content, lint errors, and lint rules", async ({
   ).toBeVisible()
 
   // should show lint errors
-  const errorCount = component.getByText("7 error")
+  const errorCount = component.getByText("7 errors")
   await errorCount.waitFor({ state: "visible" })
   expect(component.getByText("二重否定: 〜なくもない")).toBeVisible()
   expect(component.getByText("Found kangxi radical: ⾰")).toBeVisible()
@@ -78,7 +78,7 @@ test("should omit lint errors for muted rules", async ({ mount }) => {
   await noDoubleNegativeRuleMuteFiler.click()
 
   // should omit lint errors for muted rules
-  const errorCount = component.getByText("6 error")
+  const errorCount = component.getByText("6 errors")
   await errorCount.waitFor({ state: "visible" })
   expect(component.getByText("二重否定: 〜なくもない")).not.toBeVisible()
   expect(component.getByText("Found kangxi radical: ⾰")).toBeVisible()
