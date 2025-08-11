@@ -30,7 +30,7 @@ const FilterForm: FC<FilterFormProps> = ({
             <td>
               <input
                 type="checkbox"
-                title="Mute this rule"
+                title={`Mute ${ruleId} rule`}
                 disabled={soloIds.size > 0}
                 checked={muteIds.has(ruleId)}
                 onChange={() => {
@@ -41,7 +41,7 @@ const FilterForm: FC<FilterFormProps> = ({
             <td>
               <input
                 type="checkbox"
-                title="Solo this rule"
+                title={`Solo ${ruleId} rule`}
                 checked={soloIds.has(ruleId)}
                 onChange={() => {
                   toggleSolo(ruleId)
