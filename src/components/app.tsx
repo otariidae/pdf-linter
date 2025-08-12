@@ -3,7 +3,7 @@ import type {
   TextlintRuleSeverityLevel,
 } from "@textlint/kernel"
 import { useAtom, useAtomValue, useSetAtom } from "jotai"
-import { type ChangeEvent, type FC, type ReactElement, Suspense } from "react"
+import { type FC, type ReactElement, Suspense } from "react"
 import {
   fileState,
   fileTextContentsState,
@@ -134,7 +134,7 @@ const FilterFormLogicContainer: FC = () => {
         type="file"
         accept="application/pdf"
         aria-label="PDFファイルを選択"
-        onChange={(event: ChangeEvent<HTMLInputElement>) => {
+        onChange={(event) => {
           if (event.target.files === null) {
             return
           }
