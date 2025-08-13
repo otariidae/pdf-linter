@@ -9,7 +9,6 @@ import {
 } from "../states"
 import { Block, LayoutContainer, LayoutItem } from "./layout"
 import LintResultViewer from "./lintresultviewer"
-import LintStats from "./lintstats"
 import PDFTextViewer from "./pdftextviewer"
 
 interface AppLayoutProps {
@@ -77,12 +76,11 @@ interface AfterFileUploadMainLayoutProps {
 const AfterFileUploadMainLayout: FC<AfterFileUploadMainLayoutProps> = ({
   pdfTextViewer,
   lintResultViewer,
-  lintStats,
 }) => (
   <LayoutContainer
     style={{
-      gridTemplateAreas: `"pdf lint stats"`,
-      gridTemplateColumns: "2fr 2fr 1fr",
+      gridTemplateAreas: `"pdf lint"`,
+      gridTemplateColumns: "1fr 1fr",
     }}
   >
     <LayoutItem area="pdf" scrollable>
@@ -90,9 +88,6 @@ const AfterFileUploadMainLayout: FC<AfterFileUploadMainLayoutProps> = ({
     </LayoutItem>
     <LayoutItem area="lint" scrollable>
       {lintResultViewer}
-    </LayoutItem>
-    <LayoutItem area="stats" scrollable>
-      {lintStats}
     </LayoutItem>
   </LayoutContainer>
 )
