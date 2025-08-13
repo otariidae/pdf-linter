@@ -1,4 +1,3 @@
-import type { TextlintRuleSeverityLevel } from "@textlint/kernel"
 import { useAtom, useAtomValue, useSetAtom } from "jotai"
 import { type FC, type ReactElement, Suspense } from "react"
 import {
@@ -9,7 +8,6 @@ import {
 } from "../states"
 import { Block, LayoutContainer, LayoutItem } from "./layout"
 import LintResultViewer from "./lintresultviewer"
-import LintStats from "./lintstats"
 import PDFTextViewer from "./pdftextviewer"
 
 interface AppLayoutProps {
@@ -51,11 +49,6 @@ const MainLogicContainer: FC = () => {
           <LintResultViewerLogicContainer />
         </Suspense>
       }
-      lintStats={
-        <Suspense fallback={<p>loading</p>}>
-          <LintStatsLogicContainer />
-        </Suspense>
-      }
     />
   )
 }
@@ -71,18 +64,16 @@ const BeforeFileUploadMainLayout: FC<BeforeFileUploadMainLayoutProps> = ({
 interface AfterFileUploadMainLayoutProps {
   pdfTextViewer: ReactElement
   lintResultViewer: ReactElement
-  lintStats: ReactElement
 }
 
 const AfterFileUploadMainLayout: FC<AfterFileUploadMainLayoutProps> = ({
   pdfTextViewer,
   lintResultViewer,
-  lintStats,
 }) => (
   <LayoutContainer
     style={{
-      gridTemplateAreas: `"pdf lint stats"`,
-      gridTemplateColumns: "2fr 2fr 1fr",
+      gridTemplateAreas: `"pdf lint"`,
+      gridTemplateColumns: "1fr 1fr",
     }}
   >
     <LayoutItem area="pdf" scrollable>
@@ -90,9 +81,6 @@ const AfterFileUploadMainLayout: FC<AfterFileUploadMainLayoutProps> = ({
     </LayoutItem>
     <LayoutItem area="lint" scrollable>
       {lintResultViewer}
-    </LayoutItem>
-    <LayoutItem area="stats" scrollable>
-      {lintStats}
     </LayoutItem>
   </LayoutContainer>
 )
@@ -186,19 +174,6 @@ const LintResultViewerLogicContainer = () => {
       unmuteRule={unmuteRule}
     />
   )
-}
-
-const LintStatsLogicContainer = () => {
-  const lintResult = useAtomValue(filteredLintResultState)
-  const stats: Record<TextlintRuleSeverityLevel, number> = {
-    0: 0,
-    1: 0,
-    2: 0,
-  }
-  for (const message of lintResult) {
-    stats[message.severity]++
-  }
-  return <LintStats lintStats={stats} />
 }
 
 const App = () => (
