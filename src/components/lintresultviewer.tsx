@@ -1,7 +1,10 @@
 import { css } from "@emotion/css"
 import type { TextlintRuleSeverityLevel } from "@textlint/kernel"
 import type { FC } from "react"
+import { pluralize } from "../pluralize"
 import type { LintMessage } from "../type"
+import { Chip } from "./chip"
+import { SeverityIcon } from "./severityicon"
 
 const severityTextMap: Record<
   TextlintRuleSeverityLevel,
@@ -12,16 +15,16 @@ const severityTextMap: Record<
   2: ["error", "errors"],
 }
 
-const pluralRules = new Intl.PluralRules("en")
-
-function pluralize(count: number, singular: string, plural: string) {
-  const pluralCategory = pluralRules.select(count)
-  switch (pluralCategory) {
-    case "one":
-      return singular
-    default:
-      return plural
+function calculateStats(lintResult: LintMessage[]) {
+  const stats: Record<TextlintRuleSeverityLevel, number> = {
+    0: 0,
+    1: 0,
+    2: 0,
   }
+  for (const message of lintResult) {
+    stats[message.severity]++
+  }
+  return stats
 }
 
 const statsListStyle = css`
@@ -41,42 +44,10 @@ const mutedRuleListStyle = css`
   padding-inline-start: 0;
 `
 
-const chipStyle = css`
-  display: inline-grid;
-  align-items: center;
-  grid-template-columns: 1fr 1.5rem;
-  grid-template-areas: "content icon";
-  padding: 0.2rem 0.2rem 0.2rem 0.75rem;
-  border: 1px solid black;
-  border-radius: 2rem;
-  margin-inline-end: 0.5rem;
-
-  > .material-symbols-outlined {
-    grid-area: icon;
-    padding: 0;
-    background-color: transparent;
-    border: none;
-    cursor: pointer;
-  }
-`
-
-const chipContentStyle = css`
-  grid-area: content;
-  vertical-align: middle;
-  font-size: 0.75rem;
-`
-
 const lintMessageListStyle = css`
   list-style-type: none;
   margin-block: 0;
   padding-inline-start: 0;
-`
-
-const lintMessageListItemStyle = css`
-  display: grid;
-  padding-block: 0.625rem;
-  grid-template-columns: 1.75rem 1fr;
-  grid-template-areas: "icon content";
 `
 
 const lintMessageContentStyle = css`
@@ -101,31 +72,55 @@ const muteButtonStyle = css`
   cursor: pointer;
 `
 
-function ServerityIcon({ severity }: { severity: TextlintRuleSeverityLevel }) {
-  switch (severity) {
-    case 0:
-      return (
-        <span
-          className="material-symbols-outlined"
-          style={{ color: "royalblue" }}
-        >
-          info
-        </span>
-      )
-    case 1:
-      return (
-        <span className="material-symbols-outlined" style={{ color: "orange" }}>
-          warning
-        </span>
-      )
-    case 2:
-      return (
-        <span className="material-symbols-outlined" style={{ color: "red" }}>
-          dangerous
-        </span>
-      )
-  }
+const formatMessageLocation = (message: LintMessage) =>
+  `[Pg ${message.page}, Ln ${message.loc.start.line}, Col ${message.loc.start.column}]`
+
+const lintMessageItemStyle = css`
+  display: grid;
+  padding-block: 0.625rem;
+  grid-template-columns: 1.75rem 1fr;
+  grid-template-areas: "icon content";
+`
+
+interface LintMessageItemProps {
+  message: LintMessage
+  muteRule: (ruleId: string) => void
 }
+
+const LintMessageItem: FC<LintMessageItemProps> = ({ message, muteRule }) => (
+  <div className={lintMessageItemStyle}>
+    <div style={{ gridArea: "icon" }}>
+      <SeverityIcon severity={message.severity} />
+    </div>
+    <div style={{ gridArea: "content" }} className={lintMessageContentStyle}>
+      <p>
+        {message.message}
+        <a
+          className={lineLinkStyle}
+          href={`#p${message.page}-l${message.loc.start.line}`}
+        >
+          {formatMessageLocation(message)}
+        </a>
+      </p>
+      <p>
+        <span className={ruleIdStyle}>{message.ruleId}</span>
+        <button
+          type="button"
+          title={`mute ${message.ruleId} rule`}
+          className={muteButtonStyle}
+          onClick={() => muteRule(message.ruleId)}
+        >
+          mute this rule
+        </button>
+      </p>
+    </div>
+  </div>
+)
+
+const formatSevertyCount = (
+  severity: TextlintRuleSeverityLevel,
+  count: number,
+) => `${count} ${pluralize(count, ...severityTextMap[severity])}`
 
 interface LintResultViewerProps {
   lintResult: LintMessage[]
@@ -140,76 +135,30 @@ const LintResultViewer: FC<LintResultViewerProps> = ({
   muteRule,
   unmuteRule,
 }) => {
-  const stats: Record<TextlintRuleSeverityLevel, number> = {
-    0: 0,
-    1: 0,
-    2: 0,
-  }
-  for (const message of lintResult) {
-    stats[message.severity]++
-  }
+  const stats = calculateStats(lintResult)
   return (
     <>
       <ul className={statsListStyle}>
         {Object.entries(stats).map(([severity, count]) => (
           <li key={severity}>
-            {count}{" "}
-            {pluralize(
+            {formatSevertyCount(
+              severity as unknown as TextlintRuleSeverityLevel,
               count,
-              ...severityTextMap[
-                severity as unknown as TextlintRuleSeverityLevel
-              ],
             )}
           </li>
         ))}
       </ul>
       <ul className={mutedRuleListStyle}>
         {Array.from(mutedRuleIds).map((ruleId) => (
-          <li key={ruleId} className={chipStyle}>
-            <span className={chipContentStyle}>{ruleId}</span>
-            <button
-              type="button"
-              title={`unmute ${ruleId} rule`}
-              className="material-symbols-outlined"
-              onClick={() => unmuteRule(ruleId)}
-            >
-              close
-            </button>
+          <li key={ruleId}>
+            <Chip body={ruleId} onCloseClick={() => unmuteRule(ruleId)} />
           </li>
         ))}
       </ul>
       <ol className={lintMessageListStyle}>
         {lintResult.map((message, i) => (
-          <li key={i} className={lintMessageListItemStyle}>
-            <div style={{ gridArea: "icon" }}>
-              <ServerityIcon severity={message.severity} />
-            </div>
-            <div
-              style={{ gridArea: "content" }}
-              className={lintMessageContentStyle}
-            >
-              <p>
-                {message.message}
-                <a
-                  className={lineLinkStyle}
-                  href={`#p${message.page}-l${message.loc.start.line}`}
-                >
-                  [Pg {message.page}, Ln {message.loc.start.line}, Col{" "}
-                  {message.loc.start.column}]
-                </a>
-              </p>
-              <p>
-                <span className={ruleIdStyle}>{message.ruleId}</span>
-                <button
-                  type="button"
-                  title={`mute ${message.ruleId} rule`}
-                  className={muteButtonStyle}
-                  onClick={() => muteRule(message.ruleId)}
-                >
-                  mute this rule
-                </button>
-              </p>
-            </div>
+          <li key={i}>
+            <LintMessageItem message={message} muteRule={muteRule} />
           </li>
         ))}
       </ol>
