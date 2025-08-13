@@ -151,7 +151,11 @@ const LintResultViewer: FC<LintResultViewerProps> = ({
       <ul className={mutedRuleListStyle}>
         {Array.from(mutedRuleIds).map((ruleId) => (
           <li key={ruleId}>
-            <Chip body={ruleId} onCloseClick={() => unmuteRule(ruleId)} />
+            <Chip
+              body={ruleId}
+              closeButtonTitle={`unmute ${ruleId} rule`}
+              onCloseClick={() => unmuteRule(ruleId)}
+            />
           </li>
         ))}
       </ul>

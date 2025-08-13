@@ -28,14 +28,20 @@ const closeButtonStyle = css`
 
 interface ChipProps {
   body: string
+  closeButtonTitle: string
   onCloseClick: () => void
 }
 
-export const Chip: FC<ChipProps> = ({ body, onCloseClick }) => (
+export const Chip: FC<ChipProps> = ({
+  body,
+  closeButtonTitle,
+  onCloseClick,
+}) => (
   <span className={chipStyle}>
     <span className={chipContentStyle}>{body}</span>
     <button
       type="button"
+      title={closeButtonTitle}
       className={`material-symbols-outlined ${closeButtonStyle}`}
       onClick={onCloseClick}
     >
