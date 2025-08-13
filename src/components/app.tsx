@@ -14,31 +14,77 @@ import PDFTextViewer from "./pdftextviewer"
 
 interface AppLayoutProps {
   header: ReactElement
-  form: ReactElement
+  main: ReactElement
+}
+
+const AppLayout: FC<AppLayoutProps> = ({ header, main }) => (
+  <LayoutContainer
+    style={{
+      gridTemplateAreas: `
+        "header"
+        "main"
+      `,
+      gridTemplateRows: "3rem 1fr",
+    }}
+  >
+    <LayoutItem area="header">{header}</LayoutItem>
+    <LayoutItem area="main">{main}</LayoutItem>
+  </LayoutContainer>
+)
+
+const MainLogicContainer: FC = () => {
+  const file = useAtomValue(fileState)
+  if (file === null) {
+    return (
+      <BeforeFileUploadMainLayout fileInput={<FilterFormLogicContainer />} />
+    )
+  }
+  return (
+    <AfterFileUploadMainLayout
+      pdfTextViewer={
+        <Suspense fallback={<p>loading</p>}>
+          <PDFTextViewerLogicContainer />
+        </Suspense>
+      }
+      lintResultViewer={
+        <Suspense fallback={<p>loading</p>}>
+          <LintResultViewerLogicContainer />
+        </Suspense>
+      }
+      lintStats={
+        <Suspense fallback={<p>loading</p>}>
+          <LintStatsLogicContainer />
+        </Suspense>
+      }
+    />
+  )
+}
+
+interface BeforeFileUploadMainLayoutProps {
+  fileInput: ReactElement
+}
+
+const BeforeFileUploadMainLayout: FC<BeforeFileUploadMainLayoutProps> = ({
+  fileInput,
+}) => <LayoutContainer>{fileInput}</LayoutContainer>
+
+interface AfterFileUploadMainLayoutProps {
   pdfTextViewer: ReactElement
   lintResultViewer: ReactElement
   lintStats: ReactElement
 }
 
-const AppLayout: FC<AppLayoutProps> = ({
-  header,
-  form,
+const AfterFileUploadMainLayout: FC<AfterFileUploadMainLayoutProps> = ({
   pdfTextViewer,
   lintResultViewer,
   lintStats,
 }) => (
   <LayoutContainer
     style={{
-      gridTemplateAreas: `
-        "header header header"
-        "form form form"
-        "pdf lint stats"`,
+      gridTemplateAreas: `"pdf lint stats"`,
       gridTemplateColumns: "2fr 2fr 1fr",
-      gridTemplateRows: "3rem 2rem 1fr",
     }}
   >
-    <LayoutItem area="header">{header}</LayoutItem>
-    <LayoutItem area="form">{form}</LayoutItem>
     <LayoutItem area="pdf" scrollable>
       {pdfTextViewer}
     </LayoutItem>
@@ -91,7 +137,7 @@ const Header = () => (
 const FilterFormLogicContainer: FC = () => {
   const setFile = useSetAtom(fileState)
   return (
-    <div>
+    <div style={{ placeSelf: "center" }}>
       <input
         type="file"
         accept="application/pdf"
@@ -156,29 +202,7 @@ const LintStatsLogicContainer = () => {
 }
 
 const App = () => (
-  <AppLayout
-    header={<Header />}
-    form={
-      <Suspense fallback={<p>loading</p>}>
-        <FilterFormLogicContainer />
-      </Suspense>
-    }
-    pdfTextViewer={
-      <Suspense fallback={<p>loading</p>}>
-        <PDFTextViewerLogicContainer />
-      </Suspense>
-    }
-    lintResultViewer={
-      <Suspense fallback={<p>loading</p>}>
-        <LintResultViewerLogicContainer />
-      </Suspense>
-    }
-    lintStats={
-      <Suspense fallback={<p>loading</p>}>
-        <LintStatsLogicContainer />
-      </Suspense>
-    }
-  />
+  <AppLayout header={<Header />} main={<MainLogicContainer />} />
 )
 
 export default App
