@@ -1,4 +1,3 @@
-import type { TextlintRuleSeverityLevel } from "@textlint/kernel"
 import { useAtom, useAtomValue, useSetAtom } from "jotai"
 import { type FC, type ReactElement, Suspense } from "react"
 import {
@@ -50,11 +49,6 @@ const MainLogicContainer: FC = () => {
           <LintResultViewerLogicContainer />
         </Suspense>
       }
-      lintStats={
-        <Suspense fallback={<p>loading</p>}>
-          <LintStatsLogicContainer />
-        </Suspense>
-      }
     />
   )
 }
@@ -70,7 +64,6 @@ const BeforeFileUploadMainLayout: FC<BeforeFileUploadMainLayoutProps> = ({
 interface AfterFileUploadMainLayoutProps {
   pdfTextViewer: ReactElement
   lintResultViewer: ReactElement
-  lintStats: ReactElement
 }
 
 const AfterFileUploadMainLayout: FC<AfterFileUploadMainLayoutProps> = ({
@@ -181,19 +174,6 @@ const LintResultViewerLogicContainer = () => {
       unmuteRule={unmuteRule}
     />
   )
-}
-
-const LintStatsLogicContainer = () => {
-  const lintResult = useAtomValue(filteredLintResultState)
-  const stats: Record<TextlintRuleSeverityLevel, number> = {
-    0: 0,
-    1: 0,
-    2: 0,
-  }
-  for (const message of lintResult) {
-    stats[message.severity]++
-  }
-  return <LintStats lintStats={stats} />
 }
 
 const App = () => (
