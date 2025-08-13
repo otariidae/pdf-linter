@@ -1,19 +1,12 @@
-import type {
-  TextlintMessage,
-  TextlintRuleSeverityLevel,
-} from "@textlint/kernel"
+import type { TextlintRuleSeverityLevel } from "@textlint/kernel"
 import { useAtom, useAtomValue, useSetAtom } from "jotai"
 import { type FC, type ReactElement, Suspense } from "react"
 import {
   fileState,
   fileTextContentsState,
   filteredLintResultState,
-  lintResultState,
-  soloFilterState,
   visibilityFilterState,
 } from "../states"
-import type { LintResult } from "../type"
-import FilterForm from "./form"
 import { Block, LayoutContainer, LayoutItem } from "./layout"
 import LintResultViewer from "./lintresultviewer"
 import LintStats from "./lintstats"
@@ -37,10 +30,11 @@ const AppLayout: FC<AppLayoutProps> = ({
   <LayoutContainer
     style={{
       gridTemplateAreas: `
-        "header header header header"
-        "form pdf lint stats"`,
-      gridTemplateColumns: "2fr 4fr 3fr 1fr",
-      gridTemplateRows: "3rem 1fr",
+        "header header header"
+        "form form form"
+        "pdf lint stats"`,
+      gridTemplateColumns: "2fr 2fr 1fr",
+      gridTemplateRows: "3rem 2rem 1fr",
     }}
   >
     <LayoutItem area="header">{header}</LayoutItem>
@@ -94,40 +88,8 @@ const Header = () => (
   </Block>
 )
 
-function removeDuplicateArray<T>(arr: T[]): T[] {
-  return [...new Set(arr)]
-}
-
-const getTextlintRuleId = (lintResults: LintResult) =>
-  removeDuplicateArray(
-    lintResults.map((message: TextlintMessage) => message.ruleId),
-  )
-
-function toggleSet<T>(set: Set<T>, item: T) {
-  if (set.has(item)) {
-    set.delete(item)
-  } else {
-    set.add(item)
-  }
-  return set
-}
-
 const FilterFormLogicContainer: FC = () => {
   const setFile = useSetAtom(fileState)
-  const lintResult = useAtomValue(lintResultState)
-  const ruleIds = getTextlintRuleId(lintResult)
-  const [visibilityFilter, setVisibilityFilter] = useAtom(visibilityFilterState)
-  const [soloFilter, setSoloFilter] = useAtom(soloFilterState)
-  const toggleVisibilityFilter = (ruleId: string) => {
-    const newVisibilityFilter = new Set(visibilityFilter)
-    toggleSet(newVisibilityFilter, ruleId)
-    setVisibilityFilter(newVisibilityFilter)
-  }
-  const toggleSoloFilter = (ruleId: string) => {
-    const newSoloFilter = new Set(soloFilter)
-    toggleSet(newSoloFilter, ruleId)
-    setSoloFilter(newSoloFilter)
-  }
   return (
     <div>
       <input
@@ -142,15 +104,6 @@ const FilterFormLogicContainer: FC = () => {
           setFile(file)
         }}
       />
-      <Suspense fallback={<p>loading</p>}>
-        <FilterForm
-          ruleIds={ruleIds}
-          muteIds={visibilityFilter}
-          soloIds={soloFilter}
-          toggleMute={toggleVisibilityFilter}
-          toggleSolo={toggleSoloFilter}
-        />
-      </Suspense>
     </div>
   )
 }
@@ -165,7 +118,28 @@ const PDFTextViewerLogicContainer = () => {
 
 const LintResultViewerLogicContainer = () => {
   const lintResult = useAtomValue(filteredLintResultState)
-  return <LintResultViewer lintResult={lintResult} />
+  const [visibilityFilter, setVisibilityFilter] = useAtom(visibilityFilterState)
+
+  function muteRule(ruleId: string) {
+    const newVisibilityFilter = new Set(visibilityFilter)
+    newVisibilityFilter.add(ruleId)
+    setVisibilityFilter(newVisibilityFilter)
+  }
+
+  function unmuteRule(ruleId: string) {
+    const newVisibilityFilter = new Set(visibilityFilter)
+    newVisibilityFilter.delete(ruleId)
+    setVisibilityFilter(newVisibilityFilter)
+  }
+
+  return (
+    <LintResultViewer
+      lintResult={lintResult}
+      mutedRuleIds={visibilityFilter}
+      muteRule={muteRule}
+      unmuteRule={unmuteRule}
+    />
+  )
 }
 
 const LintStatsLogicContainer = () => {
