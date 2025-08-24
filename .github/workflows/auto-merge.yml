@@ -10,7 +10,7 @@ jobs:
     if: github.event.pull_request.user.login == 'dependabot[bot]'
 
     steps:
-      - id: dependabot-metedata
+      - id: dependabot-metadata
         uses: dependabot/fetch-metadata@v2
 
       - uses: actions/create-github-app-token@v2
@@ -19,11 +19,17 @@ jobs:
           app-id: ${{ vars.APP_ID }}
           private-key: ${{ secrets.PRIVATE_KEY }}
 
-      - name: automerge non-production dependencies
-        if: steps.dependabot-metedata.outputs.dependency-type != 'direct:production'
-        uses: fastify/github-action-merge-dependabot@v3
-        with:
-          use-github-auto-merge: true
-          target-development: patch
-          target-indirect: minor
-          github-token: ${{ steps.app-token.outputs.token }}
+      - name: automerge PRs
+        # allow patch version updates for dependencies
+        # allow minor version updates for devDependencies
+        # allow any updates for indirect dependencies
+        if: |
+          (steps.dependabot-metadata.outputs.dependency-type == 'direct:production' && steps.dependabot-metadata.outputs.update-type == 'version-update:semver-patch') ||
+          (steps.dependabot-metadata.outputs.dependency-type == 'direct:development' && (steps.dependabot-metadata.outputs.update-type == 'version-update:semver-minor' || steps.dependabot-metadata.outputs.update-type == 'version-update:semver-patch')) ||
+          steps.dependabot-metadata.outputs.dependency-type == 'indirect'
+        run: |
+          gh pr review --approve "$PR_URL"
+          gh pr merge --auto --merge "$PR_URL"
+        env:
+          PR_URL: ${{ github.event.pull_request.html_url }}
+          GITHUB_TOKEN: ${{ steps.app-token.outputs.token }}
