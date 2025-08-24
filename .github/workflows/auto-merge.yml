@@ -9,13 +9,15 @@ jobs:
     runs-on: ubuntu-latest
     if: github.event.pull_request.user.login == 'dependabot[bot]'
 
-    permissions:
-      pull-requests: write
-      contents: write
-
     steps:
       - id: dependabot-metedata
         uses: dependabot/fetch-metadata@v2
+
+      - uses: actions/create-github-app-token@v2
+        id: app-token
+        with:
+          app-id: ${{ vars.APP_ID }}
+          private-key: ${{ secrets.PRIVATE_KEY }}
 
       - name: automerge non-production dependencies
         if: steps.dependabot-metedata.outputs.dependency-type != 'direct:production'
@@ -24,3 +26,4 @@ jobs:
           use-github-auto-merge: true
           target-development: patch
           target-indirect: minor
+          github-token: ${{ steps.app-token.outputs.token }}
