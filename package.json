@@ -30,7 +30,7 @@
   "devDependencies": {
     "@biomejs/biome": "^2.0.5",
     "@playwright/experimental-ct-react": "^1.54.2",
-    "@textlint-ja/textlint-rule-preset-ai-writing": "^1.6.0",
+    "@textlint-ja/textlint-rule-preset-ai-writing": "^1.6.1",
     "@textlint/script-compiler": "^0.17.1",
     "@types/node": "^24.2.1",
     "@types/react": "^19.1.9",
