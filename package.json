@@ -24,8 +24,8 @@
     "@emotion/styled": "^11.14.1",
     "jotai": "^2.13.1",
     "pdfjs-dist": "~5.2.133",
-    "react": "^19.1.1",
-    "react-dom": "^19.1.1"
+    "react": "^19.2.0",
+    "react-dom": "^19.2.0"
   },
   "devDependencies": {
     "@biomejs/biome": "^2.0.5",
@@ -33,8 +33,8 @@
     "@textlint-ja/textlint-rule-preset-ai-writing": "^1.6.1",
     "@textlint/script-compiler": "^0.17.1",
     "@types/node": "^24.2.1",
-    "@types/react": "^19.1.16",
-    "@types/react-dom": "^19.1.9",
+    "@types/react": "^19.2.2",
+    "@types/react-dom": "^19.2.2",
     "@vitejs/plugin-react": "^5.0.4",
     "rolldown-vite": "^6.3.21",
     "textlint-rule-preset-ja-technical-writing": "^12.0.2",
