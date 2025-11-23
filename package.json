@@ -14,8 +14,8 @@
     "prebuild": "node --run compile-textlint",
     "build": "tsc && vite build",
     "preview": "vite preview",
-    "pretest-ct": "node --run compile-textlint",
-    "test-ct": "playwright test -c playwright-ct.config.ts"
+    "pretest:browser": "node --run compile-textlint",
+    "test:browser": "vitest --config=vitest.browser.config.ts"
   },
   "dependencies": {
     "@axe-core/react": "^4.4.3",
@@ -29,17 +29,18 @@
   },
   "devDependencies": {
     "@biomejs/biome": "^2.0.5",
-    "@playwright/experimental-ct-react": "^1.56.1",
     "@textlint-ja/textlint-rule-preset-ai-writing": "^1.6.1",
     "@textlint/script-compiler": "^0.17.1",
     "@types/node": "^24.10.0",
     "@types/react": "^19.2.2",
     "@types/react-dom": "^19.2.2",
     "@vitejs/plugin-react": "^5.0.4",
+    "@vitest/browser-playwright": "^4.0.13",
     "rolldown-vite": "^7.2.7",
     "textlint-rule-preset-ja-technical-writing": "^12.0.2",
     "textlint-rule-preset-japanese": "^10.0.4",
-    "typescript": "^5.8.3"
+    "typescript": "^5.8.3",
+    "vitest-browser-react": "^2.0.2"
   },
   "overrides": {
     "vite": "npm:rolldown-vite@latest"
