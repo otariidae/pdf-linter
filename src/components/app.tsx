@@ -1,3 +1,4 @@
+import { Box } from "@radix-ui/themes"
 import { useAtom, useAtomValue, useSetAtom } from "jotai"
 import { type FC, type ReactElement, Suspense } from "react"
 import {
@@ -6,7 +7,6 @@ import {
   filteredLintResultState,
   visibilityFilterState,
 } from "../states"
-import { Block, LayoutContainer, LayoutItem } from "./layout"
 import LintResultViewer from "./lintresultviewer"
 import PDFTextViewer from "./pdftextviewer"
 
@@ -16,8 +16,11 @@ interface AppLayoutProps {
 }
 
 const AppLayout: FC<AppLayoutProps> = ({ header, main }) => (
-  <LayoutContainer
+  <Box
     style={{
+      width: "100%",
+      height: "100%",
+      display: "grid",
       gridTemplateAreas: `
         "header"
         "main"
@@ -25,9 +28,9 @@ const AppLayout: FC<AppLayoutProps> = ({ header, main }) => (
       gridTemplateRows: "3rem 1fr",
     }}
   >
-    <LayoutItem area="header">{header}</LayoutItem>
-    <LayoutItem area="main">{main}</LayoutItem>
-  </LayoutContainer>
+    <Box style={{ gridArea: "header" }}>{header}</Box>
+    <Box style={{ gridArea: "main", overflow: "hidden" }}>{main}</Box>
+  </Box>
 )
 
 const MainLogicContainer: FC = () => {
@@ -59,7 +62,17 @@ interface BeforeFileUploadMainLayoutProps {
 
 const BeforeFileUploadMainLayout: FC<BeforeFileUploadMainLayoutProps> = ({
   fileInput,
-}) => <LayoutContainer>{fileInput}</LayoutContainer>
+}) => (
+  <Box
+    style={{
+      width: "100%",
+      height: "100%",
+      display: "grid",
+    }}
+  >
+    {fileInput}
+  </Box>
+)
 
 interface AfterFileUploadMainLayoutProps {
   pdfTextViewer: ReactElement
@@ -70,19 +83,18 @@ const AfterFileUploadMainLayout: FC<AfterFileUploadMainLayoutProps> = ({
   pdfTextViewer,
   lintResultViewer,
 }) => (
-  <LayoutContainer
+  <Box
     style={{
+      width: "100%",
+      height: "100%",
+      display: "grid",
       gridTemplateAreas: `"pdf lint"`,
       gridTemplateColumns: "1fr 1fr",
     }}
   >
-    <LayoutItem area="pdf" scrollable>
-      {pdfTextViewer}
-    </LayoutItem>
-    <LayoutItem area="lint" scrollable>
-      {lintResultViewer}
-    </LayoutItem>
-  </LayoutContainer>
+    <Box style={{ gridArea: "pdf", overflow: "auto" }}>{pdfTextViewer}</Box>
+    <Box style={{ gridArea: "lint", overflow: "auto" }}>{lintResultViewer}</Box>
+  </Box>
 )
 
 const TitleLine = () => (
@@ -105,21 +117,33 @@ interface HeaderLayoutProps {
   titleline: ReactElement
 }
 const HeaderLayout: FC<HeaderLayoutProps> = ({ titleline }) => (
-  <LayoutContainer
+  <Box
     style={{
+      width: "100%",
+      height: "100%",
+      display: "grid",
       gridTemplateAreas: '"titleline"',
       gridTemplateColumns: "1fr",
       alignContent: "center",
     }}
   >
-    <LayoutItem area="titleline">{titleline}</LayoutItem>
-  </LayoutContainer>
+    <Box style={{ gridArea: "titleline" }}>{titleline}</Box>
+  </Box>
 )
 
 const Header = () => (
-  <Block as="header">
-    <HeaderLayout titleline={<TitleLine />} />
-  </Block>
+  <Box
+    asChild
+    style={{
+      width: "100%",
+      height: "100%",
+      display: "flex",
+    }}
+  >
+    <header>
+      <HeaderLayout titleline={<TitleLine />} />
+    </header>
+  </Box>
 )
 
 const FilterFormLogicContainer: FC = () => {

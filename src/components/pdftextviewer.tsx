@@ -1,51 +1,28 @@
-import { css } from "@emotion/css"
+import { Box, Text } from "@radix-ui/themes"
 import { type FC, Fragment } from "react"
+import "./pdftextviewer.css"
 
 interface PDFTextViewerProps {
   pageTexts: string[]
 }
 
 const PDFTextViewer: FC<PDFTextViewerProps> = ({ pageTexts }) => (
-  <div
-    className={css`
-      white-space: pre-wrap;
-      font-size: 0.8rem;
-    `}
+  <Box
+    style={{
+      whiteSpace: "pre-wrap",
+      fontSize: "0.8rem",
+    }}
   >
     {pageTexts.map((text, i) => (
       <Fragment key={i}>
-        <p>
+        <Text as="p">
           page {i + 1} of {pageTexts.length}:
-        </p>
+        </Text>
         <LineNumberedTextViewer pageNumber={i + 1} text={text} />
       </Fragment>
     ))}
-  </div>
+  </Box>
 )
-
-const textViewerClassName = css`
-  @counter-style dotless-item {
-    system: numeric;
-    symbols: "0" "1" "2" "3" "4" "5" "6" "7" "8" "9";
-    suffix: "";
-  }
-
-  list-style-type: dotless-item;
-  list-style-position: outside;
-  padding-inline-start: 3ex;
-
-  li {
-    padding-left: 0.5em;
-
-    &:target {
-      background-color: moccasin;
-    }
-    &::marker {
-      font-family: monospace;
-      color: rgba(0, 0, 0, 0.5);
-    }
-  }
-`
 
 interface LineNumberedTextViewerProps {
   pageNumber: number
@@ -57,7 +34,7 @@ const LineNumberedTextViewer: FC<LineNumberedTextViewerProps> = ({
 }) => {
   const lines = text.split("\n")
   return (
-    <ol className={textViewerClassName}>
+    <ol className="line-numbered-text-viewer">
       {lines.map((line, i) => {
         const id = `p${pageNumber}-l${i + 1}`
         return (

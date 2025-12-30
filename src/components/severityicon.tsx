@@ -1,3 +1,8 @@
+import {
+  CrossCircledIcon,
+  ExclamationTriangleIcon,
+  InfoCircledIcon,
+} from "@radix-ui/react-icons"
 import type { TextlintRuleSeverityLevel } from "@textlint/kernel"
 
 export function SeverityIcon({
@@ -7,25 +12,10 @@ export function SeverityIcon({
 }) {
   switch (severity) {
     case 0:
-      return (
-        <span
-          className="material-symbols-outlined"
-          style={{ color: "royalblue" }}
-        >
-          info
-        </span>
-      )
+      return <InfoCircledIcon style={{ color: "royalblue" }} />
     case 1:
-      return (
-        <span className="material-symbols-outlined" style={{ color: "orange" }}>
-          warning
-        </span>
-      )
+      return <ExclamationTriangleIcon style={{ color: "orange" }} />
     case 2:
-      return (
-        <span className="material-symbols-outlined" style={{ color: "red" }}>
-          dangerous
-        </span>
-      )
+      return <CrossCircledIcon style={{ color: "red" }} />
   }
 }

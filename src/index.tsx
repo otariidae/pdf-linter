@@ -1,8 +1,10 @@
-import { Global } from "@emotion/react"
+import "@radix-ui/themes/styles.css"
+import { Theme } from "@radix-ui/themes"
 import React, { StrictMode } from "react"
 import * as ReactDOM from "react-dom"
 import { createRoot } from "react-dom/client"
 import App from "./components/app"
+import "./global.css"
 
 if (process.env.NODE_ENV !== "production") {
   import("@axe-core/react")
@@ -19,18 +21,12 @@ if (!container) {
 const root = createRoot(container)
 root.render(
   <StrictMode>
-    <Global
-      styles={{
-        body: {
-          margin: 0,
-          height: "100dvh",
-          overflow: "hidden",
-        },
-        "#app": {
-          height: "100%",
-        },
+    <Theme
+      style={{
+        height: "100%",
       }}
-    />
-    <App />
+    >
+      <App />
+    </Theme>
   </StrictMode>,
 )
