@@ -1,0 +1,24 @@
+@counter-style dotless-item {
+  system: numeric;
+  symbols: "0" "1" "2" "3" "4" "5" "6" "7" "8" "9";
+  suffix: "";
+}
+
+.line-numbered-text-viewer {
+  list-style-type: dotless-item;
+  list-style-position: outside;
+  padding-inline-start: 3ex;
+}
+
+.line-numbered-text-viewer li {
+  padding-left: 0.5em;
+}
+
+.line-numbered-text-viewer li:target {
+  background-color: moccasin;
+}
+
+.line-numbered-text-viewer li::marker {
+  font-family: monospace;
+  color: rgba(0, 0, 0, 0.5);
+}
