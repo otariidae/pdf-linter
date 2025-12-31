@@ -26,8 +26,10 @@ const AppLayout: FC<AppLayoutProps> = ({ header, main }) => (
     `}
     rows="3rem 1fr"
   >
-    <Box style={{ gridArea: "header" }}>{header}</Box>
-    <Box style={{ gridArea: "main", overflow: "hidden" }}>{main}</Box>
+    <Box gridArea="header">{header}</Box>
+    <Box gridArea="main" style={{ overflow: "hidden" }}>
+      {main}
+    </Box>
   </Grid>
 )
 
@@ -84,8 +86,8 @@ const AfterFileUploadMainLayout: FC<AfterFileUploadMainLayoutProps> = ({
     gap="6"
   >
     <Box
+      gridArea="pdf"
       style={{
-        gridArea: "pdf",
         overflow: "auto",
         background: "var(--color-panel)",
         borderRadius: "var(--radius-3)",
@@ -97,8 +99,8 @@ const AfterFileUploadMainLayout: FC<AfterFileUploadMainLayoutProps> = ({
       {pdfTextViewer}
     </Box>
     <Box
+      gridArea="lint"
       style={{
-        gridArea: "lint",
         overflow: "auto",
         background: "var(--color-panel)",
         borderRadius: "var(--radius-3)",
@@ -168,7 +170,7 @@ const HeaderLayout: FC<HeaderLayoutProps> = ({ titleline }) => (
       alignContent: "center",
     }}
   >
-    <Box style={{ gridArea: "titleline" }}>{titleline}</Box>
+    <Box gridArea="titleline">{titleline}</Box>
   </Grid>
 )
 
@@ -194,11 +196,11 @@ const FilterFormLogicContainer: FC = () => {
   const setFile = useSetAtom(fileState)
   return (
     <Box
+      width="100%"
+      maxWidth="600px"
+      p="8"
       style={{
         placeSelf: "center",
-        width: "100%",
-        maxWidth: "600px",
-        padding: "2rem",
         animation: "scaleIn 0.5s ease-out",
       }}
     >
