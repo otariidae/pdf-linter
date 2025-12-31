@@ -1,6 +1,7 @@
 import {
   Box,
   Button,
+  Card,
   Code,
   Flex,
   Grid,
@@ -45,98 +46,81 @@ interface LintMessageItemProps {
 }
 
 const LintMessageItem: FC<LintMessageItemProps> = ({ message, muteRule }) => (
-  <Grid
-    p="4"
-    mb="3"
-    areas={`"icon content"`}
-    columns="2rem 1fr"
-    style={{
-      background: "var(--gray-a2)",
-      border: "1px solid var(--gray-6)",
-      borderRadius: "var(--radius-3)",
-      transition: "all 0.2s ease",
-    }}
-    onMouseEnter={(e) => {
-      e.currentTarget.style.boxShadow = "var(--shadow-2)"
-      e.currentTarget.style.transform = "translateX(2px)"
-    }}
-    onMouseLeave={(e) => {
-      e.currentTarget.style.boxShadow = "none"
-      e.currentTarget.style.transform = "translateX(0)"
-    }}
-  >
-    <Box style={{ gridArea: "icon" }}>
-      <SeverityIcon severity={message.severity} />
-    </Box>
-    <Box style={{ gridArea: "content" }}>
-      <Text
-        as="p"
-        size="2"
-        m="0"
-        mb="2"
-        style={{
-          color: "var(--gray-12)",
-        }}
-      >
-        {message.message}
-      </Text>
-      <Flex gap="2" align="center" mt="2" wrap="wrap">
-        <Code
-          asChild
-          size="1"
-          weight="medium"
+  <Card size="2" mb="3">
+    <Grid areas={`"icon content"`} columns="2rem 1fr">
+      <Box style={{ gridArea: "icon" }}>
+        <SeverityIcon severity={message.severity} />
+      </Box>
+      <Box style={{ gridArea: "content" }}>
+        <Text
+          as="p"
+          size="2"
+          m="0"
+          mb="2"
           style={{
-            color: "var(--accent-11)",
-            textDecoration: "none",
-            padding: "0.25rem 0.5rem",
-            background: "var(--accent-a3)",
-            borderRadius: "var(--radius-2)",
-            transition: "all 0.2s ease",
-          }}
-          onMouseEnter={(e) => {
-            e.currentTarget.style.background = "var(--accent-a4)"
-          }}
-          onMouseLeave={(e) => {
-            e.currentTarget.style.background = "var(--accent-a3)"
+            color: "var(--gray-12)",
           }}
         >
-          <Link href={`#p${message.page}-l${message.loc.start.line}`}>
-            {formatMessageLocation(message)}
-          </Link>
-        </Code>
-        <Code
-          size="1"
-          style={{
-            color: "var(--gray-10)",
-            background: "transparent",
-          }}
-        >
-          {message.ruleId}
-        </Code>
-        <Button
-          variant="ghost"
-          size="1"
-          title={`mute ${message.ruleId} rule`}
-          onClick={() => muteRule(message.ruleId)}
-          style={{
-            cursor: "pointer",
-            color: "var(--gray-11)",
-            padding: "0.25rem 0.5rem",
-            height: "auto",
-            transition: "all 0.2s ease",
-          }}
-          onMouseEnter={(e) => {
-            e.currentTarget.style.color = "var(--accent-11)"
-          }}
-          onMouseLeave={(e) => {
-            e.currentTarget.style.color = "var(--gray-11)"
-          }}
-        >
-          mute
-        </Button>
-      </Flex>
-    </Box>
-  </Grid>
+          {message.message}
+        </Text>
+        <Flex gap="2" align="center" mt="2" wrap="wrap">
+          <Code
+            asChild
+            size="1"
+            weight="medium"
+            style={{
+              color: "var(--accent-11)",
+              textDecoration: "none",
+              padding: "0.25rem 0.5rem",
+              background: "var(--accent-a3)",
+              borderRadius: "var(--radius-2)",
+              transition: "all 0.2s ease",
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.background = "var(--accent-a4)"
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.background = "var(--accent-a3)"
+            }}
+          >
+            <Link href={`#p${message.page}-l${message.loc.start.line}`}>
+              {formatMessageLocation(message)}
+            </Link>
+          </Code>
+          <Code
+            size="1"
+            style={{
+              color: "var(--gray-10)",
+              background: "transparent",
+            }}
+          >
+            {message.ruleId}
+          </Code>
+          <Button
+            variant="ghost"
+            size="1"
+            title={`mute ${message.ruleId} rule`}
+            onClick={() => muteRule(message.ruleId)}
+            style={{
+              cursor: "pointer",
+              color: "var(--gray-11)",
+              padding: "0.25rem 0.5rem",
+              height: "auto",
+              transition: "all 0.2s ease",
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.color = "var(--accent-11)"
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.color = "var(--gray-11)"
+            }}
+          >
+            mute
+          </Button>
+        </Flex>
+      </Box>
+    </Grid>
+  </Card>
 )
 
 const formatSevertyCount = (
@@ -159,7 +143,13 @@ const LintResultViewer: FC<LintResultViewerProps> = ({
 }) => {
   const stats = calculateStats(lintResult)
   return (
-    <Box p="6">
+    <Card
+      size="3"
+      style={{
+        whiteSpace: "pre-wrap",
+        animation: "slideUp 0.6s ease-out",
+      }}
+    >
       <Box
         mb="6"
         pb="4"
@@ -282,7 +272,7 @@ const LintResultViewer: FC<LintResultViewerProps> = ({
           ))}
         </ol>
       </Box>
-    </Box>
+    </Card>
   )
 }
 

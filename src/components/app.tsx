@@ -27,7 +27,7 @@ const AppLayout: FC<AppLayoutProps> = ({ header, main }) => (
     rows="3rem 1fr"
   >
     <Box gridArea="header">{header}</Box>
-    <Box gridArea="main" style={{ overflow: "hidden" }}>
+    <Box gridArea="main" overflow="hidden">
       {main}
     </Box>
   </Grid>
@@ -85,31 +85,10 @@ const AfterFileUploadMainLayout: FC<AfterFileUploadMainLayoutProps> = ({
     columns="1fr 1fr"
     gap="6"
   >
-    <Box
-      gridArea="pdf"
-      style={{
-        overflow: "auto",
-        background: "var(--color-panel)",
-        borderRadius: "var(--radius-3)",
-        border: "1px solid var(--gray-6)",
-        boxShadow: "var(--shadow-3)",
-        animation: "slideUp 0.6s ease-out",
-      }}
-    >
+    <Box gridArea="pdf" overflow="auto">
       {pdfTextViewer}
     </Box>
-    <Box
-      gridArea="lint"
-      style={{
-        overflow: "auto",
-        background: "var(--color-panel)",
-        borderRadius: "var(--radius-3)",
-        border: "1px solid var(--gray-6)",
-        boxShadow: "var(--shadow-3)",
-        animation: "slideUp 0.6s ease-out 0.1s",
-        animationFillMode: "backwards",
-      }}
-    >
+    <Box gridArea="lint" overflow="auto">
       {lintResultViewer}
     </Box>
   </Grid>
