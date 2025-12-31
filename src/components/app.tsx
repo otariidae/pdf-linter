@@ -126,9 +126,8 @@ const TitleLine = () => (
     <Heading
       as="h1"
       size="7"
+      weight="bold"
       style={{
-        fontFamily: "var(--font-display)",
-        fontWeight: 700,
         letterSpacing: "-0.02em",
       }}
     >
@@ -145,9 +144,9 @@ const TitleLine = () => (
     <Text
       as="p"
       size="3"
+      weight="light"
       style={{
         color: "var(--gray-11)",
-        fontWeight: 300,
         letterSpacing: "0.01em",
       }}
     >
@@ -251,14 +250,7 @@ const FilterFormLogicContainer: FC = () => {
             />
           </Flex>
           <Box style={{ textAlign: "center" }}>
-            <Text
-              as="p"
-              size="6"
-              mb="2"
-              style={{
-                fontFamily: "var(--font-display)",
-              }}
-            >
+            <Text as="p" size="6" mb="2">
               PDFファイルを選択
             </Text>
             <Text

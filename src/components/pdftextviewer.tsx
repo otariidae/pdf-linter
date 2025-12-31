@@ -8,36 +8,35 @@ interface PDFTextViewerProps {
 
 const PDFTextViewer: FC<PDFTextViewerProps> = ({ pageTexts }) => (
   <Box
+    p="6"
     style={{
       whiteSpace: "pre-wrap",
-      fontSize: "0.875rem",
-      padding: "1.5rem",
     }}
   >
     <Box
+      mb="6"
+      pb="4"
       style={{
-        marginBottom: "1.5rem",
-        paddingBottom: "1rem",
         borderBottom: "1px solid var(--gray-6)",
       }}
     >
       <Heading
         as="h3"
+        size="5"
+        weight="bold"
+        m="0"
         style={{
-          margin: 0,
-          fontSize: "1.25rem",
-          fontFamily: "var(--font-display)",
           color: "var(--gray-12)",
-          fontWeight: 700,
         }}
       >
         PDF Text
       </Heading>
       <Text
         as="p"
+        size="2"
+        mt="1"
+        m="0"
         style={{
-          margin: "0.25rem 0 0 0",
-          fontSize: "0.875rem",
           color: "var(--gray-11)",
         }}
       >
@@ -48,12 +47,12 @@ const PDFTextViewer: FC<PDFTextViewerProps> = ({ pageTexts }) => (
       <Fragment key={`page-${i + 1}`}>
         <Text
           as="p"
+          size="2"
+          weight="medium"
+          mt="6"
+          mb="3"
           style={{
-            margin: "1.5rem 0 0.75rem 0",
-            fontSize: "0.9rem",
-            fontWeight: 600,
             color: "var(--gray-12)",
-            fontFamily: "var(--font-body)",
           }}
         >
           Page {i + 1} of {pageTexts.length}

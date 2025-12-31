@@ -22,6 +22,10 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+.radix-themes {
+  --heading-font-family: var(--font-display);
+}
+
 #app {
   height: 100%;
 }

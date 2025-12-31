@@ -1,5 +1,5 @@
 import { Cross2Icon } from "@radix-ui/react-icons"
-import { Button, Flex, Text } from "@radix-ui/themes"
+import { Button, Code, Flex } from "@radix-ui/themes"
 import type { FC } from "react"
 
 interface ChipProps {
@@ -24,7 +24,6 @@ export const Chip: FC<ChipProps> = ({
       borderRadius: "var(--radius-5)",
       background: "var(--color-panel)",
       transition: "all 0.2s ease",
-      fontSize: "0.8rem",
     }}
     onMouseEnter={(e) => {
       e.currentTarget.style.borderColor = "var(--accent-8)"
@@ -35,16 +34,16 @@ export const Chip: FC<ChipProps> = ({
       e.currentTarget.style.background = "var(--color-panel)"
     }}
   >
-    <Text
+    <Code
       size="1"
+      weight="medium"
       style={{
-        fontFamily: "var(--font-mono)",
         color: "var(--gray-12)",
-        fontWeight: 500,
+        background: "transparent",
       }}
     >
       {body}
-    </Text>
+    </Code>
     <Button
       variant="ghost"
       size="1"
