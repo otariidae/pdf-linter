@@ -1,5 +1,5 @@
 import { FilePlusIcon } from "@radix-ui/react-icons"
-import { Box } from "@radix-ui/themes"
+import { Box, Flex, Grid } from "@radix-ui/themes"
 import { useAtom, useAtomValue, useSetAtom } from "jotai"
 import { type FC, type ReactElement, Suspense } from "react"
 import {
@@ -17,21 +17,18 @@ interface AppLayoutProps {
 }
 
 const AppLayout: FC<AppLayoutProps> = ({ header, main }) => (
-  <Box
+  <Grid
     width="100%"
     height="100%"
-    style={{
-      display: "grid",
-      gridTemplateAreas: `
-        "header"
-        "main"
-      `,
-      gridTemplateRows: "3rem 1fr",
-    }}
+    areas={`
+      "header"
+      "main"
+    `}
+    rows="3rem 1fr"
   >
     <Box style={{ gridArea: "header" }}>{header}</Box>
     <Box style={{ gridArea: "main", overflow: "hidden" }}>{main}</Box>
-  </Box>
+  </Grid>
 )
 
 const MainLogicContainer: FC = () => {
@@ -64,9 +61,9 @@ interface BeforeFileUploadMainLayoutProps {
 const BeforeFileUploadMainLayout: FC<BeforeFileUploadMainLayoutProps> = ({
   fileInput,
 }) => (
-  <Box width="100%" height="100%" style={{ display: "grid" }}>
+  <Grid width="100%" height="100%">
     {fileInput}
-  </Box>
+  </Grid>
 )
 
 interface AfterFileUploadMainLayoutProps {
@@ -78,16 +75,13 @@ const AfterFileUploadMainLayout: FC<AfterFileUploadMainLayoutProps> = ({
   pdfTextViewer,
   lintResultViewer,
 }) => (
-  <Box
+  <Grid
     width="100%"
     height="100%"
     p="6"
-    style={{
-      display: "grid",
-      gridTemplateAreas: `"pdf lint"`,
-      gridTemplateColumns: "1fr 1fr",
-      gap: "1.5rem",
-    }}
+    areas={`"pdf lint"`}
+    columns="1fr 1fr"
+    gap="6"
   >
     <Box
       style={{
@@ -116,7 +110,7 @@ const AfterFileUploadMainLayout: FC<AfterFileUploadMainLayoutProps> = ({
     >
       {lintResultViewer}
     </Box>
-  </Box>
+  </Grid>
 )
 
 const TitleLine = () => (
@@ -166,28 +160,26 @@ interface HeaderLayoutProps {
   titleline: ReactElement
 }
 const HeaderLayout: FC<HeaderLayoutProps> = ({ titleline }) => (
-  <Box
+  <Grid
     width="100%"
     height="100%"
     px="8"
+    areas={`"titleline"`}
+    columns="1fr"
     style={{
-      display: "grid",
-      gridTemplateAreas: '"titleline"',
-      gridTemplateColumns: "1fr",
       alignContent: "center",
     }}
   >
     <Box style={{ gridArea: "titleline" }}>{titleline}</Box>
-  </Box>
+  </Grid>
 )
 
 const Header = () => (
-  <Box
+  <Flex
     asChild
     width="100%"
     height="100%"
     style={{
-      display: "flex",
       background: "var(--color-panel)",
       backdropFilter: "blur(10px)",
       borderBottom: "1px solid var(--gray-6)",
@@ -197,7 +189,7 @@ const Header = () => (
     <header>
       <HeaderLayout titleline={<TitleLine />} />
     </header>
-  </Box>
+  </Flex>
 )
 
 const FilterFormLogicContainer: FC = () => {
