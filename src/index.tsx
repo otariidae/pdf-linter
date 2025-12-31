@@ -22,6 +22,9 @@ const root = createRoot(container)
 root.render(
   <StrictMode>
     <Theme
+      accentColor="crimson"
+      grayColor="slate"
+      radius="medium"
       style={{
         height: "100%",
       }}
