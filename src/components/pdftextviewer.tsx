@@ -1,4 +1,4 @@
-import { Box, Heading, Text } from "@radix-ui/themes"
+import { Box, Card, Heading, Text } from "@radix-ui/themes"
 import { type FC, Fragment } from "react"
 import "./pdftextviewer.css"
 
@@ -7,10 +7,12 @@ interface PDFTextViewerProps {
 }
 
 const PDFTextViewer: FC<PDFTextViewerProps> = ({ pageTexts }) => (
-  <Box
-    p="6"
+  <Card
+    size="3"
     style={{
       whiteSpace: "pre-wrap",
+      animation: "slideUp 0.6s ease-out 0.1s",
+      animationFillMode: "backwards",
     }}
   >
     <Box
@@ -60,7 +62,7 @@ const PDFTextViewer: FC<PDFTextViewerProps> = ({ pageTexts }) => (
         <LineNumberedTextViewer pageNumber={i + 1} text={text} />
       </Fragment>
     ))}
-  </Box>
+  </Card>
 )
 
 interface LineNumberedTextViewerProps {
