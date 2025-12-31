@@ -282,7 +282,7 @@ const FilterFormLogicContainer: FC = () => {
               color: "var(--gray-11)",
             }}
           >
-            クリックしてファイルを選択、またはドラッグ&ドロップ
+            クリックしてファイルを選択
           </p>
         </div>
         <input
