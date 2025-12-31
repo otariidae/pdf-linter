@@ -9,6 +9,7 @@
     "lintcheck": "biome lint .",
     "fmt": "biome format --write .",
     "fmtcheck": "biome format .",
+    "typecheck": "tsc",
     "predev": "node --run compile-textlint",
     "dev": "vite",
     "prebuild": "node --run compile-textlint",
