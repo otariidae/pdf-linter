@@ -186,27 +186,30 @@ const LintResultViewer: FC<LintResultViewerProps> = ({
         >
           <ul>
             {Object.entries(stats).map(([severity, count]) => (
-              <Text asChild key={severity}>
-                <li
-                  style={{
-                    padding: "0.375rem 0.75rem",
-                    background:
-                      severity === "2"
-                        ? "var(--red-a3)"
-                        : severity === "1"
-                          ? "var(--orange-a3)"
-                          : "var(--blue-a3)",
-                    borderRadius: "var(--radius-2)",
-                    fontWeight: 600,
-                    color: "var(--gray-12)",
-                  }}
-                >
-                  {formatSevertyCount(
-                    severity as unknown as TextlintRuleSeverityLevel,
-                    count,
-                  )}
+              <Box asChild key={severity}>
+                <li>
+                  <Text
+                    size="2"
+                    style={{
+                      padding: "0.375rem 0.75rem",
+                      background:
+                        severity === "2"
+                          ? "var(--red-a3)"
+                          : severity === "1"
+                            ? "var(--orange-a3)"
+                            : "var(--blue-a3)",
+                      borderRadius: "var(--radius-2)",
+                      fontWeight: 600,
+                      display: "inline-block",
+                    }}
+                  >
+                    {formatSevertyCount(
+                      severity as unknown as TextlintRuleSeverityLevel,
+                      count,
+                    )}
+                  </Text>
                 </li>
-              </Text>
+              </Box>
             ))}
           </ul>
         </Flex>
