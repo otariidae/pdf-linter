@@ -288,7 +288,6 @@ const FilterFormLogicContainer: FC = () => {
         <input
           type="file"
           accept="application/pdf"
-          aria-label="PDFファイルを選択"
           style={{ display: "none" }}
           onChange={(event) => {
             if (event.target.files === null) {

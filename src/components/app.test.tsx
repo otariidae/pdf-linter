@@ -21,13 +21,13 @@ test("should show PDF text content, lint errors, and lint rules", async () => {
     </Provider>,
   )
 
-  const fileInput = getByLabelText("PDFファイルを選択")
-  await expect.element(fileInput).toBeVisible()
+  const fileInput = getByLabelText(/PDFファイルを選択/)
+  await expect.element(fileInput).toBeInTheDocument()
 
   await fileInput.upload("src/__tests__/example.pdf")
 
   // should show text in PDF
-  const pageIndicator = getByText("page 1 of 1:")
+  const pageIndicator = getByText("Page 1 of 1")
   await expect.element(pageIndicator).toBeVisible()
   await expect.element(getByText("そういう可能性もなくもない.")).toBeVisible()
   await expect
@@ -68,8 +68,8 @@ test("should omit lint errors for muted rules", async () => {
     </Provider>,
   )
 
-  const fileInput = getByLabelText("PDFファイルを選択")
-  await expect.element(fileInput).toBeVisible()
+  const fileInput = getByLabelText(/PDFファイルを選択/)
+  await expect.element(fileInput).toBeInTheDocument()
 
   await fileInput.upload("src/__tests__/example.pdf")
 
