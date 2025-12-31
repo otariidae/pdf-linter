@@ -20,12 +20,31 @@ export const Chip: FC<ChipProps> = ({
     px="3"
     py="1"
     style={{
-      border: "1px solid var(--gray-8)",
-      borderRadius: "2rem",
-      marginInlineEnd: "0.5rem",
+      border: "1px solid var(--gray-7)",
+      borderRadius: "var(--radius-5)",
+      background: "var(--color-panel)",
+      transition: "all 0.2s ease",
+      fontSize: "0.8rem",
+    }}
+    onMouseEnter={(e) => {
+      e.currentTarget.style.borderColor = "var(--accent-8)"
+      e.currentTarget.style.background = "var(--accent-a2)"
+    }}
+    onMouseLeave={(e) => {
+      e.currentTarget.style.borderColor = "var(--gray-7)"
+      e.currentTarget.style.background = "var(--color-panel)"
     }}
   >
-    <Text size="1">{body}</Text>
+    <Text
+      size="1"
+      style={{
+        fontFamily: "var(--font-mono)",
+        color: "var(--gray-12)",
+        fontWeight: 500,
+      }}
+    >
+      {body}
+    </Text>
     <Button
       variant="ghost"
       size="1"
@@ -36,6 +55,14 @@ export const Chip: FC<ChipProps> = ({
         cursor: "pointer",
         minWidth: "auto",
         height: "auto",
+        color: "var(--gray-10)",
+        transition: "color 0.2s ease",
+      }}
+      onMouseEnter={(e) => {
+        e.currentTarget.style.color = "var(--accent-11)"
+      }}
+      onMouseLeave={(e) => {
+        e.currentTarget.style.color = "var(--gray-10)"
       }}
     >
       <Cross2Icon />

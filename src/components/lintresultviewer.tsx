@@ -1,4 +1,4 @@
-import { Box, Button, Flex, Link, Text } from "@radix-ui/themes"
+import { Box, Button, Flex, Heading, Link, Text } from "@radix-ui/themes"
 import type { TextlintRuleSeverityLevel } from "@textlint/kernel"
 import type { FC } from "react"
 import { pluralize } from "../pluralize"
@@ -41,25 +41,74 @@ const LintMessageItem: FC<LintMessageItemProps> = ({ message, muteRule }) => (
     py="2"
     style={{
       display: "grid",
-      gridTemplateColumns: "1.75rem 1fr",
+      gridTemplateColumns: "2rem 1fr",
       gridTemplateAreas: '"icon content"',
+      padding: "1rem",
+      marginBottom: "0.75rem",
+      background: "var(--gray-a2)",
+      border: "1px solid var(--gray-6)",
+      borderRadius: "var(--radius-3)",
+      transition: "all 0.2s ease",
+    }}
+    onMouseEnter={(e) => {
+      e.currentTarget.style.boxShadow = "var(--shadow-2)"
+      e.currentTarget.style.transform = "translateX(2px)"
+    }}
+    onMouseLeave={(e) => {
+      e.currentTarget.style.boxShadow = "none"
+      e.currentTarget.style.transform = "translateX(0)"
     }}
   >
     <Box style={{ gridArea: "icon" }}>
       <SeverityIcon severity={message.severity} />
     </Box>
     <Box style={{ gridArea: "content" }}>
-      <Text as="p" style={{ margin: 0 }}>
+      <Text
+        as="p"
+        style={{
+          margin: "0 0 0.5rem 0",
+          fontSize: "0.95rem",
+          lineHeight: 1.6,
+          color: "var(--gray-12)",
+        }}
+      >
         {message.message}
+      </Text>
+      <Flex
+        gap="2"
+        align="center"
+        style={{ flexWrap: "wrap", marginTop: "0.5rem" }}
+      >
         <Link
           href={`#p${message.page}-l${message.loc.start.line}`}
-          style={{ marginInlineStart: "0.5em", fontSize: "0.8rem" }}
+          style={{
+            fontSize: "0.8rem",
+            color: "var(--accent-11)",
+            textDecoration: "none",
+            fontWeight: 500,
+            fontFamily: "var(--font-mono)",
+            padding: "0.25rem 0.5rem",
+            background: "var(--accent-a3)",
+            borderRadius: "var(--radius-2)",
+            transition: "all 0.2s ease",
+          }}
+          onMouseEnter={(e) => {
+            e.currentTarget.style.background = "var(--accent-a4)"
+          }}
+          onMouseLeave={(e) => {
+            e.currentTarget.style.background = "var(--accent-a3)"
+          }}
         >
           {formatMessageLocation(message)}
         </Link>
-      </Text>
-      <Text as="p" style={{ margin: 0 }}>
-        <Text as="span" style={{ color: "#333", fontSize: "0.8em" }}>
+        <Text
+          as="span"
+          style={{
+            color: "var(--gray-10)",
+            fontSize: "0.8rem",
+            fontFamily: "var(--font-mono)",
+          }}
+        >
           {message.ruleId}
         </Text>
         <Button
@@ -69,12 +118,22 @@ const LintMessageItem: FC<LintMessageItemProps> = ({ message, muteRule }) => (
           onClick={() => muteRule(message.ruleId)}
           style={{
             cursor: "pointer",
-            marginInlineStart: "0.5em",
+            fontSize: "0.75rem",
+            color: "var(--gray-11)",
+            padding: "0.25rem 0.5rem",
+            height: "auto",
+            transition: "all 0.2s ease",
+          }}
+          onMouseEnter={(e) => {
+            e.currentTarget.style.color = "var(--accent-11)"
+          }}
+          onMouseLeave={(e) => {
+            e.currentTarget.style.color = "var(--gray-11)"
           }}
         >
-          mute this rule
+          mute
         </Button>
-      </Text>
+      </Flex>
     </Box>
   </Flex>
 )
@@ -99,61 +158,124 @@ const LintResultViewer: FC<LintResultViewerProps> = ({
 }) => {
   const stats = calculateStats(lintResult)
   return (
-    <Box>
-      <Flex
-        asChild
-        style={{
-          display: "flex",
-          listStyle: "none",
-          paddingInlineStart: 0,
-          fontSize: "0.8rem",
-        }}
-      >
-        <ul>
-          {Object.entries(stats).map(([severity, count], index) => (
-            <Text asChild key={severity}>
-              <li>
-                {index > 0 && ", "}
-                {formatSevertyCount(
-                  severity as unknown as TextlintRuleSeverityLevel,
-                  count,
-                )}
-              </li>
-            </Text>
-          ))}
-        </ul>
-      </Flex>
+    <Box style={{ padding: "1.5rem" }}>
       <Box
-        asChild
         style={{
-          listStyleType: "none",
-          marginBlock: 0,
-          paddingInlineStart: 0,
+          marginBottom: "1.5rem",
+          paddingBottom: "1rem",
+          borderBottom: "1px solid var(--gray-6)",
         }}
       >
-        <ul>
-          {Array.from(mutedRuleIds).map((ruleId) => (
-            <li key={ruleId}>
-              <Chip
-                body={ruleId}
-                closeButtonTitle={`unmute ${ruleId} rule`}
-                onCloseClick={() => unmuteRule(ruleId)}
-              />
-            </li>
-          ))}
-        </ul>
+        <Heading
+          as="h3"
+          style={{
+            margin: 0,
+            fontSize: "1.25rem",
+            fontFamily: "var(--font-display)",
+            color: "var(--gray-12)",
+            fontWeight: 700,
+          }}
+        >
+          Lint Results
+        </Heading>
+        <Flex
+          asChild
+          style={{
+            display: "flex",
+            listStyle: "none",
+            paddingInlineStart: 0,
+            marginTop: "0.5rem",
+            marginBottom: 0,
+            fontSize: "0.875rem",
+            gap: "0.75rem",
+          }}
+        >
+          <ul>
+            {Object.entries(stats).map(([severity, count]) => (
+              <Text asChild key={severity}>
+                <li
+                  style={{
+                    padding: "0.375rem 0.75rem",
+                    background:
+                      severity === "2"
+                        ? "var(--red-a3)"
+                        : severity === "1"
+                          ? "var(--orange-a3)"
+                          : "var(--blue-a3)",
+                    borderRadius: "var(--radius-2)",
+                    fontWeight: 600,
+                    color: "var(--gray-12)",
+                  }}
+                >
+                  {formatSevertyCount(
+                    severity as unknown as TextlintRuleSeverityLevel,
+                    count,
+                  )}
+                </li>
+              </Text>
+            ))}
+          </ul>
+        </Flex>
       </Box>
+      {mutedRuleIds.size > 0 && (
+        <Box
+          style={{
+            marginBottom: "1.5rem",
+            padding: "1rem",
+            background: "var(--gray-a2)",
+            borderRadius: "var(--radius-3)",
+            border: "1px solid var(--gray-6)",
+          }}
+        >
+          <Text
+            as="p"
+            style={{
+              margin: "0 0 0.75rem 0",
+              fontSize: "0.875rem",
+              fontWeight: 600,
+              color: "var(--gray-12)",
+            }}
+          >
+            Muted Rules
+          </Text>
+          <Box
+            asChild
+            style={{
+              listStyleType: "none",
+              margin: 0,
+              paddingInlineStart: 0,
+              display: "flex",
+              flexWrap: "wrap",
+              gap: "0.5rem",
+            }}
+          >
+            <ul>
+              {Array.from(mutedRuleIds).map((ruleId) => (
+                <li key={ruleId}>
+                  <Chip
+                    body={ruleId}
+                    closeButtonTitle={`unmute ${ruleId} rule`}
+                    onCloseClick={() => unmuteRule(ruleId)}
+                  />
+                </li>
+              ))}
+            </ul>
+          </Box>
+        </Box>
+      )}
       <Box
         asChild
         style={{
           listStyleType: "none",
-          marginBlock: 0,
+          margin: 0,
           paddingInlineStart: 0,
         }}
       >
         <ol>
-          {lintResult.map((message, i) => (
-            <li key={i}>
+          {lintResult.map((message) => (
+            <li
+              key={`${message.ruleId}-${message.page}-${message.loc.start.line}-${message.loc.start.column}`}
+            >
               <LintMessageItem message={message} muteRule={muteRule} />
             </li>
           ))}

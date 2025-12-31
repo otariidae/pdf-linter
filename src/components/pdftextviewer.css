@@ -7,18 +7,36 @@
 .line-numbered-text-viewer {
   list-style-type: dotless-item;
   list-style-position: outside;
-  padding-inline-start: 3ex;
+  padding-inline-start: 3.5ex;
+  margin: 0;
+  line-height: 1.7;
+  font-family: var(--font-body);
+  color: var(--gray-12);
 }
 
 .line-numbered-text-viewer li {
-  padding-left: 0.5em;
+  padding-left: 1em;
+  transition: background-color 0.2s ease;
 }
 
 .line-numbered-text-viewer li:target {
-  background-color: moccasin;
+  background-color: var(--accent-a3);
+  border-left: 3px solid var(--accent-9);
+  padding-left: calc(1em - 3px);
+  animation: highlight 0.6s ease-out;
 }
 
 .line-numbered-text-viewer li::marker {
-  font-family: monospace;
-  color: rgba(0, 0, 0, 0.5);
+  font-family: var(--font-mono);
+  color: var(--gray-10);
+  font-size: 0.85em;
+}
+
+@keyframes highlight {
+  0% {
+    background-color: var(--accent-a5);
+  }
+  100% {
+    background-color: var(--accent-a3);
+  }
 }

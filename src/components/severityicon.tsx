@@ -10,12 +10,25 @@ export function SeverityIcon({
 }: {
   severity: TextlintRuleSeverityLevel
 }) {
+  const iconStyle = {
+    width: "1.25rem",
+    height: "1.25rem",
+  }
+
   switch (severity) {
     case 0:
-      return <InfoCircledIcon style={{ color: "royalblue" }} />
+      return (
+        <InfoCircledIcon style={{ ...iconStyle, color: "var(--blue-9)" }} />
+      )
     case 1:
-      return <ExclamationTriangleIcon style={{ color: "orange" }} />
+      return (
+        <ExclamationTriangleIcon
+          style={{ ...iconStyle, color: "var(--orange-9)" }}
+        />
+      )
     case 2:
-      return <CrossCircledIcon style={{ color: "red" }} />
+      return (
+        <CrossCircledIcon style={{ ...iconStyle, color: "var(--red-9)" }} />
+      )
   }
 }
