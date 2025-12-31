@@ -1,5 +1,5 @@
 import { FilePlusIcon } from "@radix-ui/react-icons"
-import { Box, Flex, Grid } from "@radix-ui/themes"
+import { Box, Flex, Grid, Heading, Text } from "@radix-ui/themes"
 import { useAtom, useAtomValue, useSetAtom } from "jotai"
 import { type FC, type ReactElement, Suspense } from "react"
 import {
@@ -114,27 +114,25 @@ const AfterFileUploadMainLayout: FC<AfterFileUploadMainLayoutProps> = ({
 )
 
 const TitleLine = () => (
-  <div
+  <Flex
+    align="center"
+    gap="4"
     style={{
-      display: "flex",
-      alignItems: "center",
-      gap: "1rem",
       animation: "slideDown 0.6s ease-out",
     }}
   >
-    <h1
+    <Heading
+      as="h1"
+      size="7"
       style={{
-        margin: 0,
-        fontSize: "1.75rem",
         fontFamily: "var(--font-display)",
         fontWeight: 700,
-        color: "var(--gray-12)",
         letterSpacing: "-0.02em",
       }}
     >
       PDF Linter
-    </h1>
-    <div
+    </Heading>
+    <Box
       style={{
         width: "2px",
         height: "1.5rem",
@@ -142,18 +140,18 @@ const TitleLine = () => (
         transform: "rotate(15deg)",
       }}
     />
-    <p
+    <Text
+      as="p"
+      size="3"
       style={{
-        margin: 0,
-        fontSize: "0.95rem",
         color: "var(--gray-11)",
         fontWeight: 300,
         letterSpacing: "0.01em",
       }}
     >
       Find problems with text in your PDF file
-    </p>
-  </div>
+    </Text>
+  </Flex>
 )
 
 interface HeaderLayoutProps {
@@ -195,7 +193,7 @@ const Header = () => (
 const FilterFormLogicContainer: FC = () => {
   const setFile = useSetAtom(fileState)
   return (
-    <div
+    <Box
       style={{
         placeSelf: "center",
         width: "100%",
@@ -204,14 +202,14 @@ const FilterFormLogicContainer: FC = () => {
         animation: "scaleIn 0.5s ease-out",
       }}
     >
-      <label
+      <Flex
+        asChild
+        direction="column"
+        align="center"
+        justify="center"
+        gap="6"
+        p="8"
         style={{
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-          justifyContent: "center",
-          gap: "1.5rem",
-          padding: "4rem 2rem",
           background: "var(--color-panel)",
           border: "2px dashed var(--accent-8)",
           borderRadius: "var(--radius-4)",
@@ -230,61 +228,62 @@ const FilterFormLogicContainer: FC = () => {
           e.currentTarget.style.boxShadow = "var(--shadow-3)"
         }}
       >
-        <div
-          style={{
-            width: "80px",
-            height: "80px",
-            borderRadius: "50%",
-            background:
-              "linear-gradient(135deg, var(--accent-9) 0%, var(--orange-9) 100%)",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            boxShadow: "var(--shadow-4)",
-          }}
-        >
-          <FilePlusIcon
-            width="40"
-            height="40"
-            style={{ color: "white" }}
-            aria-label="PDFファイルを追加"
+        <label>
+          <Flex
+            width="80px"
+            height="80px"
+            align="center"
+            justify="center"
+            style={{
+              borderRadius: "50%",
+              background:
+                "linear-gradient(135deg, var(--accent-9) 0%, var(--orange-9) 100%)",
+              boxShadow: "var(--shadow-4)",
+            }}
+          >
+            <FilePlusIcon
+              width="40"
+              height="40"
+              style={{ color: "white" }}
+              aria-label="PDFファイルを追加"
+            />
+          </Flex>
+          <Box style={{ textAlign: "center" }}>
+            <Text
+              as="p"
+              size="6"
+              mb="2"
+              style={{
+                fontFamily: "var(--font-display)",
+              }}
+            >
+              PDFファイルを選択
+            </Text>
+            <Text
+              as="p"
+              size="3"
+              style={{
+                color: "var(--gray-11)",
+              }}
+            >
+              クリックしてファイルを選択
+            </Text>
+          </Box>
+          <input
+            type="file"
+            accept="application/pdf"
+            style={{ display: "none" }}
+            onChange={(event) => {
+              if (event.target.files === null) {
+                return
+              }
+              const file = event.target.files[0]
+              setFile(file)
+            }}
           />
-        </div>
-        <div style={{ textAlign: "center" }}>
-          <h2
-            style={{
-              margin: "0 0 0.5rem 0",
-              fontSize: "1.5rem",
-              fontFamily: "var(--font-display)",
-              color: "var(--gray-12)",
-            }}
-          >
-            PDFファイルを選択
-          </h2>
-          <p
-            style={{
-              margin: 0,
-              fontSize: "0.95rem",
-              color: "var(--gray-11)",
-            }}
-          >
-            クリックしてファイルを選択
-          </p>
-        </div>
-        <input
-          type="file"
-          accept="application/pdf"
-          style={{ display: "none" }}
-          onChange={(event) => {
-            if (event.target.files === null) {
-              return
-            }
-            const file = event.target.files[0]
-            setFile(file)
-          }}
-        />
-      </label>
-    </div>
+        </label>
+      </Flex>
+    </Box>
   )
 }
 
