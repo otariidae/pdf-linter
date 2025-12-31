@@ -37,8 +37,8 @@ export const Chip: FC<ChipProps> = ({
     <Code
       size="1"
       weight="medium"
+      color="gray"
       style={{
-        color: "var(--gray-12)",
         background: "transparent",
       }}
     >

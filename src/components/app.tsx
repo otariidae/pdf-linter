@@ -165,9 +165,7 @@ const HeaderLayout: FC<HeaderLayoutProps> = ({ titleline }) => (
     px="8"
     areas={`"titleline"`}
     columns="1fr"
-    style={{
-      alignContent: "center",
-    }}
+    align="center"
   >
     <Box gridArea="titleline">{titleline}</Box>
   </Grid>
@@ -245,21 +243,15 @@ const FilterFormLogicContainer: FC = () => {
             <FilePlusIcon
               width="40"
               height="40"
-              style={{ color: "white" }}
+              color="white"
               aria-label="PDFファイルを追加"
             />
           </Flex>
-          <Box style={{ textAlign: "center" }}>
-            <Text as="p" size="6" mb="2">
+          <Box>
+            <Text as="p" size="6" mb="2" align="center">
               PDFファイルを選択
             </Text>
-            <Text
-              as="p"
-              size="3"
-              style={{
-                color: "var(--gray-11)",
-              }}
-            >
+            <Text as="p" size="3" color="gray">
               クリックしてファイルを選択
             </Text>
           </Box>
