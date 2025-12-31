@@ -1,4 +1,4 @@
-import { Box, Button, Flex, Heading, Link, Text } from "@radix-ui/themes"
+import { Box, Button, Flex, Grid, Heading, Link, Text } from "@radix-ui/themes"
 import type { TextlintRuleSeverityLevel } from "@textlint/kernel"
 import type { FC } from "react"
 import { pluralize } from "../pluralize"
@@ -36,13 +36,12 @@ interface LintMessageItemProps {
 }
 
 const LintMessageItem: FC<LintMessageItemProps> = ({ message, muteRule }) => (
-  <Flex
+  <Grid
     p="4"
     mb="3"
+    areas={`"icon content"`}
+    columns="2rem 1fr"
     style={{
-      display: "grid",
-      gridTemplateColumns: "2rem 1fr",
-      gridTemplateAreas: '"icon content"',
       background: "var(--gray-a2)",
       border: "1px solid var(--gray-6)",
       borderRadius: "var(--radius-3)",
@@ -130,7 +129,7 @@ const LintMessageItem: FC<LintMessageItemProps> = ({ message, muteRule }) => (
         </Button>
       </Flex>
     </Box>
-  </Flex>
+  </Grid>
 )
 
 const formatSevertyCount = (
