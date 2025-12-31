@@ -72,7 +72,7 @@ const LintMessageItem: FC<LintMessageItemProps> = ({ message, muteRule }) => (
       >
         {message.message}
       </Text>
-      <Flex gap="2" align="center" mt="2" style={{ flexWrap: "wrap" }}>
+      <Flex gap="2" align="center" mt="2" wrap="wrap">
         <Link
           href={`#p${message.page}-l${message.loc.start.line}`}
           style={{
@@ -176,11 +176,10 @@ const LintResultViewer: FC<LintResultViewerProps> = ({
           asChild
           mt="2"
           mb="0"
+          pl="0"
           gap="3"
           style={{
-            display: "flex",
             listStyle: "none",
-            paddingInlineStart: 0,
             fontSize: "0.875rem",
           }}
         >
@@ -236,15 +235,14 @@ const LintResultViewer: FC<LintResultViewerProps> = ({
           >
             Muted Rules
           </Text>
-          <Box
+          <Flex
             asChild
             m="0"
+            pl="0"
+            gap="2"
+            wrap="wrap"
             style={{
               listStyleType: "none",
-              paddingInlineStart: 0,
-              display: "flex",
-              flexWrap: "wrap",
-              gap: "0.5rem",
             }}
           >
             <ul>
@@ -258,7 +256,7 @@ const LintResultViewer: FC<LintResultViewerProps> = ({
                 </li>
               ))}
             </ul>
-          </Box>
+          </Flex>
         </Box>
       )}
       <Box
