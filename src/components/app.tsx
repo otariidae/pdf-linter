@@ -18,9 +18,9 @@ interface AppLayoutProps {
 
 const AppLayout: FC<AppLayoutProps> = ({ header, main }) => (
   <Box
+    width="100%"
+    height="100%"
     style={{
-      width: "100%",
-      height: "100%",
       display: "grid",
       gridTemplateAreas: `
         "header"
@@ -64,13 +64,7 @@ interface BeforeFileUploadMainLayoutProps {
 const BeforeFileUploadMainLayout: FC<BeforeFileUploadMainLayoutProps> = ({
   fileInput,
 }) => (
-  <Box
-    style={{
-      width: "100%",
-      height: "100%",
-      display: "grid",
-    }}
-  >
+  <Box width="100%" height="100%" style={{ display: "grid" }}>
     {fileInput}
   </Box>
 )
@@ -85,14 +79,14 @@ const AfterFileUploadMainLayout: FC<AfterFileUploadMainLayoutProps> = ({
   lintResultViewer,
 }) => (
   <Box
+    width="100%"
+    height="100%"
+    p="6"
     style={{
-      width: "100%",
-      height: "100%",
       display: "grid",
       gridTemplateAreas: `"pdf lint"`,
       gridTemplateColumns: "1fr 1fr",
       gap: "1.5rem",
-      padding: "1.5rem",
     }}
   >
     <Box
@@ -173,14 +167,14 @@ interface HeaderLayoutProps {
 }
 const HeaderLayout: FC<HeaderLayoutProps> = ({ titleline }) => (
   <Box
+    width="100%"
+    height="100%"
+    px="8"
     style={{
-      width: "100%",
-      height: "100%",
       display: "grid",
       gridTemplateAreas: '"titleline"',
       gridTemplateColumns: "1fr",
       alignContent: "center",
-      padding: "0 2rem",
     }}
   >
     <Box style={{ gridArea: "titleline" }}>{titleline}</Box>
@@ -190,9 +184,9 @@ const HeaderLayout: FC<HeaderLayoutProps> = ({ titleline }) => (
 const Header = () => (
   <Box
     asChild
+    width="100%"
+    height="100%"
     style={{
-      width: "100%",
-      height: "100%",
       display: "flex",
       background: "var(--color-panel)",
       backdropFilter: "blur(10px)",

@@ -37,14 +37,12 @@ interface LintMessageItemProps {
 
 const LintMessageItem: FC<LintMessageItemProps> = ({ message, muteRule }) => (
   <Flex
-    gap="2"
-    py="2"
+    p="4"
+    mb="3"
     style={{
       display: "grid",
       gridTemplateColumns: "2rem 1fr",
       gridTemplateAreas: '"icon content"',
-      padding: "1rem",
-      marginBottom: "0.75rem",
       background: "var(--gray-a2)",
       border: "1px solid var(--gray-6)",
       borderRadius: "var(--radius-3)",
@@ -65,8 +63,9 @@ const LintMessageItem: FC<LintMessageItemProps> = ({ message, muteRule }) => (
     <Box style={{ gridArea: "content" }}>
       <Text
         as="p"
+        m="0"
+        mb="2"
         style={{
-          margin: "0 0 0.5rem 0",
           fontSize: "0.95rem",
           lineHeight: 1.6,
           color: "var(--gray-12)",
@@ -74,11 +73,7 @@ const LintMessageItem: FC<LintMessageItemProps> = ({ message, muteRule }) => (
       >
         {message.message}
       </Text>
-      <Flex
-        gap="2"
-        align="center"
-        style={{ flexWrap: "wrap", marginTop: "0.5rem" }}
-      >
+      <Flex gap="2" align="center" mt="2" style={{ flexWrap: "wrap" }}>
         <Link
           href={`#p${message.page}-l${message.loc.start.line}`}
           style={{
@@ -158,18 +153,18 @@ const LintResultViewer: FC<LintResultViewerProps> = ({
 }) => {
   const stats = calculateStats(lintResult)
   return (
-    <Box style={{ padding: "1.5rem" }}>
+    <Box p="6">
       <Box
+        mb="6"
+        pb="4"
         style={{
-          marginBottom: "1.5rem",
-          paddingBottom: "1rem",
           borderBottom: "1px solid var(--gray-6)",
         }}
       >
         <Heading
           as="h3"
+          m="0"
           style={{
-            margin: 0,
             fontSize: "1.25rem",
             fontFamily: "var(--font-display)",
             color: "var(--gray-12)",
@@ -180,14 +175,14 @@ const LintResultViewer: FC<LintResultViewerProps> = ({
         </Heading>
         <Flex
           asChild
+          mt="2"
+          mb="0"
+          gap="3"
           style={{
             display: "flex",
             listStyle: "none",
             paddingInlineStart: 0,
-            marginTop: "0.5rem",
-            marginBottom: 0,
             fontSize: "0.875rem",
-            gap: "0.75rem",
           }}
         >
           <ul>
@@ -219,9 +214,9 @@ const LintResultViewer: FC<LintResultViewerProps> = ({
       </Box>
       {mutedRuleIds.size > 0 && (
         <Box
+          mb="6"
+          p="4"
           style={{
-            marginBottom: "1.5rem",
-            padding: "1rem",
             background: "var(--gray-a2)",
             borderRadius: "var(--radius-3)",
             border: "1px solid var(--gray-6)",
@@ -229,8 +224,9 @@ const LintResultViewer: FC<LintResultViewerProps> = ({
         >
           <Text
             as="p"
+            m="0"
+            mb="3"
             style={{
-              margin: "0 0 0.75rem 0",
               fontSize: "0.875rem",
               fontWeight: 600,
               color: "var(--gray-12)",
@@ -240,9 +236,9 @@ const LintResultViewer: FC<LintResultViewerProps> = ({
           </Text>
           <Box
             asChild
+            m="0"
             style={{
               listStyleType: "none",
-              margin: 0,
               paddingInlineStart: 0,
               display: "flex",
               flexWrap: "wrap",
@@ -265,9 +261,9 @@ const LintResultViewer: FC<LintResultViewerProps> = ({
       )}
       <Box
         asChild
+        m="0"
         style={{
           listStyleType: "none",
-          margin: 0,
           paddingInlineStart: 0,
         }}
       >
