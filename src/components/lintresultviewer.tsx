@@ -1,4 +1,13 @@
-import { Box, Button, Flex, Grid, Heading, Link, Text } from "@radix-ui/themes"
+import {
+  Box,
+  Button,
+  Code,
+  Flex,
+  Grid,
+  Heading,
+  Link,
+  Text,
+} from "@radix-ui/themes"
 import type { TextlintRuleSeverityLevel } from "@textlint/kernel"
 import type { FC } from "react"
 import { pluralize } from "../pluralize"
@@ -62,25 +71,23 @@ const LintMessageItem: FC<LintMessageItemProps> = ({ message, muteRule }) => (
     <Box style={{ gridArea: "content" }}>
       <Text
         as="p"
+        size="2"
         m="0"
         mb="2"
         style={{
-          fontSize: "0.95rem",
-          lineHeight: 1.6,
           color: "var(--gray-12)",
         }}
       >
         {message.message}
       </Text>
       <Flex gap="2" align="center" mt="2" wrap="wrap">
-        <Link
-          href={`#p${message.page}-l${message.loc.start.line}`}
+        <Code
+          asChild
+          size="1"
+          weight="medium"
           style={{
-            fontSize: "0.8rem",
             color: "var(--accent-11)",
             textDecoration: "none",
-            fontWeight: 500,
-            fontFamily: "var(--font-mono)",
             padding: "0.25rem 0.5rem",
             background: "var(--accent-a3)",
             borderRadius: "var(--radius-2)",
@@ -93,18 +100,19 @@ const LintMessageItem: FC<LintMessageItemProps> = ({ message, muteRule }) => (
             e.currentTarget.style.background = "var(--accent-a3)"
           }}
         >
-          {formatMessageLocation(message)}
-        </Link>
-        <Text
-          as="span"
+          <Link href={`#p${message.page}-l${message.loc.start.line}`}>
+            {formatMessageLocation(message)}
+          </Link>
+        </Code>
+        <Code
+          size="1"
           style={{
             color: "var(--gray-10)",
-            fontSize: "0.8rem",
-            fontFamily: "var(--font-mono)",
+            background: "transparent",
           }}
         >
           {message.ruleId}
-        </Text>
+        </Code>
         <Button
           variant="ghost"
           size="1"
@@ -112,7 +120,6 @@ const LintMessageItem: FC<LintMessageItemProps> = ({ message, muteRule }) => (
           onClick={() => muteRule(message.ruleId)}
           style={{
             cursor: "pointer",
-            fontSize: "0.75rem",
             color: "var(--gray-11)",
             padding: "0.25rem 0.5rem",
             height: "auto",
@@ -162,12 +169,11 @@ const LintResultViewer: FC<LintResultViewerProps> = ({
       >
         <Heading
           as="h3"
+          size="5"
+          weight="bold"
           m="0"
           style={{
-            fontSize: "1.25rem",
-            fontFamily: "var(--font-display)",
             color: "var(--gray-12)",
-            fontWeight: 700,
           }}
         >
           Lint Results
@@ -180,7 +186,6 @@ const LintResultViewer: FC<LintResultViewerProps> = ({
           gap="3"
           style={{
             listStyle: "none",
-            fontSize: "0.875rem",
           }}
         >
           <ul>
@@ -189,6 +194,7 @@ const LintResultViewer: FC<LintResultViewerProps> = ({
                 <li>
                   <Text
                     size="2"
+                    weight="medium"
                     style={{
                       padding: "0.375rem 0.75rem",
                       background:
@@ -198,7 +204,6 @@ const LintResultViewer: FC<LintResultViewerProps> = ({
                             ? "var(--orange-a3)"
                             : "var(--blue-a3)",
                       borderRadius: "var(--radius-2)",
-                      fontWeight: 600,
                       display: "inline-block",
                     }}
                   >
@@ -225,11 +230,11 @@ const LintResultViewer: FC<LintResultViewerProps> = ({
         >
           <Text
             as="p"
+            size="2"
+            weight="medium"
             m="0"
             mb="3"
             style={{
-              fontSize: "0.875rem",
-              fontWeight: 600,
               color: "var(--gray-12)",
             }}
           >
