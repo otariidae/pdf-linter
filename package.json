@@ -39,7 +39,7 @@
     "rolldown-vite": "^7.2.9",
     "textlint-rule-preset-ja-technical-writing": "^12.0.2",
     "textlint-rule-preset-japanese": "^10.0.4",
-    "typescript": "^5.8.3",
+    "typescript": "^5.9.3",
     "vitest-browser-react": "^2.0.2"
   },
   "overrides": {
