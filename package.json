@@ -24,15 +24,15 @@
     "@radix-ui/themes": "^3.1.6",
     "jotai": "^2.13.1",
     "pdfjs-dist": "~5.2.133",
-    "react": "^19.2.3",
-    "react-dom": "^19.2.3"
+    "react": "^19.2.4",
+    "react-dom": "^19.2.4"
   },
   "devDependencies": {
     "@biomejs/biome": "^2.3.10",
     "@textlint-ja/textlint-rule-preset-ai-writing": "^1.6.1",
     "@textlint/script-compiler": "^0.17.1",
     "@types/node": "^24.10.0",
-    "@types/react": "^19.2.7",
+    "@types/react": "^19.2.10",
     "@types/react-dom": "^19.2.3",
     "@vitejs/plugin-react": "^5.1.2",
     "@vitest/browser-playwright": "^4.0.14",
