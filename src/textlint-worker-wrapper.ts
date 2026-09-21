@@ -35,7 +35,8 @@ export class TextlintWorkerWrapper {
     return this.#initDataPromise
   }
 
-  lint(text: string): Promise<TextlintWorkerCommandResponseLint> {
+  async lint(text: string): Promise<TextlintWorkerCommandResponseLint> {
+    await this.waitForInit()
     const id = crypto.randomUUID()
     const controller = new AbortController()
     const lintCommand: TextlintWorkerCommandLint = {

@@ -16,7 +16,7 @@
     "build": "tsc && vite build",
     "preview": "vite preview",
     "pretest:browser": "node --run compile-textlint",
-    "test:browser": "vitest --config=vitest.browser.config.ts"
+    "test:browser": "vitest --config=vitest.browser.config.mts"
   },
   "dependencies": {
     "@axe-core/react": "^4.13.0",

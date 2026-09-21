@@ -194,27 +194,29 @@ const LintResultViewer: FC<LintResultViewerProps> = ({
           }}
         >
           <ul>
-            {Object.entries(stats).map(([severity, count]) => (
-              <Box asChild key={severity}>
-                <li>
-                  <Text
-                    size="2"
-                    weight="medium"
-                    style={{
-                      padding: "0.375rem 0.75rem",
-                      background: severityBadgeBackground(severity),
-                      borderRadius: "var(--radius-2)",
-                      display: "inline-block",
-                    }}
-                  >
-                    {formatSevertyCount(
-                      severity as unknown as TextlintRuleSeverityLevel,
-                      count,
-                    )}
-                  </Text>
-                </li>
-              </Box>
-            ))}
+            {Object.entries(stats)
+              .filter(([severity, count]) => count > 0 && severity !== "0")
+              .map(([severity, count]) => (
+                <Box asChild key={severity}>
+                  <li>
+                    <Text
+                      size="2"
+                      weight="medium"
+                      style={{
+                        padding: "0.375rem 0.75rem",
+                        background: severityBadgeBackground(severity),
+                        borderRadius: "var(--radius-2)",
+                        display: "inline-block",
+                      }}
+                    >
+                      {formatSevertyCount(
+                        severity as unknown as TextlintRuleSeverityLevel,
+                        count,
+                      )}
+                    </Text>
+                  </li>
+                </Box>
+              ))}
           </ul>
         </Flex>
       </Box>
