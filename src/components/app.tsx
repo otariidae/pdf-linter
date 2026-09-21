@@ -2,7 +2,6 @@ import { FilePlusIcon } from "@radix-ui/react-icons"
 import { Box, Flex, Grid, Heading, Text } from "@radix-ui/themes"
 import { useAtom, useAtomValue, useSetAtom } from "jotai"
 import { type FC, type ReactElement, Suspense } from "react"
-import { agentLog } from "../debug-log"
 import {
   fileState,
   fileTextContentsState,
@@ -264,22 +263,6 @@ const PDFTextViewerLogicContainer = () => {
 const LintResultViewerLogicContainer = () => {
   const lintResult = useAtomValue(filteredLintResultState)
   const [visibilityFilter, setVisibilityFilter] = useAtom(visibilityFilterState)
-
-  // #region agent log
-  agentLog(
-    "E",
-    "app.tsx:LintResultViewerLogicContainer",
-    "rendering lint results",
-    {
-      count: lintResult.length,
-      ruleIds: lintResult.map((m) => m.ruleId),
-      hasNoDoubleNegative: lintResult.some(
-        (m) => m.ruleId === "ja-technical-writing/no-double-negative-ja",
-      ),
-      muted: Array.from(visibilityFilter),
-    },
-  )
-  // #endregion
 
   function muteRule(ruleId: string) {
     const newVisibilityFilter = new Set(visibilityFilter)
