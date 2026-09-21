@@ -1,0 +1,10 @@
+{
+  "name": "pdf-linter",
+  "install": "npm ci && npx playwright install --with-deps chromium",
+  "terminals": [
+    {
+      "name": "dev-server",
+      "command": "npm run dev -- --host 0.0.0.0 --port 5173"
+    }
+  ]
+}
