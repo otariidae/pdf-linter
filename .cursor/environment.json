@@ -1,10 +1,10 @@
 {
   "name": "pdf-linter",
-  "install": ". \"$HOME/.nvm/nvm.sh\" && nvm install \"$(cat .node-version)\" && nvm use \"$(cat .node-version)\" && npm ci && npx playwright install --with-deps chromium",
+  "install": ". \"$HOME/.nvm/nvm.sh\" && nvm install \"$(cat .node-version)\" && nvm use \"$(cat .node-version)\" && export PATH=\"$(dirname \"$(nvm which current)\"):$PATH\" && node -v && npm ci && npx playwright install --with-deps chromium",
   "terminals": [
     {
       "name": "dev-server",
-      "command": ". \"$HOME/.nvm/nvm.sh\" && nvm use \"$(cat .node-version)\" && npm run dev -- --host 0.0.0.0 --port 5173"
+      "command": ". \"$HOME/.nvm/nvm.sh\" && nvm use \"$(cat .node-version)\" && export PATH=\"$(dirname \"$(nvm which current)\"):$PATH\" && npm run dev -- --host 0.0.0.0 --port 5173"
     }
   ]
 }
