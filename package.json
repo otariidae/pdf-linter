@@ -19,28 +19,28 @@
     "test:browser": "vitest --config=vitest.browser.config.ts"
   },
   "dependencies": {
-    "@axe-core/react": "^4.4.3",
+    "@axe-core/react": "^4.13.0",
     "@radix-ui/react-icons": "^1.3.2",
-    "@radix-ui/themes": "^3.1.6",
-    "jotai": "^2.13.1",
-    "pdfjs-dist": "~5.2.133",
-    "react": "^19.2.4",
-    "react-dom": "^19.2.4"
+    "@radix-ui/themes": "^3.3.0",
+    "jotai": "^3.0.0",
+    "pdfjs-dist": "~6.3.289",
+    "react": "^19.3.0",
+    "react-dom": "^19.3.0"
   },
   "devDependencies": {
-    "@biomejs/biome": "^2.4.4",
-    "@textlint-ja/textlint-rule-preset-ai-writing": "^1.6.1",
-    "@textlint/script-compiler": "^0.17.1",
-    "@types/node": "^24.10.0",
-    "@types/react": "^19.2.14",
-    "@types/react-dom": "^19.2.3",
-    "@vitejs/plugin-react": "^6.0.2",
-    "@vitest/browser-playwright": "^4.1.6",
-    "vite": "^8.0.16",
-    "vitest": "^4.1.11",
+    "@biomejs/biome": "^2.5.14",
+    "@textlint-ja/textlint-rule-preset-ai-writing": "^1.7.0",
+    "@textlint/script-compiler": "^0.18.5",
+    "@types/node": "^24.13.6",
+    "@types/react": "^19.3.0",
+    "@types/react-dom": "^19.3.0",
+    "@vitejs/plugin-react": "^6.1.1",
+    "@vitest/browser-playwright": "^5.0.1",
     "textlint-rule-preset-ja-technical-writing": "^12.0.2",
     "textlint-rule-preset-japanese": "^10.0.4",
     "typescript": "^5.9.3",
-    "vitest-browser-react": "^2.0.2"
+    "vite": "^8.3.0",
+    "vitest": "^5.0.1",
+    "vitest-browser-react": "^2.3.0"
   }
 }

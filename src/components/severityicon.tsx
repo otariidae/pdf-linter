@@ -18,7 +18,7 @@ export function SeverityIcon({
   switch (severity) {
     case 0:
       return (
-        <InfoCircledIcon style={{ ...iconStyle, color: "var(--blue-9)" }} />
+        <InfoCircledIcon style={{ ...iconStyle, color: "var(--gray-9)" }} />
       )
     case 1:
       return (
@@ -29,6 +29,10 @@ export function SeverityIcon({
     case 2:
       return (
         <CrossCircledIcon style={{ ...iconStyle, color: "var(--red-9)" }} />
+      )
+    case 3:
+      return (
+        <InfoCircledIcon style={{ ...iconStyle, color: "var(--green-9)" }} />
       )
   }
 }
