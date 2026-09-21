@@ -8,7 +8,16 @@ import "./global.css"
 
 if (process.env.NODE_ENV !== "production") {
   import("@axe-core/react")
-    .then(({ default: axe }) => axe(React, ReactDOM, 1000))
+    .then((mod) => {
+      // NodeNext resolves the dual package default as the module namespace.
+      type AxeFn = (
+        react: typeof React,
+        reactDOM: typeof ReactDOM,
+        timeout: number,
+      ) => Promise<void>
+      const axe = (mod as unknown as { default: AxeFn }).default
+      return axe(React, ReactDOM, 1000)
+    })
     .catch((e) => {
       console.error(e)
     })

@@ -20,9 +20,10 @@ const severityTextMap: Record<
   TextlintRuleSeverityLevel,
   [singular: string, plural: string]
 > = {
-  0: ["info", "infos"],
+  0: ["none", "nones"],
   1: ["warning", "warnings"],
   2: ["error", "errors"],
+  3: ["info", "infos"],
 }
 
 function calculateStats(lintResult: LintMessage[]) {
@@ -30,11 +31,25 @@ function calculateStats(lintResult: LintMessage[]) {
     0: 0,
     1: 0,
     2: 0,
+    3: 0,
   }
   for (const message of lintResult) {
     stats[message.severity]++
   }
   return stats
+}
+
+function severityBadgeBackground(severity: string): string {
+  switch (severity) {
+    case "2":
+      return "var(--red-a3)"
+    case "1":
+      return "var(--orange-a3)"
+    case "3":
+      return "var(--green-a3)"
+    default:
+      return "var(--blue-a3)"
+  }
 }
 
 const formatMessageLocation = (message: LintMessage) =>
@@ -179,32 +194,29 @@ const LintResultViewer: FC<LintResultViewerProps> = ({
           }}
         >
           <ul>
-            {Object.entries(stats).map(([severity, count]) => (
-              <Box asChild key={severity}>
-                <li>
-                  <Text
-                    size="2"
-                    weight="medium"
-                    style={{
-                      padding: "0.375rem 0.75rem",
-                      background:
-                        severity === "2"
-                          ? "var(--red-a3)"
-                          : severity === "1"
-                            ? "var(--orange-a3)"
-                            : "var(--blue-a3)",
-                      borderRadius: "var(--radius-2)",
-                      display: "inline-block",
-                    }}
-                  >
-                    {formatSevertyCount(
-                      severity as unknown as TextlintRuleSeverityLevel,
-                      count,
-                    )}
-                  </Text>
-                </li>
-              </Box>
-            ))}
+            {Object.entries(stats)
+              .filter(([severity, count]) => count > 0 && severity !== "0")
+              .map(([severity, count]) => (
+                <Box asChild key={severity}>
+                  <li>
+                    <Text
+                      size="2"
+                      weight="medium"
+                      style={{
+                        padding: "0.375rem 0.75rem",
+                        background: severityBadgeBackground(severity),
+                        borderRadius: "var(--radius-2)",
+                        display: "inline-block",
+                      }}
+                    >
+                      {formatSevertyCount(
+                        severity as unknown as TextlintRuleSeverityLevel,
+                        count,
+                      )}
+                    </Text>
+                  </li>
+                </Box>
+              ))}
           </ul>
         </Flex>
       </Box>
